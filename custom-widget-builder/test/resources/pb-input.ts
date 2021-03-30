@@ -105,9 +105,9 @@ export class PbInput extends LitElement {
   value: string = "";
 
   /**
-   * @type {choice}
    * -@choiceValues {"text"|"number"|"email"|"password"}
    * -@bond constant
+   * @type {choice}
   */
   @property({ attribute: 'type', type: String, reflect: true })
   type: string = "text";

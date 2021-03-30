@@ -1,6 +1,10 @@
 import { html, css, LitElement, property } from 'lit-element';
 
-@customElement('wc-example')
+/**
+ * A simple counter component
+ *
+ * @element wc-example
+ */
 export class WcExample extends LitElement {
   static styles = css`
     :host {
@@ -13,6 +17,9 @@ export class WcExample extends LitElement {
   @property({ type: String })
   title = 'Hey there';
 
+  /**
+   * -@bond variable
+   */
   @property({ type: Number }) counter = 5;
 
   __increment() {
