@@ -1,9 +1,27 @@
+/*
+ * Copyright © 2021 Bonitasoft S.A.
+ * Bonitasoft, 32 rue Gustave Eiffel - 38000 Grenoble
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import {analyzeText, AnalyzeTextResult, transformAnalyzerResult} from "web-component-analyzer";
-import fs from "fs";
-import {PropertiesInfo} from "./PropertiesInfo.js";
-import {Property} from "./Property.js";
-import jdenticon from "jdenticon/standalone";
-import {CustomTagHandler} from "./CustomTagHandler.js";
+import {PropertiesInfo} from "./PropertiesInfo";
+import {Property} from "./Property";
+import {CustomTagHandler} from "./CustomTagHandler";
+import * as fs from "fs";
+import * as jdenticon from "jdenticon/standalone";
 
 export class CustomWidgetBuilder {
 
@@ -38,16 +56,14 @@ export class CustomWidgetBuilder {
   private createPropertiesFile(propertiesInfo: PropertiesInfo) {
     //TODO replace console.log() by logging
     let output = JSON.stringify(propertiesInfo, null, 2)
-    console.log(output);
+    // console.log(output);
+    if (!fs.existsSync(this.outputDir)) {
+      console.log(`ERROR: output directory does not exist: ${this.outputDir}`);
+      return;
+    }
     let filePath = `${this.outputDir}/${propertiesInfo.id}.json`;
-    fs.writeFile(filePath, output, (err) => {
-      if (err) {
-        console.log(`ERROR: Cannot write properties file ${filePath}`);
-        console.log(`[${err.message}]`);
-      } else {
-        console.log(`${filePath} has been generated!`);
-      }
-    });
+    fs.writeFileSync(filePath, output);
+    console.log(`${filePath} has been generated!`);
   }
 
   private analyzeFile(): string {

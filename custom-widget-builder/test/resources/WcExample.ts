@@ -20,7 +20,8 @@ export class WcExample extends LitElement {
   /**
    * -@bond variable
    */
-  @property({ type: Number }) counter = 5;
+  @property({ type: Number })
+  counter = 5;
 
   __increment() {
     this.counter += 1;

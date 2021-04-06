@@ -90,7 +90,7 @@ This is done with 'custom tags', which are JSDoc-like tags, and use the '-@tag' 
 
 The builder is using https://github.com/runem/web-component-analyzer.  
 See the section "How to document your components using JSDoc" from its documentation 
-for more details about adding information on the component (@element) and on its properties (@prop).
+for more details about adding information on the component (@element), on its properties (@prop) and events (@fires).
 <br><br>
 
 #### Examples of property tags
