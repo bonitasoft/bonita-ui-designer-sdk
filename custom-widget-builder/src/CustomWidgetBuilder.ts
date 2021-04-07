@@ -31,12 +31,23 @@ export class CustomWidgetBuilder {
   public generatePropertiesFile(wcFile: string, outputDir: string) {
     this.wcFile = wcFile;
     this.outputDir = outputDir;
-    this.createPropertiesFile(this.getPropertiesInfo());
+    if (!fs.existsSync(this.outputDir)) {
+      console.error(`Output directory does not exist: ${this.outputDir}`);
+      return;
+    }
+    try {
+      this.createPropertiesFile(this.getPropertiesInfo());
+    } catch (e) {
+      console.error(e.message);
+    }
   }
 
   private getPropertiesInfo(): PropertiesInfo {
-
-    let info = JSON.parse(this.analyzeFile()).tags[0];
+    let analyzeResult = this.analyzeFile();
+    if (!analyzeResult) {
+      throw new Error(`No properties found in file: ${this.wcFile}`);
+    }
+    let info = JSON.parse(analyzeResult).tags[0];
     if (!info) {
       throw new Error(`Cannot get any information from file ${this.wcFile}\nExiting...`);
     }
@@ -54,19 +65,16 @@ export class CustomWidgetBuilder {
   }
 
   private createPropertiesFile(propertiesInfo: PropertiesInfo) {
-    //TODO replace console.log() by logging
     let output = JSON.stringify(propertiesInfo, null, 2)
-    // console.log(output);
-    if (!fs.existsSync(this.outputDir)) {
-      console.log(`ERROR: output directory does not exist: ${this.outputDir}`);
-      return;
-    }
     let filePath = `${this.outputDir}/${propertiesInfo.id}.json`;
     fs.writeFileSync(filePath, output);
     console.log(`${filePath} has been generated!`);
   }
 
   private analyzeFile(): string {
+    if (!fs.existsSync(this.wcFile)) {
+      throw new Error(`File does not exist: ${this.wcFile}`);
+    }
     let fileStr = fs.readFileSync(this.wcFile, "utf8").toString();
     let result: AnalyzeTextResult = analyzeText(fileStr);
     return transformAnalyzerResult("json", result.results, result.program, {visibility: "public"});

@@ -93,7 +93,7 @@ export class CustomTagHandler {
         this.showFor = tagValue;
         break;
      default:
-        console.log(`Error: invalid tag: ${tagName}`);
+        console.error(`Error: invalid tag: ${tagName}`);
     }
   }
 
