@@ -24,13 +24,14 @@ let params = process.argv.slice(2);
 let wcFile = params[0];
 if (!wcFile) {
   usage();
-  process.exit(1);
 }
 let outputDir = ".";
-for (let param of params) {
-  if (param.startsWith("outputDir")) {
-    outputDir = getParameter(param);
+if (params.length > 1) {
+  let outputParam = params[1];
+  if (params.length > 2 || !outputParam.startsWith("outputDir=")) {
+    usage();
   }
+  outputDir = getParameter(outputParam);
 }
 
 console.log(`Generating widget for ${wcFile}...\n`);
@@ -42,4 +43,5 @@ function getParameter(param: string): any {
 
 function usage() {
   console.log("Usage: cwb <web component source file> [outputDir=<directory>]");
+  process.exit(1);
 }
