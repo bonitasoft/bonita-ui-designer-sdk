@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*
  * Copyright © 2021 Bonitasoft S.A.
  * Bonitasoft, 32 rue Gustave Eiffel - 38000 Grenoble
@@ -16,17 +18,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
 
-let wcFile;
-let outputDir;
-
-for (let param of process.argv) {
-  if (param.startsWith("wcFile")) {
-    wcFile = getParameter(param);
-  }
+let params = process.argv.slice(2);
+let wcFile = params[0];
+if (!wcFile) {
+  usage();
+  process.exit(1);
+}
+let outputDir = ".";
+for (let param of params) {
   if (param.startsWith("outputDir")) {
     outputDir = getParameter(param);
   }
@@ -37,4 +38,8 @@ new CustomWidgetBuilder().generatePropertiesFile(wcFile, outputDir);
 
 function getParameter(param: string): any {
   return param.substr(param.indexOf('=') + 1);
+}
+
+function usage() {
+  console.log("Usage: cwb <web component source file> [outputDir=<directory>]");
 }

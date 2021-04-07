@@ -1,8 +1,8 @@
 {
-  "name": "poc-widget-builder",
+  "name": "custom-widget-builder",
   "version": "0.0.1",
-  "description": "",
-  "author": "poc-widget-builder",
+  "description": "Bonitasoft UI Designer: Custom Widget Builder",
+  "main": "build/src/starter.js",
   "license": "GPLv2",
   "scripts": {
     "typescript-compile": "tsc --build tsconfig.json",
@@ -20,6 +20,10 @@
     "@types/jest": "^26.0.22",
     "jest": "^26.6.3",
     "ts-jest": "^26.5.4"
+  },
+  "bin": {
+    "cwb": "./build/src/starter.js",
+    "custom-widget-builder": "./build/src/starter.js"
   },
   "jest": {
     "verbose": true,
