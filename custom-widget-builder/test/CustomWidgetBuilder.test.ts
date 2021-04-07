@@ -18,25 +18,102 @@
 
 import {CustomWidgetBuilder} from "../src/CustomWidgetBuilder";
 import * as os from "os";
+
 const fs = require('fs');
 
-
 describe('CustomWidgetBuilder', () => {
+
+  let builder: CustomWidgetBuilder;
+  let tempDir: string;
+
+  beforeAll(() => {
+    builder = new CustomWidgetBuilder();
+    tempDir = fs.mkdtempSync(os.tmpdir());
+  });
+
+  afterAll(() => {
+    fs.rmdirSync(tempDir, {recursive: true});
+  });
+
   test('should generate a correct json file when a simple web component is given as input', async () => {
-    let builder = new CustomWidgetBuilder();
-    let tempDir = fs.mkdtempSync(os.tmpdir());
-    builder.generatePropertiesFile("test/resources/WcExample.ts", tempDir);
-    let generatedFile = tempDir + "/WcExample.json";
+    handleSimpleWC("WcExample.ts");
+  });
+
+  test('should generate a correct json file when a complex web component is given as input', async () => {
+    builder.generatePropertiesFile("test/resources/pb-input.ts", tempDir);
+    let generatedFile = tempDir + "/pbInput.json";
     expect(fs.existsSync(generatedFile)).toBeTruthy();
 
     let jsonProperties = JSON.parse(fs.readFileSync(generatedFile, 'utf8'));
-    expect(jsonProperties.id).toBe("wcExample");
-    expect(jsonProperties.name).toBe("WcExample");
-    expect(jsonProperties.template).toBe("@wcExample.tpl.html");
+    // General info
+    expect(jsonProperties.id).toBe("pbInput");
+    expect(jsonProperties.name).toBe("Input");
+    expect(jsonProperties.properties.length).toBe(15);
+
+    // Properties
+    let props = jsonProperties.properties;
+
+    let required = props.filter((prop: any) => {
+      return prop.name === "required"
+    })[0];
+    expect(required.type).toBe("boolean");
+    expect(required.defaultValue).toBeFalsy();
+
+    let minLength = props.filter((prop: any) => {
+      return prop.name === "minLength"
+    })[0];
+    expect(minLength.label).toBe("Value min length");
+    expect(Object.keys(minLength.constraints).length).toBe(1);
+    expect(minLength.constraints.min).toBe("0");
+
+    let labelPosition = props.filter((prop: any) => {
+      return prop.name === "labelPosition"
+    })[0];
+    expect(labelPosition.type).toBe("choice");
+    expect(Object.keys(labelPosition.choiceValues).length).toBe(2);
+    expect(labelPosition.choiceValues).toStrictEqual(["left", "top"]);
+    expect(labelPosition.bond).toBe("constant");
+    expect(labelPosition.showFor.length).toBeGreaterThan(0);
+
+    let value = props.filter((prop: any) => {
+      return prop.name === "value"
+    })[0];
+    expect(value.type).toBe("text");
+    expect(value.bond).toBe("variable");
+    expect(value.defaultValue.length).toBe(0);
+    expect(value.caption.length).toBeGreaterThan(0);
+  });
+
+  test('should generate a correct json file when a JavaScript web component is given as input', async () => {
+    handleSimpleWC("WcExample2.js");
+  });
+
+  function handleSimpleWC(wcFilename: string) {
+    let wcNameUppercase = wcFilename.substring(0, wcFilename.indexOf("."));
+    let wcNameLowercase = wcNameUppercase.charAt(0).toLowerCase() + wcNameUppercase.slice(1);
+    builder.generatePropertiesFile(`test/resources/${wcFilename}`, tempDir);
+    let generatedFile = tempDir + `/${wcNameUppercase}.json`;
+    expect(fs.existsSync(generatedFile)).toBeTruthy();
+
+    let jsonProperties = JSON.parse(fs.readFileSync(generatedFile, 'utf8'));
+    // General info
+    expect(jsonProperties.id).toBe(wcNameLowercase);
+    expect(jsonProperties.name).toBe(wcNameUppercase);
+    expect(jsonProperties.template).toBe(`@${wcNameLowercase}.tpl.html`);
     expect(jsonProperties.description.length).toBeGreaterThan(0);
     expect(jsonProperties.order).toBe("1");
     expect(jsonProperties.icon.length).toBeGreaterThan(0);
     expect(jsonProperties.properties.length).toBe(2);
-  });
-
+    // Properties
+    let title = jsonProperties.properties[0];
+    expect(title.label).toBe("Title");
+    expect(title.name).toBe("title");
+    expect(title.type).toBe("text");
+    expect(title.defaultValue.length).toBeGreaterThan(0);
+    let counter = jsonProperties.properties[1];
+    expect(counter.label).toBe("Counter");
+    expect(counter.name).toBe("counter");
+    expect(counter.type).toBe("integer");
+    expect(counter.defaultValue).not.toBeNaN();
+  }
 });

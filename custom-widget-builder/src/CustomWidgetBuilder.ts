@@ -69,16 +69,12 @@ export class CustomWidgetBuilder {
   private analyzeFile(): string {
     let fileStr = fs.readFileSync(this.wcFile, "utf8").toString();
     let result: AnalyzeTextResult = analyzeText(fileStr);
-    return transformAnalyzerResult("json", result.results, result.program, {visibility: "private"});
+    return transformAnalyzerResult("json", result.results, result.program, {visibility: "public"});
   }
 
   private static getProperties(props: any): Array<Property> {
     let properties: Array<Property> = [];
     for (let prop of props) {
-      if (prop.name === 'lang') {
-        // We don't want to expose the 'lang' property here
-        continue;
-      }
        if (!prop.type) {
          // No type: potentially not a property, or we can't do anything with it...
          continue;

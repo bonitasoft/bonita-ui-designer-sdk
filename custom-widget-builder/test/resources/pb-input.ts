@@ -22,7 +22,7 @@ export class PbInput extends LitElement {
   private name = "pbInput";
 
   @property({ attribute: 'lang', type: String, reflect: true })
-  lang: string = "en";
+  private lang: string = "en";
 
   // Common properties below are handled by the div above pb-input:
 

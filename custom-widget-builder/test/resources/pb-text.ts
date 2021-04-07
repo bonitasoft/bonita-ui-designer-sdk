@@ -18,7 +18,7 @@ registerTranslateConfig({
 export class PbText extends LitElement {
 
   @property({ attribute: 'lang', type: String, reflect: true })
-  lang: string = "en";
+  private lang: string = "en";
 
   // Common properties below are handled by the div above pb-text:
 
@@ -32,7 +32,7 @@ export class PbText extends LitElement {
   // private hidden: boolean = false;
 
   @property({ attribute: 'id', type: String, reflect: true })
-  private idRoot: string = "";
+  id: string = "";
 
   @property({ attribute: 'label-hidden', type: Boolean, reflect: true })
   labelHidden: boolean = false;
@@ -127,7 +127,7 @@ export class PbText extends LitElement {
   render() {
     return html`
       <style>${bootstrapStyle}</style>
-      <div id="${this.idRoot}" class="container">
+      <div id="${this.id}" class="container">
         <div class="row">
           ${this.getLabel()}
           <p
