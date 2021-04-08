@@ -88,6 +88,31 @@ describe('CustomWidgetBuilder', () => {
     handleSimpleWC("WcExample2.js");
   });
 
+  test('should generate a correct json file when a standard web component is given as input', async () => {
+    // Standard web component (i.e. extending HTMLElement)
+    builder.generatePropertiesFile("test/resources/app-drawer.js", tempDir);
+    let generatedFile = tempDir + "/appDrawer.json";
+    expect(fs.existsSync(generatedFile)).toBeTruthy();
+
+    let jsonProperties = JSON.parse(fs.readFileSync(generatedFile, 'utf8'));
+    // General info
+    expect(jsonProperties.id).toBe("appDrawer");
+    expect(jsonProperties.name).toBe("AppDrawer");
+    expect(jsonProperties.properties.length).toBe(2);
+
+    // Properties
+    let props = jsonProperties.properties;
+
+    let open = props.filter((prop: any) => {
+      return prop.name === "open"
+    })[0];
+    expect(open.label).toBe("Open");
+    let disabled = props.filter((prop: any) => {
+      return prop.name === "disabled"
+    })[0];
+    expect(disabled.label).toBe("Disabled");
+  });
+
   function handleSimpleWC(wcFilename: string) {
     let wcNameUppercase = wcFilename.substring(0, wcFilename.indexOf("."));
     let wcNameLowercase = wcNameUppercase.charAt(0).toLowerCase() + wcNameUppercase.slice(1);

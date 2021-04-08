@@ -81,12 +81,14 @@ export class CustomWidgetBuilder {
   }
 
   private static getProperties(props: any): Array<Property> {
+    if (!props) {
+      return [];
+    }
     let properties: Array<Property> = [];
     for (let prop of props) {
-       if (!prop.type) {
-         // No type: potentially not a property, or we can't do anything with it...
-         continue;
-       }
+      if (this.propToExclude(prop.name)) {
+        continue;
+      }
       let customTagHandler;
       let help;
       if (prop.description) {
@@ -150,6 +152,9 @@ export class CustomWidgetBuilder {
     // string -> text
     // e,g, number | undefined -> number
 
+    if (!wcType) {
+      return wcType;
+    }
     wcType = wcType.replace(" | undefined","");
 
     switch (wcType) {
@@ -183,6 +188,11 @@ export class CustomWidgetBuilder {
       .toLowerCase();
   }
 
+  private static propToExclude(propName: string) {
+    // "styles" is a reserves word for css with lit-element
+    let toExclude = ["styles"];
+    return toExclude.indexOf(propName) > -1;
+  }
 }
 
 
