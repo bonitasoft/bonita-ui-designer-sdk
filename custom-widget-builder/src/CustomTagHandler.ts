@@ -54,9 +54,8 @@ export class CustomTagHandler {
   }
 
   private getTag(index: number): string {
-    let tag;
     let tagIndex = this.getTagIndex(index);
-    tag = this.desc.substring(tagIndex);
+    let tag = this.desc.substring(tagIndex);
     let nextLineIndex = tag.indexOf("\n");
     if (nextLineIndex != -1) {
       tag = tag.substring(0, nextLineIndex);
@@ -69,7 +68,6 @@ export class CustomTagHandler {
   }
 
   private processTag(tag: string) {
-    // e.g. -@bond constant
     let firstSpaceIndex = tag.indexOf(" ");
     let tagName = tag.substring(2, firstSpaceIndex);
     let tagValue = tag.substring(firstSpaceIndex+1).trim();

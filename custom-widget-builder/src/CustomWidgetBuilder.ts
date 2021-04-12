@@ -47,10 +47,11 @@ export class CustomWidgetBuilder {
     if (!analyzeResult) {
       throw new Error(`No properties found in file: ${this.wcFile}`);
     }
-    let info = JSON.parse(analyzeResult).tags[0];
-    if (!info) {
+    let resultJson = JSON.parse(analyzeResult);
+    if (!resultJson || !resultJson.tags[0]) {
       throw new Error(`Cannot get any information from file ${this.wcFile}\nExiting...`);
     }
+    let info = resultJson.tags[0];
     let wcName = info.name;
     let id = CustomWidgetBuilder.toCamelCase(wcName);
     let name = CustomWidgetBuilder.getDisplayName(wcName);
@@ -109,16 +110,19 @@ export class CustomWidgetBuilder {
     return properties;
   }
 
+  /**
+   * Get the display name of a web component, or a property
+   * e.g.:
+   *  pb-input -> Input
+   *  wc-example -> WcExample
+   *  required -> Required
+   *  labelWidth -> Label width
+   *  allowHTML -> Allow html
+   */
   private static getDisplayName(wcName: string): string {
-    // e.g. pb-input -> Input
-    // wc-example -> WcExample
-    // required -> Required
-    // labelWidth -> Label width
-    // allowHTML -> Allow html
     let name = wcName.replace(/^(pb-)/,"");
     // camel case to words
     name = CustomWidgetBuilder.fromCamelCase(name);
-    // name = name.replace( /([A-Z])/g, " $1" ).toLowerCase();
     // dash notation to camel case
     name = CustomWidgetBuilder.toCamelCase(name);
     // First letter uppercase
@@ -135,10 +139,12 @@ export class CustomWidgetBuilder {
     return jdenticon.toSvg(randomString, 30);
   }
 
+  /**
+   * Transform a string to boolean or number
+   * e.g. "false" -> false
+   *      "4" -> 4
+   */
   private static getDefaultValue(value: string): string | number | boolean {
-    // Transform string to boolean or number
-    // e.g. "false" -> false
-    //      "4" -> 4
     try {
       return JSON.parse(value);
     } catch (err) {
@@ -146,11 +152,13 @@ export class CustomWidgetBuilder {
     }
   }
 
+  /**
+   * Mapping from web component type to UID type
+   *  number -> integer
+   *  string -> text
+   *  number | undefined -> number
+   */
   private static getPropertyType(wcType: string): string {
-    // Mapping from web component type to UID type
-    // number -> integer
-    // string -> text
-    // e,g, number | undefined -> number
 
     if (!wcType) {
       return wcType;
