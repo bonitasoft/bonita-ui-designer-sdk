@@ -1,0 +1,36 @@
+{
+  "name": "custom-widget-builder",
+  "version": "0.0.1",
+  "description": "Bonitasoft UI Designer: Custom Widget Builder",
+  "main": "build/src/starter.js",
+  "license": "GPLv2",
+  "scripts": {
+    "typescript-compile": "tsc --build tsconfig.json",
+    "test": "jest 2>&1",
+    "test:dev": "jest --watch"
+  },
+  "dependencies": {
+    "@types/node": "^14.14.35",
+    "jdenticon": "^3.1.0",
+    "jsdoc": "^3.6.6",
+    "typescript": "^4.1.3",
+    "web-component-analyzer": "^1.1.6"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.22",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.4"
+  },
+  "bin": {
+    "cwb": "./build/src/starter.js",
+    "custom-widget-builder": "./build/src/starter.js"
+  },
+  "jest": {
+    "verbose": true,
+    "roots": [
+      "./test/"
+    ],
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  }
+}
