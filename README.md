@@ -130,3 +130,13 @@ for more details about adding information on the component (@element), on its pr
   type: string = "text";
 
 ```
+
+
+#### Using the CLI
+
+Usage:
+
+```shell
+cwb <web component source file> [outputDir=<directory>]
+```
+
