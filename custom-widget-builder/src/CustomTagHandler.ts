@@ -17,11 +17,12 @@
  */
 
 import {PropertyConstraint} from "./PropertyConstraint";
+import {Bond} from "./Bond";
 
 export class CustomTagHandler {
 
   public static readonly CUSTOM_TAG = "-@";
-  public bond: string | undefined;
+  public bond: Bond | undefined;
   public caption: string | undefined;
   public choiceValues: Array<String> | undefined;
   public constraints: PropertyConstraint | undefined;
@@ -73,7 +74,7 @@ export class CustomTagHandler {
     let tagValue = tag.substring(firstSpaceIndex+1).trim();
     switch (tagName) {
       case 'bond':
-        this.bond = tagValue;
+        this.bond = CustomTagHandler.getBond(tagValue);
         break;
       case 'caption':
         this.caption = tagValue;
@@ -91,30 +92,31 @@ export class CustomTagHandler {
         this.showFor = tagValue;
         break;
      default:
-        console.error(`Error: invalid tag: ${tagName}`);
+        throw new Error(`Error: invalid tag: ${tagName}`);
     }
   }
 
   private setChoiceValues(choice: string) {
     // e.g. -@choiceValues {"left"|"top"}
+    // TODO: check the choice values include the default value
     this.choiceValues = [];
-    choice = this.removeFirstAndLastChar(choice);
+    choice = CustomTagHandler.removeFirstAndLastChar(choice);
     let values = choice.split("|")
     for (let value of values) {
       value = value.trim();
-      value = this.removeQuotes(value);
+      value = CustomTagHandler.removeQuotes(value);
       this.choiceValues.push(value);
     }
   }
 
   private setConstraints(constraint: string) {
     // e.g. -@constraints {"min": "1", "max": "12"}
-    constraint = this.removeFirstAndLastChar(constraint);
+    constraint = CustomTagHandler.removeFirstAndLastChar(constraint);
     let values = constraint.split(",")
     let min, max;
     for (let value of values) {
       value = value.trim();
-      value = this.removeQuotes(value);
+      value = CustomTagHandler.removeQuotes(value);
       let items = value.split(":");
       if (items[0] === "min") {
         min = items[1].trim();
@@ -125,12 +127,27 @@ export class CustomTagHandler {
     this.constraints = new PropertyConstraint(min, max);
   }
 
-  private removeFirstAndLastChar(str: string): string {
+  private static removeFirstAndLastChar(str: string): string {
       return str.substring(1, str.length-1);
   }
 
-  private removeQuotes(str: string) {
+  private static removeQuotes(str: string) {
     // Remove leading and trailing double quotes
     return str.replace(/\"/g, "");
+  }
+
+  private static getBond(value: string) {
+    switch (value) {
+      case 'variable':
+        return Bond.Variable;
+      case 'expression':
+        return Bond.Expression;
+      case 'interpolation':
+        return Bond.Interpolation;
+      case 'constant':
+        return Bond.Constant;
+      default:
+        throw new Error(`Error: invalid bond tag: ${value}`);
+    }
   }
 }

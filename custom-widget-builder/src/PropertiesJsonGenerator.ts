@@ -16,33 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Property} from "./Property";
+import {PropertiesInfo} from "./PropertiesInfo";
+import * as fs from "fs";
 
-export class PropertiesInfo {
-  public id: string;
-  public name: string;
-  public displayName: string;
-  public type: string;
-  public template: string;
-  public description: string;
-  public order: string;
-  public icon: string;
-  public properties: Array<Property>;
+export class PropertiesJsonGenerator {
 
+  private readonly outputDir: string;
+  private readonly propertiesInfo: PropertiesInfo;
 
-  constructor(
-    id: string, name: string, displayName: string, type: string, template: string, description: string, order: string, icon: string,
-    properties: Array<Property>
-  ) {
-    this.id = id;
-    this.name = name;
-    this.displayName = displayName;
-    this.type = type;
-    this.template = template;
-    this.description = description;
-    this.order = order;
-    this.icon = icon;
-    this.properties = properties;
+  constructor(propertiesInfo: PropertiesInfo, outputDir: string) {
+    this.outputDir = outputDir;
+    this.propertiesInfo = propertiesInfo;
   }
+
+  public generate() {
+      let output = JSON.stringify(this.propertiesInfo, null, 2)
+      let filePath = `${this.outputDir}/${this.propertiesInfo.id}.json`;
+      fs.writeFileSync(filePath, output);
+      console.log(`${filePath} has been generated!`);
+    }
 }
+
+
 

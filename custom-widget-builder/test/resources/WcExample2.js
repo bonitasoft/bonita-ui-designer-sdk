@@ -19,6 +19,9 @@ export class WcExample2 extends LitElement {
   static get properties() {
     return {
       title: { type: String },
+      /**
+       * -@bond variable
+       */
       counter: { type: Number },
     };
   }

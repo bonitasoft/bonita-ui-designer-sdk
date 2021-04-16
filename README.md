@@ -7,6 +7,16 @@ This sdk provides tooling to build custom widgets for UI Designer.
   
 Generates Bonita UI Designer custom widgets from web components.
 
+### Build
+```
+npm run typescript-compile
+```
+
+### Test
+```
+npm run test
+```
+
 ### Generating the json properties file
 
 #### Adding tags for UI Designer information
@@ -56,7 +66,7 @@ This is done with 'custom tags', which are JSDoc-like tags, and use the '-@tag' 
    */
 ```
 ---
-**NOTE:**
+NOTE:
 '@type' is a regular JSDoc tag, and should always be defined **after** any other custom tag.
 ---
 

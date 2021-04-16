@@ -22,27 +22,32 @@ import {Property} from "./Property";
 import {CustomTagHandler} from "./CustomTagHandler";
 import * as fs from "fs";
 import * as jdenticon from "jdenticon/standalone";
+import {PropertiesJsonGenerator} from "./PropertiesJsonGenerator";
+import {HtmlTemplatesGenerator} from "./HtmlTemplatesGenerator";
 
 export class CustomWidgetBuilder {
 
   private wcFile: string = "";
   private outputDir: string = "";
 
-  public generatePropertiesFile(wcFile: string, outputDir: string) {
+  public generate(wcFile: string, outputDir: string) {
     this.wcFile = wcFile;
     this.outputDir = outputDir;
     if (!fs.existsSync(this.outputDir)) {
       console.error(`Output directory does not exist: ${this.outputDir}`);
       return;
     }
+
     try {
-      this.createPropertiesFile(this.getPropertiesInfo());
+      let propInfo = this.getPropertiesInfo();
+      new PropertiesJsonGenerator(propInfo, outputDir).generate();
+      new HtmlTemplatesGenerator(propInfo, outputDir).generate();
     } catch (e) {
       console.error(e.message);
     }
   }
 
-  private getPropertiesInfo(): PropertiesInfo {
+  public getPropertiesInfo(): PropertiesInfo {
     let analyzeResult = this.analyzeFile();
     if (!analyzeResult) {
       throw new Error(`No properties found in file: ${this.wcFile}`);
@@ -54,7 +59,7 @@ export class CustomWidgetBuilder {
     let info = resultJson.tags[0];
     let wcName = info.name;
     let id = CustomWidgetBuilder.toCamelCase(wcName);
-    let name = CustomWidgetBuilder.getDisplayName(wcName);
+    let displayName = CustomWidgetBuilder.getDisplayName(wcName);
     let type = "widget";
     let template = CustomWidgetBuilder.getTemplate(id);
     let description = info.description;
@@ -62,14 +67,7 @@ export class CustomWidgetBuilder {
     let icon = CustomWidgetBuilder.generateIcon();
     let properties = CustomWidgetBuilder.getProperties(info.properties);
 
-    return new PropertiesInfo(id, name, type, template, description, order, icon, properties);
-  }
-
-  private createPropertiesFile(propertiesInfo: PropertiesInfo) {
-    let output = JSON.stringify(propertiesInfo, null, 2)
-    let filePath = `${this.outputDir}/${propertiesInfo.id}.json`;
-    fs.writeFileSync(filePath, output);
-    console.log(`${filePath} has been generated!`);
+    return new PropertiesInfo(id, wcName, displayName, type, template, description, order, icon, properties);
   }
 
   private analyzeFile(): string {
