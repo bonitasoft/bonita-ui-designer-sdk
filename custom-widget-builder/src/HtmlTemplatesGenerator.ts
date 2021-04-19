@@ -218,9 +218,9 @@ export class HtmlTemplatesGenerator {
   private writeFile(template: string, type: FwkType) {
     let ext;
     if (type === FwkType.AngularJS) {
-      ext = "tpl.html";
+      ext = HtmlTemplatesGenerator.AngularJsFileExtension;
     } else if (type === FwkType.Angular) {
-      ext = "tpl.runtime.html";
+      ext = HtmlTemplatesGenerator.AngularFileExtension;
     }
     let filePath = `${this.outputDir}/${this.propertiesInfo.id}.${ext}`;
     fs.writeFileSync(filePath, template);
