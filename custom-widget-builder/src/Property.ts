@@ -17,6 +17,7 @@
  */
 
 import {PropertyConstraint} from "./PropertyConstraint";
+import {Bond} from "./Bond";
 
 export class Property {
   public label: string;
@@ -26,12 +27,12 @@ export class Property {
   public defaultValue: string | number | boolean;
   public constraints: PropertyConstraint | undefined;
   public showFor: string | undefined;
-  public bond: string | undefined;
+  public bond: Bond | undefined;
   public choiceValues: Array<String> | undefined;
   public caption: string | undefined;
 
 
-  constructor(label: string, name: string, type: string, defaultValue: string | number | boolean, help?: string, bond?: string, constraints?: PropertyConstraint,
+  constructor(label: string, name: string, type: string, defaultValue: string | number | boolean, help?: string, bond?: Bond, constraints?: PropertyConstraint,
               showFor?: string, choiceValues?: Array<String>, caption?: string) {
     this.label = label;
     this.name = name;

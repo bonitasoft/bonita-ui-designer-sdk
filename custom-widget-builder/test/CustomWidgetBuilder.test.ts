@@ -1,5 +1,5 @@
 /*
- * Copyright © 2019 Bonitasoft S.A.
+ * Copyright © 2021 Bonitasoft S.A.
  * Bonitasoft, 32 rue Gustave Eiffel - 38000 Grenoble
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,19 +35,17 @@ describe('CustomWidgetBuilder', () => {
     fs.rmdirSync(tempDir, {recursive: true});
   });
 
-  test('should generate a correct json file when a simple web component is given as input', async () => {
+  test('should generate correct json file when a simple web component is given as input', async () => {
     handleSimpleWC("WcExample.ts");
   });
 
   test('should generate a correct json file when a complex web component is given as input', async () => {
-    builder.generatePropertiesFile("test/resources/pb-input.ts", tempDir);
-    let generatedFile = tempDir + "/pbInput.json";
-    expect(fs.existsSync(generatedFile)).toBeTruthy();
+    builder.generate("test/resources/pb-input.ts", tempDir);
 
-    let jsonProperties = JSON.parse(fs.readFileSync(generatedFile, 'utf8'));
+    let jsonProperties = JSON.parse(getFileContent("pbInput.json"));
     // General info
     expect(jsonProperties.id).toBe("pbInput");
-    expect(jsonProperties.name).toBe("Input");
+    expect(jsonProperties.displayName).toBe("Input");
     expect(jsonProperties.properties.length).toBe(15);
 
     // Properties
@@ -65,6 +63,12 @@ describe('CustomWidgetBuilder', () => {
     expect(minLength.label).toBe("Value min length");
     expect(Object.keys(minLength.constraints).length).toBe(1);
     expect(minLength.constraints.min).toBe("0");
+
+    let label = props.filter((prop: any) => {
+      return prop.name === "label"
+    })[0];
+    expect(label.type).toBe("text");
+    expect(label.bond).toBe("interpolation");
 
     let labelPosition = props.filter((prop: any) => {
       return prop.name === "labelPosition"
@@ -90,14 +94,11 @@ describe('CustomWidgetBuilder', () => {
 
   test('should generate a correct json file when a standard web component is given as input', async () => {
     // Standard web component (i.e. extending HTMLElement)
-    builder.generatePropertiesFile("test/resources/app-drawer.js", tempDir);
-    let generatedFile = tempDir + "/appDrawer.json";
-    expect(fs.existsSync(generatedFile)).toBeTruthy();
-
-    let jsonProperties = JSON.parse(fs.readFileSync(generatedFile, 'utf8'));
+    builder.generate("test/resources/app-drawer.js", tempDir);
+    let jsonProperties = JSON.parse(getFileContent("appDrawer.json"));
     // General info
     expect(jsonProperties.id).toBe("appDrawer");
-    expect(jsonProperties.name).toBe("AppDrawer");
+    expect(jsonProperties.displayName).toBe("AppDrawer");
     expect(jsonProperties.properties.length).toBe(2);
 
     // Properties
@@ -116,14 +117,12 @@ describe('CustomWidgetBuilder', () => {
   function handleSimpleWC(wcFilename: string) {
     let wcNameUppercase = wcFilename.substring(0, wcFilename.indexOf("."));
     let wcNameLowercase = wcNameUppercase.charAt(0).toLowerCase() + wcNameUppercase.slice(1);
-    builder.generatePropertiesFile(`test/resources/${wcFilename}`, tempDir);
-    let generatedFile = tempDir + `/${wcNameUppercase}.json`;
-    expect(fs.existsSync(generatedFile)).toBeTruthy();
+    builder.generate(`test/resources/${wcFilename}`, tempDir);
 
-    let jsonProperties = JSON.parse(fs.readFileSync(generatedFile, 'utf8'));
+    let jsonProperties = JSON.parse(getFileContent(`${wcNameUppercase}.json`));
     // General info
     expect(jsonProperties.id).toBe(wcNameLowercase);
-    expect(jsonProperties.name).toBe(wcNameUppercase);
+    expect(jsonProperties.displayName).toBe(wcNameUppercase);
     expect(jsonProperties.template).toBe(`@${wcNameLowercase}.tpl.html`);
     expect(jsonProperties.description.length).toBeGreaterThan(0);
     expect(jsonProperties.order).toBe("1");
@@ -139,6 +138,14 @@ describe('CustomWidgetBuilder', () => {
     expect(counter.label).toBe("Counter");
     expect(counter.name).toBe("counter");
     expect(counter.type).toBe("integer");
+    expect(counter.bond).toBe("variable");
     expect(counter.defaultValue).not.toBeNaN();
   }
+
+  function getFileContent(fileName: string): string {
+    let filePath = `${tempDir}/${fileName}`;
+    expect(fs.existsSync(filePath)).toBeTruthy();
+    return fs.readFileSync(filePath, 'utf8');
+  }
+
 });

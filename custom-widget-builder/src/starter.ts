@@ -35,7 +35,7 @@ if (params.length > 1) {
 }
 
 console.log(`Generating widget for ${wcFile}...\n`);
-new CustomWidgetBuilder().generatePropertiesFile(wcFile, outputDir);
+new CustomWidgetBuilder().generate(wcFile, outputDir);
 
 function getParameter(param: string): any {
   return param.substr(param.indexOf('=') + 1);
