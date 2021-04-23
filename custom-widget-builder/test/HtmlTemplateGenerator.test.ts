@@ -91,7 +91,7 @@ describe('CustomWidgetBuilder', () => {
     // Angular template
     let templateAngular = getFileContent(`${wcNameUppercase}.${HtmlTemplatesGenerator.AngularFileExtension}`);
     expect(templateAngular.includes(HtmlTemplatesGenerator.ifDirectiveAngular)).toBeFalsy();
-    let expectedPropsAngular = ["title=\"{{properties.title}}\"", "[(ngModel)]=\"properties.counter\""];
+    let expectedPropsAngular = ["title=\"{{properties.title}}\"", "counter=\"{{properties.counter}}\""];
     checkStringContains(templateAngular, expectedPropsAngular);
   }
 

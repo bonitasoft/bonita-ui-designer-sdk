@@ -60,32 +60,18 @@ describe('CustomWidgetBuilder', () => {
     let minLength = props.filter((prop: any) => {
       return prop.name === "minLength"
     })[0];
-    expect(minLength.label).toBe("Value min length");
-    expect(Object.keys(minLength.constraints).length).toBe(1);
-    expect(minLength.constraints.min).toBe("0");
+    expect(minLength.label).toBe("Min length");
 
     let label = props.filter((prop: any) => {
       return prop.name === "label"
     })[0];
     expect(label.type).toBe("text");
-    expect(label.bond).toBe("interpolation");
-
-    let labelPosition = props.filter((prop: any) => {
-      return prop.name === "labelPosition"
-    })[0];
-    expect(labelPosition.type).toBe("choice");
-    expect(Object.keys(labelPosition.choiceValues).length).toBe(2);
-    expect(labelPosition.choiceValues).toStrictEqual(["left", "top"]);
-    expect(labelPosition.bond).toBe("constant");
-    expect(labelPosition.showFor.length).toBeGreaterThan(0);
 
     let value = props.filter((prop: any) => {
       return prop.name === "value"
     })[0];
     expect(value.type).toBe("text");
-    expect(value.bond).toBe("variable");
     expect(value.defaultValue.length).toBe(0);
-    expect(value.caption.length).toBeGreaterThan(0);
   });
 
   test('should generate a correct json file when a JavaScript web component is given as input', async () => {
@@ -138,7 +124,6 @@ describe('CustomWidgetBuilder', () => {
     expect(counter.label).toBe("Counter");
     expect(counter.name).toBe("counter");
     expect(counter.type).toBe("integer");
-    expect(counter.bond).toBe("variable");
     expect(counter.defaultValue).not.toBeNaN();
   }
 

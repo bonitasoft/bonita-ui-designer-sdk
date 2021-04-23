@@ -45,7 +45,5 @@ export class Property {
     this.choiceValues = choiceValues;
     this.caption = caption;
   }
-
-
 }
 

@@ -30,94 +30,53 @@ export class PbInput extends LitElement {
   @property({ attribute: 'required', type: Boolean, reflect: true })
   required: boolean = false;
 
-  /**
-   * -@label Value min length
-   * -@constraints {"min": "0"}
-   */
   @property({ attribute: 'min-length', type: Number, reflect: true })
   minLength: number | undefined;
 
-  /**
-   * -@label Value max length
-   * -@constraints {"min": "1"}
-   */
   @property({ attribute: 'max-length', type: Number, reflect: true })
   maxLength: number | undefined;
 
   @property({ attribute: 'readonly', type: Boolean, reflect: true })
   readOnly: boolean = false;
 
-  /**
-   * -@bond constant
-   */
   @property({ attribute: 'label-hidden', type: Boolean, reflect: true })
   labelHidden: boolean = false;
 
-  /**
-   * -@showFor properties.labelHidden.value === false
-   * -@bond interpolation
-   */
   @property({ attribute: 'label', type: String, reflect: true })
   label: string = "";
 
   /**
    * Position of the label
-   * -@choiceValues {"left"|"top"}
-   * -@bond constant
-   * -@showFor properties.labelHidden.value === false
-   * @type {choice}
    */
   @property({ attribute: 'label-position', type: String, reflect: true })
   labelPosition: string = "top";
 
-  /**
-   * -@showFor properties.labelHidden.value === false
-   * -@bond constant
-   * -@constraints {"min": "1", "max": "12"}
-   */
   @property({ attribute: 'label-width', type: Number, reflect: true })
   labelWidth: number = 4;
 
   /**
    * Short hint that describes the expected value
-   * -@bond interpolation
    */
   @property({ attribute: 'placeholder', type: String, reflect: true })
   placeholder: string = "";
 
   /**
    * Value of the input
-   * -@caption Any variable: <i>myData</i> or <i>myData.attribute</i>
-   * -@bond variable
    */
   @property({ attribute: 'value', type: String, reflect: true })
   value: string = "";
 
-  /**
-   * -@choiceValues {"text"|"number"|"email"|"password"}
-   * -@bond constant
-   * @type {choice}
-  */
   @property({ attribute: 'type', type: String, reflect: true })
   type: string = "text";
 
-  /**
-   * -@label Min value
-   * -@showFor properties.type.value === 'number'
-   */
   @property({ attribute: 'min', type: Number, reflect: true })
   min: number|undefined;
 
-  /**
-   * -@label Max value
-   * -@showFor properties.type.value === 'number'
-   */
   @property({ attribute: 'max', type: Number, reflect: true })
   max: number | undefined;
 
   /**
    * Specifies the legal number intervals between values
-   * -@showFor properties.type.value === 'number'
    */
   @property({ attribute: 'step', type: Number, reflect: true })
   step: number = 1;

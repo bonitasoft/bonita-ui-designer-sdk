@@ -19,29 +19,25 @@
  */
 
 import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
+import {CliHandler} from "./CliHandler";
 
-let params = process.argv.slice(2);
-let wcFile = params[0];
-if (!wcFile) {
-  usage();
-}
-let outputDir = ".";
-if (params.length > 1) {
-  let outputParam = params[1];
-  if (params.length > 2 || !outputParam.startsWith("outputDir=")) {
-    usage();
+try {
+  let cliHandler = new CliHandler(process.argv.slice(2));
+  let outputDir = cliHandler.getOutputDir();
+  switch (cliHandler.command) {
+    case CliHandler.genPropertiesCommand:
+      if (cliHandler.hasParam(CliHandler.webComponentFileParam)) {
+        new CustomWidgetBuilder().generatePropertyFileFromWcFile(cliHandler.getWcFile(), outputDir);
+      } else if (cliHandler.hasParam(CliHandler.webComponentNameParam)) {
+        new CustomWidgetBuilder().generatePropertyFileFromWcName(cliHandler.getWcName(), outputDir);
+      }
+      break;
+    case CliHandler.genWidgetCommand:
+      new CustomWidgetBuilder().generateWidgetFromProperties(cliHandler.getPropertiesFile(), outputDir);
+      break;
+    default:
+      cliHandler.usage();
   }
-  outputDir = getParameter(outputParam);
-}
-
-console.log(`Generating widget for ${wcFile}...\n`);
-new CustomWidgetBuilder().generate(wcFile, outputDir);
-
-function getParameter(param: string): any {
-  return param.substr(param.indexOf('=') + 1);
-}
-
-function usage() {
-  console.log("Usage: cwb <web component source file> [outputDir=<directory>]");
-  process.exit(1);
+} catch (error) {
+  console.log(error.message);
 }
