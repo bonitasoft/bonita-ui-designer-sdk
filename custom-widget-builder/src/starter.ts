@@ -30,6 +30,8 @@ try {
         new CustomWidgetBuilder().generatePropertyFileFromWcFile(cliHandler.getWcFile(), outputDir);
       } else if (cliHandler.hasParam(CliHandler.webComponentNameParam)) {
         new CustomWidgetBuilder().generatePropertyFileFromWcName(cliHandler.getWcName(), outputDir);
+      } else {
+        cliHandler.usage();
       }
       break;
     case CliHandler.genWidgetCommand:

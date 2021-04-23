@@ -20,16 +20,15 @@ import {analyzeText, AnalyzeTextResult, transformAnalyzerResult} from "web-compo
 import {PropertiesInfo} from "./PropertiesInfo";
 import {Property} from "./Property";
 import * as fs from "fs";
-import * as jdenticon from "jdenticon/standalone";
 import {PropertiesJsonGenerator} from "./PropertiesJsonGenerator";
 import {HtmlTemplatesGenerator} from "./HtmlTemplatesGenerator";
 import {Bond} from "./Bond";
 import {PropertyConstraint} from "./PropertyConstraint";
+import {PropertyBuilder} from "./PropertyBuilder";
+import {PropertyType} from "./PropertyType";
+import {PropertiesInfoBuilder} from "./PropertiesInfoBuilder";
 
 export class CustomWidgetBuilder {
-
-  private static artifactType = "widget";
-  private static artifactOrder = "1";
 
   public generatePropertyFileFromWcFile(wcFile: string, outputDir: string) {
     let propInfo = this.getPropertiesInfoFromWebComponent(wcFile);
@@ -37,55 +36,55 @@ export class CustomWidgetBuilder {
   }
 
   public generatePropertyFileFromWcName(wcName: string, outputDir: string) {
-    let id = CustomWidgetBuilder.toCamelCase(wcName);
-    let displayName = CustomWidgetBuilder.getDisplayName(wcName);
-    let type = CustomWidgetBuilder.artifactType;
-    let template = CustomWidgetBuilder.getTemplate(id);
-    let order = CustomWidgetBuilder.artifactOrder;
-    let icon = CustomWidgetBuilder.generateIcon();
-    let description = "<description of the web component>";
-    let descriptionA = "<Description of property A>";
-    let propertyA = new Property("Property A", "propertyA", "text", "initial value", descriptionA);
-    let descriptionB = "<Description of property B>";
-    let constraint = new PropertyConstraint("0", "100");
-    let propertyB = new Property("Property B", "propertyB", "integer", "0", descriptionB,
-      Bond.Variable, constraint);
+    let propertyA = new PropertyBuilder("propertyA", PropertyType.Text)
+      .label("Property A")
+      .help("<Description of property A>")
+      .defaultValue("initial value")
+      .build();
+    let propertyB = new PropertyBuilder("propertyB", PropertyType.Integer)
+      .label("Property B")
+      .help("<Description of property B>")
+      .defaultValue("0")
+      .constraints(new PropertyConstraint("0", "100"))
+      .bond(Bond.Variable)
+      .build();
     let properties = [propertyA, propertyB];
-    let propInfo = new PropertiesInfo(id, wcName, displayName, type, template, description, order, icon, properties);
+
+    let propInfo = new PropertiesInfoBuilder(wcName)
+      .description("<description of the web component>")
+      .properties(properties)
+      .build();
 
     new PropertiesJsonGenerator(propInfo, outputDir).generate();
   }
 
   public generateWidgetFromProperties(propertiesFile: string, outputDir: string) {
-    let propInfo = this.getPropertiesFromFile(propertiesFile);
+    let propInfo = CustomWidgetBuilder.getPropertiesFromFile(propertiesFile);
     new HtmlTemplatesGenerator(propInfo, outputDir).generate();
     // TODO: Generate zip file
   }
 
   public getPropertiesInfoFromWebComponent(wcFile: string): PropertiesInfo {
-    let analyzeResult = this.analyzeFile(wcFile);
+    let analyzeResult = CustomWidgetBuilder.analyzeFile(wcFile);
     if (!analyzeResult) {
-      throw new Error(this.getNoInformationMessage(wcFile));
+      throw new Error(CustomWidgetBuilder.getNoInformationMessage(wcFile));
     }
     let resultJson = JSON.parse(analyzeResult);
     if (!resultJson || !resultJson.tags[0]) {
-      throw new Error(this.getNoInformationMessage(wcFile));
+      throw new Error(CustomWidgetBuilder.getNoInformationMessage(wcFile));
     }
     let info = resultJson.tags[0];
     let wcName = info.name;
-    let id = CustomWidgetBuilder.toCamelCase(wcName);
-    let displayName = CustomWidgetBuilder.getDisplayName(wcName);
-    let type = CustomWidgetBuilder.artifactType;
-    let template = CustomWidgetBuilder.getTemplate(id);
     let description = info.description;
-    let order = CustomWidgetBuilder.artifactOrder;
-    let icon = CustomWidgetBuilder.generateIcon();
     let properties = CustomWidgetBuilder.getProperties(info.properties);
 
-    return new PropertiesInfo(id, wcName, displayName, type, template, description, order, icon, properties);
+    return new PropertiesInfoBuilder(wcName)
+      .description(description)
+      .properties(properties)
+      .build();
   }
 
-  private analyzeFile(wcFile: string): string {
+  private static analyzeFile(wcFile: string): string {
     if (!fs.existsSync(wcFile)) {
       throw new Error(`File does not exist: ${wcFile}`);
     }
@@ -110,39 +109,9 @@ export class CustomWidgetBuilder {
       let name = prop.name;
       let type = CustomWidgetBuilder.getPropertyType(prop.type);
       let defaultValue = CustomWidgetBuilder.getDefaultValue(prop.default);
-      let label = CustomWidgetBuilder.getDisplayName(prop.name);
-      properties.push(new Property(label, name, type, defaultValue, help));
+      properties.push(new PropertyBuilder(name, type).defaultValue(defaultValue).help(help).build());
     }
     return properties;
-  }
-
-  /**
-   * Get the display name of a web component, or a property
-   * e.g.:
-   *  pb-input -> Input
-   *  wc-example -> WcExample
-   *  required -> Required
-   *  labelWidth -> Label width
-   *  allowHTML -> Allow html
-   */
-  private static getDisplayName(wcName: string): string {
-    let name = wcName.replace(/^(pb-)/, "");
-    // camel case to words
-    name = CustomWidgetBuilder.fromCamelCase(name);
-    // dash notation to camel case
-    name = CustomWidgetBuilder.toCamelCase(name);
-    // First letter uppercase
-    return name.charAt(0).toUpperCase() + name.slice(1);
-  }
-
-  private static getTemplate(id: string): string {
-    // e.g. pbInput -> @pbInput.tpl.html
-    return `@${id}.tpl.html`;
-  }
-
-  private static generateIcon(): string {
-    let randomString = Math.random().toString(36).substring(2, 15);
-    return jdenticon.toSvg(randomString, 30);
   }
 
   /**
@@ -164,36 +133,20 @@ export class CustomWidgetBuilder {
    *  string -> text
    *  number | undefined -> number
    */
-  private static getPropertyType(wcType: string): string {
+  private static getPropertyType(wcType: string): PropertyType {
 
-    if (!wcType) {
-      return wcType;
-    }
     wcType = wcType.replace(" | undefined", "");
 
     switch (wcType) {
       case 'number':
-        return 'integer';
+        return PropertyType.Integer;
       case 'string':
-        return 'text';
+        return PropertyType.Text;
+      case 'boolean':
+        return PropertyType.Boolean;
       default:
-        return wcType;
+        throw new Error(`Unsupported type: ${wcType}`);
     }
-  }
-
-  private static toCamelCase(str: string): string {
-    // e.g. pb-input -> pbInput
-    return str.replace(/-([a-z])/g, (g) => {
-      return g[1].toUpperCase()
-    });
-  }
-
-  private static fromCamelCase(str: string): string {
-    // e.g. allowHTML -> Allow html
-    return str
-      .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
-      .replace(/([A-Z])([A-Z])(?=[a-z])/g, '$1 $2')
-      .toLowerCase();
   }
 
   private static propToExclude(propName: string) {
@@ -202,12 +155,12 @@ export class CustomWidgetBuilder {
     return toExclude.indexOf(propName) > -1;
   }
 
-  private getPropertiesFromFile(propertiesFile: string) {
+  private static getPropertiesFromFile(propertiesFile: string) {
     let propertiesStr = fs.readFileSync(propertiesFile, "utf8").toString();
     return JSON.parse(propertiesStr);
   }
 
-  private getNoInformationMessage(wcFile: string) {
+  private static getNoInformationMessage(wcFile: string) {
     return `Cannot get any information from file ${wcFile}\nExiting...`;
   }
 }

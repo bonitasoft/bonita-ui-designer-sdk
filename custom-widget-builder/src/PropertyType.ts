@@ -16,20 +16,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {PropertyConstraint} from "./PropertyConstraint";
-import {Bond} from "./Bond";
-import {PropertyType} from "./PropertyType";
-
-export interface Property {
-  name: string;
-  type: PropertyType;
-  label: string | undefined;
-  help: string | undefined;
-  defaultValue: string | number | boolean | undefined;
-  constraints: PropertyConstraint | undefined;
-  showFor: string | undefined;
-  bond: Bond | undefined;
-  choiceValues: Array<string> | undefined;
-  caption: string | undefined;
+export enum PropertyType {
+  Text = "text",
+  Integer = "integer",
+  Boolean = "boolean",
+  Choice = "choice",
+  Collection = "collection"
 }
-
