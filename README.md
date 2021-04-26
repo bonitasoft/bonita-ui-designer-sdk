@@ -181,7 +181,7 @@ cwb gen-properties -webComponentName <web component name> [-outputDir <directory
 
 #### Generate Custom Widget:
 ```shell
-cwb gen-widget -properties <json properties file> [-outputDir <directory>]
+cwb gen-widget -propertiesFile <json properties file> [-outputDir <directory>]
 ```
 
 ## Contribute
@@ -194,4 +194,3 @@ npm run typescript-compile
 ```
 npm run test
 ```
-
