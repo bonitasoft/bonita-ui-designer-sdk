@@ -18,8 +18,8 @@
 
 import {PropertiesInfo} from "./PropertiesInfo";
 import {Property} from "./Property";
-import {Bond} from "./Bond";
 import fs from "fs";
+import {Bond} from "./Bond";
 
 enum FwkType {
   AngularJS,

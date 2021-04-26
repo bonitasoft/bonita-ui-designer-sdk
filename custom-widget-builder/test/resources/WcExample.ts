@@ -2,9 +2,8 @@ import { html, css, LitElement, property } from 'lit-element';
 
 /**
  * A simple counter component
- *
- * @element wc-example
  */
+@customElement('wc-example')
 export class WcExample extends LitElement {
   static styles = css`
     :host {
@@ -14,11 +13,14 @@ export class WcExample extends LitElement {
     }
   `;
 
+  /**
+   * Main title
+   */
   @property({ type: String })
   title = 'Hey there';
 
   /**
-   * -@bond variable
+   * Count the number of clicks
    */
   @property({ type: Number })
   counter = 5;
