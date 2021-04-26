@@ -24,12 +24,12 @@ import {PropertiesInfoBuilder} from "./PropertiesInfoBuilder";
 
 
 export class PropertyBuilder {
-  private readonly _property: Property;
+  private readonly property: Property;
 
-  constructor(name: string, type: PropertyType) {
-    this._property = {
+  constructor(name: string) {
+    this.property = {
       name: name,
-      type: type,
+      type: undefined,
       label: PropertiesInfoBuilder.getDisplayName(name),
       help: undefined,
       defaultValue: undefined,
@@ -41,47 +41,52 @@ export class PropertyBuilder {
     }
   }
 
+  type(type: PropertyType | undefined): PropertyBuilder {
+    this.property.type = type;
+    return this;
+  }
+
   label(label: string): PropertyBuilder {
-    this._property.label = label;
+    this.property.label = label;
     return this;
   }
 
   help(help: string): PropertyBuilder {
-    this._property.help = help;
+    this.property.help = help;
     return this;
   }
 
   defaultValue(defaultValue: string | number | boolean): PropertyBuilder {
-    this._property.defaultValue = defaultValue;
+    this.property.defaultValue = defaultValue;
     return this;
   }
 
   constraints(constraints: PropertyConstraint): PropertyBuilder {
-    this._property.constraints = constraints;
+    this.property.constraints = constraints;
     return this;
   }
 
   showFor(showFor: string): PropertyBuilder {
-    this._property.showFor = showFor;
+    this.property.showFor = showFor;
     return this;
   }
 
   bond(bond: Bond): PropertyBuilder {
-    this._property.bond = bond;
+    this.property.bond = bond;
     return this;
   }
 
   choiceValues(choiceValues: Array<string>): PropertyBuilder {
-    this._property.choiceValues = choiceValues;
+    this.property.choiceValues = choiceValues;
     return this;
   }
 
   caption(caption: string): PropertyBuilder {
-    this._property.caption = caption;
+    this.property.caption = caption;
     return this;
   }
 
   build(): Property {
-    return this._property;
+    return this.property;
   }
 }

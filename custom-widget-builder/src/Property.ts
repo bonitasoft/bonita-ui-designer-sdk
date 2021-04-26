@@ -22,7 +22,7 @@ import {PropertyType} from "./PropertyType";
 
 export interface Property {
   name: string;
-  type: PropertyType;
+  type: PropertyType | undefined;
   label: string | undefined;
   help: string | undefined;
   defaultValue: string | number | boolean | undefined;

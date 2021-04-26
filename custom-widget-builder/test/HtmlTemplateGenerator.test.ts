@@ -41,7 +41,8 @@ describe('CustomWidgetBuilder', () => {
   });
 
   test('should generate correct html templates when a complex web component is given as input', async () => {
-    builder.generate("test/resources/pb-input.ts", tempDir);
+    builder.generatePropertyFileFromWcFile("test/resources/pb-input.ts", tempDir);
+    builder.generateWidgetFromProperties(`${tempDir}/pbInput.json`, tempDir);
 
     // AngularJS template
     let templateAngularJs = getFileContent(`pbInput.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
@@ -66,7 +67,8 @@ describe('CustomWidgetBuilder', () => {
 
   test('should generate correct html templates when a standard web component is given as input', async () => {
     // Standard web component (i.e. extending HTMLElement)
-    builder.generate("test/resources/app-drawer.js", tempDir);
+    builder.generatePropertyFileFromWcFile("test/resources/app-drawer.js", tempDir);
+    builder.generateWidgetFromProperties(`${tempDir}/appDrawer.json`, tempDir);
 
     // AngularJS template
     let templateAngularJs = getFileContent(`appDrawer.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
@@ -80,7 +82,9 @@ describe('CustomWidgetBuilder', () => {
 
   function handleSimpleWC(wcFilename: string) {
     let wcNameUppercase = wcFilename.substring(0, wcFilename.indexOf("."));
-    builder.generate(`test/resources/${wcFilename}`, tempDir);
+    builder.generatePropertyFileFromWcFile(`test/resources/${wcFilename}`, tempDir);
+    let jsonFile = getJsonFile(wcFilename);
+    builder.generateWidgetFromProperties(`${tempDir}/${jsonFile}`, tempDir);
 
     // AngularJS template
     let templateAngularJs = getFileContent(`${wcNameUppercase}.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
@@ -110,6 +114,10 @@ describe('CustomWidgetBuilder', () => {
     let filePath = `${tempDir}/${fileName}`;
     expect(fs.existsSync(filePath)).toBeTruthy();
     return fs.readFileSync(filePath, 'utf8');
+  }
+
+  function getJsonFile(wcFile: string) {
+    return wcFile.substring(0, wcFile.indexOf('.')) + ".json";
   }
 
 });

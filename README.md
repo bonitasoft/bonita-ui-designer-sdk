@@ -54,8 +54,8 @@ class BottomButton extends Polymer.Element {
 **2. Generating the properties file**
 
 Generate the properties file using the CLI (see below).
-If the generator cannot get any information to generate the properties file, please consider adding information to 
-your components using JSDoc (see above).
+If the generator cannot get any information to generate the properties file, please consider either adding information to 
+your components using JSDoc (see above), or generate a properties file from the web component name.
 <br><br>
 
 **3. Adding UI Designer specific information to the json properties file**
@@ -72,6 +72,10 @@ that will be ready to import in the UI Designer.
 #### Generate properties file:
 ```shell
 cwb gen-properties -webComponent <web component source file> [-outputDir <directory>]
+```
+or
+```shell
+cwb gen-properties -webComponentName <web component name> [-outputDir <directory>]
 ```
 
 #### Generate Custom Widget:

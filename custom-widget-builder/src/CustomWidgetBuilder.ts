@@ -36,12 +36,14 @@ export class CustomWidgetBuilder {
   }
 
   public generatePropertyFileFromWcName(wcName: string, outputDir: string) {
-    let propertyA = new PropertyBuilder("propertyA", PropertyType.Text)
+    let propertyA = new PropertyBuilder("propertyA")
+      .type(PropertyType.Text)
       .label("Property A")
       .help("<Description of property A>")
       .defaultValue("initial value")
       .build();
-    let propertyB = new PropertyBuilder("propertyB", PropertyType.Integer)
+    let propertyB = new PropertyBuilder("propertyB")
+      .type(PropertyType.Integer)
       .label("Property B")
       .help("<Description of property B>")
       .defaultValue("0")
@@ -107,9 +109,12 @@ export class CustomWidgetBuilder {
         help = prop.description;
       }
       let name = prop.name;
-      let type = CustomWidgetBuilder.getPropertyType(prop.type);
+      let type;
+      if (prop.type) {
+        type = CustomWidgetBuilder.getPropertyType(prop.type);
+      }
       let defaultValue = CustomWidgetBuilder.getDefaultValue(prop.default);
-      properties.push(new PropertyBuilder(name, type).defaultValue(defaultValue).help(help).build());
+      properties.push(new PropertyBuilder(name).type(type).defaultValue(defaultValue).help(help).build());
     }
     return properties;
   }

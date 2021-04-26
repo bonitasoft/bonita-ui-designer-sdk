@@ -40,7 +40,7 @@ describe('CustomWidgetBuilder', () => {
   });
 
   test('should generate a correct json file when a complex web component is given as input', async () => {
-    builder.generate("test/resources/pb-input.ts", tempDir);
+    builder.generatePropertyFileFromWcFile("test/resources/pb-input.ts", tempDir);
 
     let jsonProperties = JSON.parse(getFileContent("pbInput.json"));
     // General info
@@ -80,7 +80,7 @@ describe('CustomWidgetBuilder', () => {
 
   test('should generate a correct json file when a standard web component is given as input', async () => {
     // Standard web component (i.e. extending HTMLElement)
-    builder.generate("test/resources/app-drawer.js", tempDir);
+    builder.generatePropertyFileFromWcFile("test/resources/app-drawer.js", tempDir);
     let jsonProperties = JSON.parse(getFileContent("appDrawer.json"));
     // General info
     expect(jsonProperties.id).toBe("appDrawer");
@@ -100,10 +100,19 @@ describe('CustomWidgetBuilder', () => {
     expect(disabled.label).toBe("Disabled");
   });
 
+  test('should generate a correct json file when a web component name is given as input', async () => {
+    builder.generatePropertyFileFromWcName("my-web-component", tempDir);
+    let jsonProperties = JSON.parse(getFileContent("myWebComponent.json"));
+    // General info
+    expect(jsonProperties.id).toBe("myWebComponent");
+    expect(jsonProperties.displayName).toBe("MyWebComponent");
+    expect(jsonProperties.properties.length).toBe(2);
+  });
+
   function handleSimpleWC(wcFilename: string) {
     let wcNameUppercase = wcFilename.substring(0, wcFilename.indexOf("."));
     let wcNameLowercase = wcNameUppercase.charAt(0).toLowerCase() + wcNameUppercase.slice(1);
-    builder.generate(`test/resources/${wcFilename}`, tempDir);
+    builder.generatePropertyFileFromWcFile(`test/resources/${wcFilename}`, tempDir);
 
     let jsonProperties = JSON.parse(getFileContent(`${wcNameUppercase}.json`));
     // General info
