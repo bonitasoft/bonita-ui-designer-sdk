@@ -26,6 +26,7 @@ export class CliHandler {
   public static webComponentNameParam = "webComponentName";
   public static propertiesFileParam = "propertiesFile";
   public static outputDirParam = "outputDir";
+  public static nbParameters = 2;
 
   public command: string = "";
 
@@ -98,7 +99,7 @@ export class CliHandler {
   }
 
   private checkParamsMap() {
-    if (this.paramsMap.size > 2) {
+    if (this.paramsMap.size > CliHandler.nbParameters) {
       this.usage();
     }
   }
