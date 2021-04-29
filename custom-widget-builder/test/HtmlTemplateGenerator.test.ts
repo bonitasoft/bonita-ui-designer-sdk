@@ -84,6 +84,7 @@ describe('CustomWidgetBuilder', () => {
     let wcNameUppercase = wcFilename.substring(0, wcFilename.indexOf("."));
     builder.generatePropertyFileFromWcFile(`test/resources/${wcFilename}`, tempDir);
     let jsonFile = getJsonFile(wcFilename);
+    expect(fs.existsSync(`${tempDir}/${jsonFile}`)).toBeTruthy();
     builder.generateWidgetFromProperties(`${tempDir}/${jsonFile}`, tempDir);
 
     // AngularJS template
