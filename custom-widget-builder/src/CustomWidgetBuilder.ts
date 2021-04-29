@@ -175,7 +175,7 @@ export class CustomWidgetBuilder {
 
   private static propToExclude(propName: string) {
     // "styles" is a reserves word for css with lit-element
-    let toExclude = ["styles"];
+    let toExclude = ["styles", "lang"];
     return toExclude.indexOf(propName) > -1;
   }
 
