@@ -83,6 +83,7 @@ describe('CustomWidgetBuilder', () => {
   function handleSimpleWC(wcFilename: string) {
     let wcNameUppercase = wcFilename.substring(0, wcFilename.indexOf("."));
     builder.generatePropertyFileFromWcFile(`test/resources/${wcFilename}`, tempDir);
+    sleep(300);
     let jsonFile = getJsonFile(wcFilename);
     expect(fs.existsSync(`${tempDir}/${jsonFile}`)).toBeTruthy();
     builder.generateWidgetFromProperties(`${tempDir}/${jsonFile}`, tempDir);
@@ -121,4 +122,9 @@ describe('CustomWidgetBuilder', () => {
     return wcFile.substring(0, wcFile.indexOf('.')) + ".json";
   }
 
+  function sleep(ms: number) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }
 });
