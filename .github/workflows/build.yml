@@ -21,6 +21,6 @@ jobs:
       - name: Run a multi-line script
         run: |
           cd custom-widget-builder
-          npm install
+          sudo npm install
           npm run typescript-compile
           npm run test
