@@ -184,6 +184,11 @@ cwb gen-properties --webComponentName <web component name> [--outputDir <directo
 cwb gen-widget --propertiesFile <json properties file> [--outputDir <directory>]
 ```
 
+#### Copy a web component to a new one:
+```shell
+cwb copy-wc --srcDir <directory> --destDir <directory>
+```
+
 ## Contribute
 ### Build
 ```
