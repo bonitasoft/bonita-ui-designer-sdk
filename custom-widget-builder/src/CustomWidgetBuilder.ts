@@ -86,6 +86,25 @@ export class CustomWidgetBuilder {
       .build();
   }
 
+  public static toCamelCase(str: string): string {
+    // e.g. pb-input -> pbInput
+    return str.replace(/-([a-z])/g, (g) => {
+      return g[1].toUpperCase()
+    });
+  }
+
+  public static fromCamelCase(str: string): string {
+    // e.g. allowHTML -> Allow html
+    return str
+      .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+      .replace(/([A-Z])([A-Z])(?=[a-z])/g, '$1 $2')
+      .toLowerCase();
+  }
+
+  public static firstLetterUppercase(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   private static analyzeFile(wcFile: string): string {
     if (!fs.existsSync(wcFile)) {
       throw new Error(`File does not exist: ${wcFile}`);
@@ -168,6 +187,7 @@ export class CustomWidgetBuilder {
   private static getNoInformationMessage(wcFile: string) {
     return `Cannot get any information from file ${wcFile}\nExiting...`;
   }
+
 }
 
 

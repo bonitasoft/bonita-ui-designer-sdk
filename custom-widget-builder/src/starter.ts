@@ -20,6 +20,7 @@
 
 import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
 import {CliHandler} from "./CliHandler";
+import {WebComponentCopier} from "./WebComponentCopier";
 
 try {
   let cliHandler = new CliHandler(process.argv.slice(2));
@@ -35,7 +36,18 @@ try {
       }
       break;
     case CliHandler.genWidgetCommand:
-      new CustomWidgetBuilder().generateWidgetFromProperties(cliHandler.getPropertiesFile(), outputDir);
+      if (cliHandler.hasParam(CliHandler.propertiesFileParam)) {
+        new CustomWidgetBuilder().generateWidgetFromProperties(cliHandler.getPropertiesFile(), outputDir);
+      } else {
+        cliHandler.usage();
+      }
+      break;
+    case CliHandler.copyWcCommand:
+      if (cliHandler.hasParam(CliHandler.sourceDirParam) && cliHandler.hasParam(CliHandler.destDirParam)) {
+        new WebComponentCopier().copyWebComponent(cliHandler.getSourceDir(), cliHandler.getDestDir());
+      } else {
+        cliHandler.usage();
+      }
       break;
     default:
       cliHandler.usage();

@@ -172,16 +172,16 @@ that will be ready to import in the UI Designer.
 
 #### Generate properties file:
 ```shell
-cwb gen-properties -webComponentFile <web component source file> [-outputDir <directory>]
+cwb gen-properties --webComponentFile <web component source file> [--outputDir <directory>]
 ```
 or
 ```shell
-cwb gen-properties -webComponentName <web component name> [-outputDir <directory>]
+cwb gen-properties --webComponentName <web component name> [--outputDir <directory>]
 ```
 
 #### Generate Custom Widget:
 ```shell
-cwb gen-widget -propertiesFile <json properties file> [-outputDir <directory>]
+cwb gen-widget --propertiesFile <json properties file> [--outputDir <directory>]
 ```
 
 ## Contribute
