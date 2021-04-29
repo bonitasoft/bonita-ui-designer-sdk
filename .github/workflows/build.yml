@@ -20,5 +20,6 @@ jobs:
 
       - name: Run a multi-line script
         run: |
+          cd custom-widget-builder
           npm run typescript-compile
           npm run test
