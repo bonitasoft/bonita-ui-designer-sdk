@@ -42,6 +42,10 @@ describe('CustomWidgetBuilder', () => {
 
   test('should generate correct html templates when a complex web component is given as input', async () => {
     builder.generatePropertyFileFromWcFile("test/resources/pb-input.ts", tempDir);
+
+    //DEBUG
+    expect(fs.existsSync(`${tempDir}/pbInput.json`)).toBeTruthy();
+
     builder.generateWidgetFromProperties(`${tempDir}/pbInput.json`, tempDir);
 
     // AngularJS template
@@ -82,14 +86,14 @@ describe('CustomWidgetBuilder', () => {
 
   function handleSimpleWC(wcFilename: string) {
     let wcNameUppercase = wcFilename.substring(0, wcFilename.indexOf("."));
-    // builder.generatePropertyFileFromWcFile(`test/resources/${wcFilename}`, tempDir);
-    builder.generatePropertyFileFromWcFile(`test/resources/WcExample.ts`, tempDir);
+    builder.generatePropertyFileFromWcFile(`test/resources/${wcFilename}`, tempDir);
 
-    // let jsonFile = getJsonFile(wcFilename);
-    // expect(fs.existsSync(`${tempDir}/${jsonFile}`)).toBeTruthy();
-    expect(fs.existsSync(`${tempDir}/WcExample.json`)).toBeTruthy();
-    // builder.generateWidgetFromProperties(`${tempDir}/${jsonFile}`, tempDir);
-    builder.generateWidgetFromProperties(`${tempDir}/WcExample.json`, tempDir);
+    let jsonFile = getJsonFile(wcFilename);
+
+    //DEBUG
+    expect(fs.existsSync(`${tempDir}/${jsonFile}`)).toBeTruthy();
+
+    builder.generateWidgetFromProperties(`${tempDir}/${jsonFile}`, tempDir);
 
     // AngularJS template
     let templateAngularJs = getFileContent(`${wcNameUppercase}.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
