@@ -21,11 +21,17 @@ import fs from "fs";
 export class CliHandler {
   public static genPropertiesCommand = "gen-properties";
   public static genWidgetCommand = "gen-widget";
-  public static commands = [CliHandler.genPropertiesCommand, CliHandler.genWidgetCommand];
+  public static copyWcCommand = "copy-wc";
+  public static commands = [CliHandler.genPropertiesCommand, CliHandler.genWidgetCommand, CliHandler.copyWcCommand];
+
   public static webComponentFileParam = "webComponentFile";
   public static webComponentNameParam = "webComponentName";
   public static propertiesFileParam = "propertiesFile";
   public static outputDirParam = "outputDir";
+
+  public static sourceDirParam = "srcDir";
+  public static destDirParam = "destDir";
+
   public static nbParameters = 2;
 
   public command: string = "";
@@ -48,6 +54,14 @@ export class CliHandler {
     return this.getParam(CliHandler.webComponentNameParam);
   }
 
+  public getSourceDir(): string {
+    return this.getParam(CliHandler.sourceDirParam);
+  }
+
+  public getDestDir(): string {
+    return this.getParam(CliHandler.destDirParam);
+  }
+
   public getPropertiesFile() {
     let propsFile = this.getParam(CliHandler.propertiesFileParam);
     CliHandler.checkFileExist(propsFile);
@@ -66,8 +80,9 @@ export class CliHandler {
 
   public usage() {
     console.log("Usage:");
-    console.log(`\tcwb ${CliHandler.genPropertiesCommand} -${CliHandler.webComponentFileParam} <web component source file> [-${CliHandler.outputDirParam} <directory>]`);
-    console.log(`\tcwb ${CliHandler.genWidgetCommand} -${CliHandler.propertiesFileParam} <json properties file> [-${CliHandler.outputDirParam} <directory>]`);
+    console.log(`\tcwb ${CliHandler.genPropertiesCommand} --${CliHandler.webComponentFileParam} <web component source file> [--${CliHandler.outputDirParam} <directory>]`);
+    console.log(`\tcwb ${CliHandler.genWidgetCommand} --${CliHandler.propertiesFileParam} <json properties file> [--${CliHandler.outputDirParam} <directory>]`);
+    console.log(`\tcwb ${CliHandler.copyWcCommand} --${CliHandler.sourceDirParam} <directory> --${CliHandler.destDirParam} <directory>`);
     process.exit(1);
   }
 
@@ -80,8 +95,8 @@ export class CliHandler {
     for (let ii = 1; ii < this.params.length; ii++) {
       let param = this.params[ii];
       let key, value;
-      if (param.startsWith('-')) {
-        key = param.substring(1);
+      if (param.startsWith('--')) {
+        key = param.substring(2);
         ii++;
         value = this.params[ii];
       }
@@ -92,8 +107,7 @@ export class CliHandler {
 
   private checkCommand() {
     this.command = this.params[0];
-    if (!this.command ||
-      (this.command !== CliHandler.genPropertiesCommand && this.command !== CliHandler.genWidgetCommand)) {
+    if (!this.command || !CliHandler.commands.includes(this.command)) {
       this.usage();
     }
   }

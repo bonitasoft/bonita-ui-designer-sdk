@@ -24,6 +24,17 @@ export class PbInput extends LitElement {
   @property({ attribute: 'lang', type: String, reflect: true })
   lang: string = "en";
 
+  // Common properties below are handled by the div above pb-input:
+
+  // @property({ attribute: 'width', type: String, reflect: true })
+  // private width: string = "12";
+  //
+  // @property({ attribute: 'css-classes', type: String, reflect: true })
+  // private cssClasses: string = "";
+  //
+  // @property({ attribute: 'hidden', type: Boolean, reflect: true })
+  // private hidden: boolean = false;
+
   @property({ attribute: 'id', type: String, reflect: true })
   id: string = "";
 
@@ -47,6 +58,7 @@ export class PbInput extends LitElement {
 
   /**
    * Position of the label
+   * @type {"left"|"top"}
    */
   @property({ attribute: 'label-position', type: String, reflect: true })
   labelPosition: string = "top";
@@ -54,15 +66,9 @@ export class PbInput extends LitElement {
   @property({ attribute: 'label-width', type: Number, reflect: true })
   labelWidth: number = 4;
 
-  /**
-   * Short hint that describes the expected value
-   */
   @property({ attribute: 'placeholder', type: String, reflect: true })
   placeholder: string = "";
 
-  /**
-   * Value of the input
-   */
   @property({ attribute: 'value', type: String, reflect: true })
   value: string = "";
 
@@ -70,14 +76,11 @@ export class PbInput extends LitElement {
   type: string = "text";
 
   @property({ attribute: 'min', type: Number, reflect: true })
-  min: number|undefined;
+  min: number | undefined;
 
   @property({ attribute: 'max', type: Number, reflect: true })
   max: number | undefined;
 
-  /**
-   * Specifies the legal number intervals between values
-   */
   @property({ attribute: 'step', type: Number, reflect: true })
   step: number = 1;
 
@@ -149,27 +152,27 @@ export class PbInput extends LitElement {
 
   render() {
     return html`
-        <style>${bootstrapStyle}</style>
-        <div id="${this.id}" class="container">
-            <div class="row">
-                ${this.getLabel()}
-                <input
-                        class="${this.getInputCssClass()}"
-                        id="input"
-                        name="${this.name}"
-                        type="${this.type}"
-                        min="${this.min}"
-                        max="${this.max}"
-                        step="${this.step}"
-                        value="${this.value}"
-                        @input=${(e: any) => this.valueChanged(e.target.value)}
-                        placeholder="${this.placeholder}"
-                        minlength="${this.minLength}"
-                        maxlength="${this.maxLength}"
-                        ?readonly="${this.readOnly}"
-                />
-            </div>
+      <style>${bootstrapStyle}</style>
+      <div id="${this.id}" class="container">
+        <div class="row">
+          ${this.getLabel()}
+          <input 
+            class="${this.getInputCssClass()}"
+            id="input"
+            name="${this.name}"
+            type="${this.type}"
+            min="${this.min}"
+            max="${this.max}"
+            step="${this.step}"
+            value="${this.value}"
+            @input=${(e: any) => this.valueChanged(e.target.value)} 
+            placeholder="${this.placeholder}"
+            minlength="${this.minLength}"
+            maxlength="${this.maxLength}"
+            ?readonly="${this.readOnly}"
+          />
         </div>
+      </div>
     `;
   }
 
@@ -179,10 +182,10 @@ export class PbInput extends LitElement {
     }
     return html`
         <label
-                class="${this.getLabelCssClass()}"
-                for="input"
+          class="${this.getLabelCssClass()}"
+          for="input"
         >${this.label}</label>
-    `
+        `
   }
 
   private getLabelCssClass() : string {

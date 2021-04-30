@@ -18,7 +18,7 @@ registerTranslateConfig({
 export class PbText extends LitElement {
 
   @property({ attribute: 'lang', type: String, reflect: true })
-  private lang: string = "en";
+  lang: string = "en";
 
   @property({ attribute: 'id', type: String, reflect: true })
   id: string = "";
