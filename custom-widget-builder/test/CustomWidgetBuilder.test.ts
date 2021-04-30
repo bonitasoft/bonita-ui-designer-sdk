@@ -114,7 +114,7 @@ describe('CustomWidgetBuilder', () => {
     let wcNameLowercase = wcNameUppercase.charAt(0).toLowerCase() + wcNameUppercase.slice(1);
     builder.generatePropertyFileFromWcFile(`test/resources/${wcFilename}`, tempDir);
 
-    let jsonProperties = JSON.parse(getFileContent(`${wcNameUppercase}.json`));
+    let jsonProperties = JSON.parse(getFileContent(`${wcNameLowercase}.json`));
     // General info
     expect(jsonProperties.id).toBe(wcNameLowercase);
     expect(jsonProperties.displayName).toBe(wcNameUppercase);
