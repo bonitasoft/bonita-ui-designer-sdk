@@ -81,7 +81,7 @@ describe('CustomWidgetBuilder', () => {
   });
 
   function handleSimpleWC(wcFilename: string) {
-    let wcNameUppercase = wcFilename.substring(0, wcFilename.indexOf("."));
+    let wcNameLowercase = getWcFileLowercase(wcFilename);
     builder.generatePropertyFileFromWcFile(`test/resources/${wcFilename}`, tempDir);
 
     let jsonFile = getJsonFile(wcFilename);
@@ -93,13 +93,13 @@ describe('CustomWidgetBuilder', () => {
     builder.generateWidgetFromProperties(`${tempDir}/${jsonFile}`, tempDir);
 
     // AngularJS template
-    let templateAngularJs = getFileContent(`${wcNameUppercase}.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
+    let templateAngularJs = getFileContent(`${wcNameLowercase}.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
     expect(templateAngularJs.includes(HtmlTemplatesGenerator.ifDirectiveAngularJS)).toBeFalsy();
     let expectedPropsAngularJs = ["title=\"{{properties.title}}\"", "counter=\"{{properties.counter}}\""];
     checkStringContains(templateAngularJs, expectedPropsAngularJs);
 
     // Angular template
-    let templateAngular = getFileContent(`${wcNameUppercase}.${HtmlTemplatesGenerator.AngularFileExtension}`);
+    let templateAngular = getFileContent(`${wcNameLowercase}.${HtmlTemplatesGenerator.AngularFileExtension}`);
     expect(templateAngular.includes(HtmlTemplatesGenerator.ifDirectiveAngular)).toBeFalsy();
     let expectedPropsAngular = ["title=\"{{properties.title}}\"", "counter=\"{{properties.counter}}\""];
     checkStringContains(templateAngular, expectedPropsAngular);
@@ -126,6 +126,12 @@ describe('CustomWidgetBuilder', () => {
     let jsonFile = wcFile.substring(0, wcFile.indexOf('.')) + ".json";
     // First letter lowercase
     return jsonFile.charAt(0).toLowerCase() + jsonFile.slice(1);
+  }
+
+  function getWcFileLowercase(wcFile: string) {
+    wcFile = wcFile.substring(0, wcFile.indexOf("."));
+    // First letter lowercase
+    return wcFile.charAt(0).toLowerCase() + wcFile.slice(1);
   }
 
 });
