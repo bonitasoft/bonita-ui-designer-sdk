@@ -45,7 +45,7 @@ describe('CustomWidgetBuilder', () => {
     let jsonProperties = JSON.parse(getFileContent("pbInput.json"));
     // General info
     expect(jsonProperties.id).toBe("pbInput");
-    expect(jsonProperties.displayName).toBe("Input");
+    expect(jsonProperties.name).toBe("Input");
     expect(jsonProperties.properties.length).toBe(15);
 
     // Properties
@@ -84,7 +84,7 @@ describe('CustomWidgetBuilder', () => {
     let jsonProperties = JSON.parse(getFileContent("appDrawer.json"));
     // General info
     expect(jsonProperties.id).toBe("appDrawer");
-    expect(jsonProperties.displayName).toBe("AppDrawer");
+    expect(jsonProperties.name).toBe("AppDrawer");
     expect(jsonProperties.properties.length).toBe(2);
 
     // Properties
@@ -105,7 +105,7 @@ describe('CustomWidgetBuilder', () => {
     let jsonProperties = JSON.parse(getFileContent("myWebComponent.json"));
     // General info
     expect(jsonProperties.id).toBe("myWebComponent");
-    expect(jsonProperties.displayName).toBe("MyWebComponent");
+    expect(jsonProperties.name).toBe("MyWebComponent");
     expect(jsonProperties.properties.length).toBe(2);
   });
 
@@ -117,7 +117,7 @@ describe('CustomWidgetBuilder', () => {
     let jsonProperties = JSON.parse(getFileContent(`${wcNameLowercase}.json`));
     // General info
     expect(jsonProperties.id).toBe(wcNameLowercase);
-    expect(jsonProperties.displayName).toBe(wcNameUppercase);
+    expect(jsonProperties.name).toBe(wcNameUppercase);
     expect(jsonProperties.template).toBe(`@${wcNameLowercase}.tpl.html`);
     expect(jsonProperties.description.length).toBeGreaterThan(0);
     expect(jsonProperties.order).toBe("1");

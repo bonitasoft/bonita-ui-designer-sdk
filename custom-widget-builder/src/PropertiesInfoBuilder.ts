@@ -29,8 +29,7 @@ export class PropertiesInfoBuilder {
     let id = CustomWidgetBuilder.toCamelCase(name);
     this.propertiesInfo = {
       id: id,
-      name: name,
-      displayName: PropertiesInfoBuilder.getDisplayName(name),
+      name: PropertiesInfoBuilder.getDisplayName(name),
       type: "widget",
       template: PropertiesInfoBuilder.getTemplate(id),
       description: undefined,
@@ -38,11 +37,6 @@ export class PropertiesInfoBuilder {
       icon: PropertiesInfoBuilder.generateIcon(),
       properties: []
     }
-  }
-
-  displayName(displayName: string): PropertiesInfoBuilder {
-    this.propertiesInfo.displayName = displayName;
-    return this;
   }
 
   description(description: string): PropertiesInfoBuilder {

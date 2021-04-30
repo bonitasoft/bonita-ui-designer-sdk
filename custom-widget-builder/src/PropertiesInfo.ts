@@ -21,7 +21,6 @@ import {Property} from "./Property";
 export interface PropertiesInfo {
   id: string;
   name: string;
-  displayName: string;
   type: string;
   template: string;
   description: string | undefined;

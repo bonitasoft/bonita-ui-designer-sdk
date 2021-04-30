@@ -53,8 +53,7 @@ describe('WebComponentCopier', () => {
     let propertiesFile = "smart-input/smartInput.json";
     let properties = JSON.parse(getFileContent(propertiesFile));
     expect(properties.id).toBe("smartInput");
-    expect(properties.name).toBe("smart-input");
-    expect(properties.displayName).toBe("SmartInput");
+    expect(properties.name).toBe("SmartInput");
     expect(properties.template).toBe("@smartInput.tpl.html");
 
     let packageJsonFile = "smart-input/package.json";

@@ -93,11 +93,14 @@ export class CustomWidgetBuilder {
     });
   }
 
-  public static fromCamelCase(str: string): string {
+  public static fromCamelCase(str: string, sep?: string): string {
     // e.g. allowHTML -> Allow html
+    if (!sep) {
+      sep = ' ';
+    }
     return str
-      .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
-      .replace(/([A-Z])([A-Z])(?=[a-z])/g, '$1 $2')
+      .replace(/([a-z0-9])([A-Z])/g, `$1${sep}$2`)
+      .replace(/([A-Z])([A-Z])(?=[a-z])/g, `$1${sep}$2`)
       .toLowerCase();
   }
 

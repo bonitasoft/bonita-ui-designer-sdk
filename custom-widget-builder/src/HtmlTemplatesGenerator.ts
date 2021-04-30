@@ -20,6 +20,7 @@ import {PropertiesInfo} from "./PropertiesInfo";
 import {Property} from "./Property";
 import fs from "fs";
 import {Bond} from "./Bond";
+import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
 
 enum FwkType {
   AngularJS,
@@ -93,7 +94,11 @@ export class HtmlTemplatesGenerator {
   }
 
   private generateHtmlTagStart(): string {
-    return `<${this.propertiesInfo.name} `;
+    return `<${this.getHtmlTag()} `;
+  }
+
+  private generateHtmlTagEnd(): string {
+    return `></${this.getHtmlTag()}>\n`;
   }
 
   /**
@@ -184,10 +189,6 @@ export class HtmlTemplatesGenerator {
     return props;
   }
 
-  private generateHtmlTagEnd(): string {
-    return `></${this.propertiesInfo.name}>\n`;
-  }
-
   private static isSpecific(prop: Property): boolean {
     return HtmlTemplatesGenerator.specificProperties.includes(prop.name);
   }
@@ -226,6 +227,10 @@ export class HtmlTemplatesGenerator {
     fs.writeFileSync(filePath, template);
     console.log(`${filePath} has been generated!`);
 
+  }
+
+  private getHtmlTag() {
+    return CustomWidgetBuilder.fromCamelCase(this.propertiesInfo.id, '-').toLowerCase();
   }
 
 }
