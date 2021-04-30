@@ -44,6 +44,7 @@ describe('CustomWidgetBuilder', () => {
     builder.generatePropertyFileFromWcFile("test/resources/pb-input.ts", tempDir);
 
     //DEBUG
+    console.log(`Checking: ${tempDir}/pbInput.json`);
     expect(fs.existsSync(`${tempDir}/pbInput.json`)).toBeTruthy();
 
     builder.generateWidgetFromProperties(`${tempDir}/pbInput.json`, tempDir);
@@ -91,6 +92,7 @@ describe('CustomWidgetBuilder', () => {
     let jsonFile = getJsonFile(wcFilename);
 
     //DEBUG
+    console.log(`Checking: ${tempDir}/${jsonFile}`);
     expect(fs.existsSync(`${tempDir}/${jsonFile}`)).toBeTruthy();
 
     builder.generateWidgetFromProperties(`${tempDir}/${jsonFile}`, tempDir);
