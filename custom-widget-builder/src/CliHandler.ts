@@ -17,6 +17,7 @@
  */
 
 import fs from "fs";
+import path from "path";
 
 export class CliHandler {
   public static genPropertiesCommand = "gen-properties";
@@ -24,15 +25,16 @@ export class CliHandler {
   public static copyWcCommand = "copy-wc";
   public static commands = [CliHandler.genPropertiesCommand, CliHandler.genWidgetCommand, CliHandler.copyWcCommand];
 
-  public static webComponentFileParam = "webComponentFile";
+  public static webComponentSourceParam = "webComponentSource";
   public static webComponentNameParam = "webComponentName";
+  public static webComponentBundleParam = "webComponentBundle";
   public static propertiesFileParam = "propertiesFile";
   public static outputDirParam = "outputDir";
 
   public static sourceDirParam = "srcDir";
   public static destDirParam = "destDir";
 
-  public static nbParameters = 2;
+  public static nbParametersMax = 3;
 
   public command: string = "";
 
@@ -46,8 +48,14 @@ export class CliHandler {
     this.checkParamsMap();
   }
 
-  public getWcFile(): string {
-    return this.getParam(CliHandler.webComponentFileParam);
+  public getWcSource(): string {
+    return this.getParam(CliHandler.webComponentSourceParam);
+  }
+
+  public getWcBundle(): string {
+    let wcBundle = this.getParam(CliHandler.webComponentBundleParam);
+    CliHandler.checkFileExist(wcBundle);
+    return wcBundle;
   }
 
   public getWcName(): string {
@@ -55,11 +63,15 @@ export class CliHandler {
   }
 
   public getSourceDir(): string {
-    return this.getParam(CliHandler.sourceDirParam);
+    let sourceDir = this.getParam(CliHandler.sourceDirParam);
+    CliHandler.checkDirExist(sourceDir);
+    return sourceDir;
   }
 
   public getDestDir(): string {
-    return this.getParam(CliHandler.destDirParam);
+    let destDir = this.getParam(CliHandler.destDirParam);
+    CliHandler.checkDirExist(destDir);
+    return destDir;
   }
 
   public getPropertiesFile() {
@@ -73,15 +85,18 @@ export class CliHandler {
     if (!outputDir) {
       outputDir = ".";
     } else {
-      CliHandler.checkDirExist(outputDir);
-    }
+      if (!fs.existsSync(outputDir)) {
+        CliHandler.checkDirExist(path.dirname(outputDir));
+        fs.mkdirSync(outputDir);
+      }
+     }
     return outputDir;
   }
 
   public usage() {
     console.log("Usage:");
-    console.log(`\tcwb ${CliHandler.genPropertiesCommand} --${CliHandler.webComponentFileParam} <web component source file> [--${CliHandler.outputDirParam} <directory>]`);
-    console.log(`\tcwb ${CliHandler.genWidgetCommand} --${CliHandler.propertiesFileParam} <json properties file> [--${CliHandler.outputDirParam} <directory>]`);
+    console.log(`\tcwb ${CliHandler.genPropertiesCommand} --${CliHandler.webComponentSourceParam} <web component source file> [--${CliHandler.outputDirParam} <directory>]`);
+    console.log(`\tcwb ${CliHandler.genWidgetCommand} --${CliHandler.propertiesFileParam} <json properties file> --${CliHandler.webComponentBundleParam} <web component bundle file> [--${CliHandler.outputDirParam} <directory>]`);
     console.log(`\tcwb ${CliHandler.copyWcCommand} --${CliHandler.sourceDirParam} <directory> --${CliHandler.destDirParam} <directory>`);
     process.exit(1);
   }
@@ -113,7 +128,7 @@ export class CliHandler {
   }
 
   private checkParamsMap() {
-    if (this.paramsMap.size > CliHandler.nbParameters) {
+    if (this.paramsMap.size > CliHandler.nbParametersMax) {
       this.usage();
     }
   }

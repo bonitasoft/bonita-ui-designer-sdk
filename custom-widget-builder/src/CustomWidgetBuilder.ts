@@ -20,6 +20,7 @@ import {analyzeText, AnalyzeTextResult, transformAnalyzerResult} from "web-compo
 import {PropertiesInfo} from "./PropertiesInfo";
 import {Property} from "./Property";
 import * as fs from "fs";
+import path from "path";
 import {PropertiesJsonGenerator} from "./PropertiesJsonGenerator";
 import {HtmlTemplatesGenerator} from "./HtmlTemplatesGenerator";
 import {Bond} from "./Bond";
@@ -60,10 +61,15 @@ export class CustomWidgetBuilder {
     new PropertiesJsonGenerator(propInfo, outputDir).generate();
   }
 
-  public generateWidgetFromProperties(propertiesFile: string, outputDir: string) {
+  public generateWidget(propertiesFile: string, wcBundle: string, outputDir: string) {
     let propInfo = CustomWidgetBuilder.getPropertiesFromFile(propertiesFile);
     new HtmlTemplatesGenerator(propInfo, outputDir).generate();
-    // TODO: Generate zip file
+    this.copyFile(propertiesFile, outputDir);
+    this.copyFile(wcBundle, outputDir);
+    console.log(`Widget has been generated in ${outputDir}`);
+
+    // TODO
+    // new ZipGenerator().generate();
   }
 
   public getPropertiesInfoFromWebComponent(wcFile: string): PropertiesInfo {
@@ -189,6 +195,12 @@ export class CustomWidgetBuilder {
 
   private static getNoInformationMessage(wcFile: string) {
     return `Cannot get any information from file ${wcFile}\nExiting...`;
+  }
+
+  private copyFile(file: string, dir: string) {
+    let sourceBuff = fs.readFileSync(file);
+    let fileName = path.basename(file);
+    fs.writeFileSync(`${dir}/${fileName}`, sourceBuff);
   }
 
 }

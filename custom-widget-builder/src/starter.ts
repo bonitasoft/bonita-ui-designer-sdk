@@ -27,8 +27,8 @@ try {
   let outputDir = cliHandler.getOutputDir();
   switch (cliHandler.command) {
     case CliHandler.genPropertiesCommand:
-      if (cliHandler.hasParam(CliHandler.webComponentFileParam)) {
-        new CustomWidgetBuilder().generatePropertyFileFromWcFile(cliHandler.getWcFile(), outputDir);
+      if (cliHandler.hasParam(CliHandler.webComponentSourceParam)) {
+        new CustomWidgetBuilder().generatePropertyFileFromWcFile(cliHandler.getWcSource(), outputDir);
       } else if (cliHandler.hasParam(CliHandler.webComponentNameParam)) {
         new CustomWidgetBuilder().generatePropertyFileFromWcName(cliHandler.getWcName(), outputDir);
       } else {
@@ -36,8 +36,8 @@ try {
       }
       break;
     case CliHandler.genWidgetCommand:
-      if (cliHandler.hasParam(CliHandler.propertiesFileParam)) {
-        new CustomWidgetBuilder().generateWidgetFromProperties(cliHandler.getPropertiesFile(), outputDir);
+      if (cliHandler.hasParam(CliHandler.propertiesFileParam) && cliHandler.hasParam(CliHandler.webComponentBundleParam)) {
+        new CustomWidgetBuilder().generateWidget(cliHandler.getPropertiesFile(), cliHandler.getWcBundle(), outputDir);
       } else {
         cliHandler.usage();
       }
