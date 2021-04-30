@@ -42,11 +42,6 @@ describe('CustomWidgetBuilder', () => {
 
   test('should generate correct html templates when a complex web component is given as input', async () => {
     builder.generatePropertyFileFromWcFile("test/resources/pb-input.ts", tempDir);
-
-    //DEBUG
-    console.log(`Checking: ${tempDir}/pbInput.json`);
-    expect(fs.existsSync(`${tempDir}/pbInput.json`)).toBeTruthy();
-
     builder.generateWidgetFromProperties(`${tempDir}/pbInput.json`, tempDir);
 
     // AngularJS template
@@ -128,12 +123,9 @@ describe('CustomWidgetBuilder', () => {
   }
 
   function getJsonFile(wcFile: string) {
-    return wcFile.substring(0, wcFile.indexOf('.')) + ".json";
+    let jsonFile = wcFile.substring(0, wcFile.indexOf('.')) + ".json";
+    // First letter lowercase
+    return jsonFile.charAt(0).toLowerCase() + jsonFile.slice(1);
   }
 
-  function sleep(ms: number) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, ms);
-    });
-  }
 });
