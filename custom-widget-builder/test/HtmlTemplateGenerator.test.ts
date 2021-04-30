@@ -82,11 +82,14 @@ describe('CustomWidgetBuilder', () => {
 
   function handleSimpleWC(wcFilename: string) {
     let wcNameUppercase = wcFilename.substring(0, wcFilename.indexOf("."));
-    builder.generatePropertyFileFromWcFile(`test/resources/${wcFilename}`, tempDir);
-    sleep(300);
-    let jsonFile = getJsonFile(wcFilename);
-    expect(fs.existsSync(`${tempDir}/${jsonFile}`)).toBeTruthy();
-    builder.generateWidgetFromProperties(`${tempDir}/${jsonFile}`, tempDir);
+    // builder.generatePropertyFileFromWcFile(`test/resources/${wcFilename}`, tempDir);
+    builder.generatePropertyFileFromWcFile(`test/resources/WcExample.ts`, tempDir);
+
+    // let jsonFile = getJsonFile(wcFilename);
+    // expect(fs.existsSync(`${tempDir}/${jsonFile}`)).toBeTruthy();
+    expect(fs.existsSync(`${tempDir}/WcExample.json`)).toBeTruthy();
+    // builder.generateWidgetFromProperties(`${tempDir}/${jsonFile}`, tempDir);
+    builder.generateWidgetFromProperties(`${tempDir}/WcExample.json`, tempDir);
 
     // AngularJS template
     let templateAngularJs = getFileContent(`${wcNameUppercase}.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
