@@ -225,8 +225,6 @@ export class HtmlTemplatesGenerator {
     }
     let filePath = `${this.outputDir}/${this.propertiesInfo.id}.${ext}`;
     fs.writeFileSync(filePath, template);
-    console.log(`${filePath} has been generated!`);
-
   }
 
   private getHtmlTag() {

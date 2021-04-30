@@ -172,7 +172,7 @@ that will be ready to import in the UI Designer.
 
 #### Generate properties file:
 ```shell
-cwb gen-properties --webComponentFile <web component source file> [--outputDir <directory>]
+cwb gen-properties --webComponentSource <web component source file> [--outputDir <directory>]
 ```
 or
 ```shell
@@ -192,6 +192,7 @@ cwb copy-wc --srcDir <directory> --destDir <directory>
 ## Contribute
 ### Build
 ```
+npm install
 npm run typescript-compile
 ```
 

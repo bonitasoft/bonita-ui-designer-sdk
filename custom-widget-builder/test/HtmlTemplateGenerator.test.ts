@@ -26,6 +26,7 @@ describe('CustomWidgetBuilder', () => {
 
   let builder: CustomWidgetBuilder;
   let tempDir: string;
+  const wcBundle = "test/resources/pb-input/lib/pb-input.es5.min.js";
 
   beforeAll(() => {
     builder = new CustomWidgetBuilder();
@@ -42,7 +43,7 @@ describe('CustomWidgetBuilder', () => {
 
   test('should generate correct html templates when a complex web component is given as input', async () => {
     builder.generatePropertyFileFromWcFile("test/resources/pb-input.ts", tempDir);
-    builder.generateWidgetFromProperties(`${tempDir}/pbInput.json`, tempDir);
+    builder.generateWidget(`${tempDir}/pbInput.json`, wcBundle, tempDir);
 
     // AngularJS template
     let templateAngularJs = getFileContent(`pbInput.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
@@ -68,7 +69,7 @@ describe('CustomWidgetBuilder', () => {
   test('should generate correct html templates when a standard web component is given as input', async () => {
     // Standard web component (i.e. extending HTMLElement)
     builder.generatePropertyFileFromWcFile("test/resources/app-drawer.js", tempDir);
-    builder.generateWidgetFromProperties(`${tempDir}/appDrawer.json`, tempDir);
+    builder.generateWidget(`${tempDir}/appDrawer.json`, wcBundle, tempDir);
 
     // AngularJS template
     let templateAngularJs = getFileContent(`appDrawer.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
@@ -90,7 +91,7 @@ describe('CustomWidgetBuilder', () => {
     console.log(`Checking: ${tempDir}/${jsonFile}`);
     expect(fs.existsSync(`${tempDir}/${jsonFile}`)).toBeTruthy();
 
-    builder.generateWidgetFromProperties(`${tempDir}/${jsonFile}`, tempDir);
+    builder.generateWidget(`${tempDir}/${jsonFile}`, wcBundle, tempDir);
 
     // AngularJS template
     let templateAngularJs = getFileContent(`${wcNameLowercase}.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
