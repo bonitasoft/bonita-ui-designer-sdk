@@ -1,22 +1,98 @@
-# bonita-ui-designer-sdk
+# Custom Widget Builder
 
-This sdk provides tooling to build custom widgets for UI Designer.
+Generates Bonita UI Designer custom widgets from web components, for the following use cases:
+- Extend a standard UI Designer widget
+- Build a custom widget from a web component built from scratch
+- Build a custom widget from a web component of the community
 
-## Custom Widget Builder 
+## ➤ Installation
+
+```bash
+$ npm install -g bonita-ui-designer-sdk
+```
+
+This will install the custom widget builder (cwb) CLI.
+
+---
+
+## ➤ Extend a standard UI Designer widget
+
+To extend an UI Designer widget, you will have to extend its corresponding web component.
+
+To do this, create a git repository
+from the [uid-web-components](https://github.com/jeromecambon/uid-web-components) template 
+(click on the "Use this template" button).
+
+Then, follow the following steps.
+
+### Create your extended web component
+- Clone the created repository on your local machine, and follow its README to install its dependencies
   
-Generates Bonita UI Designer custom widgets from web components.
+
+- Initialize the repository:
+  ```bash
+    $ cd components
+    $ npm run init
+  ```
+  
+- Duplicate the web component you want to extend, using the cwb CLI.  
+  For instance if you want to extend the `pb-input` web component and create `my-input`:
+  ```bash
+  $ cd packages
+  $ cwb copy-wc --srcDir widgets/pb-input --destDir widgets/my-input
+  ````
+  
+- Open the repository in your favorite IDE, and modify your new web component as needed  
+For instance, you may want to add a new property to the component.
+  
+
+- Build the component
+  ```bash
+  $ cd components
+  $ npm run bundle
+  ```
+- Test your extended component updating its `index.html` file.
+
+### Build your new custom widget
+
+From your extended web component, you can now build an UI Designer custom widget:
+
+- Update the properties json file. For instance, add a json object for the new property in `myInput.json`.  
+For details, see "Building the json properties file" section below.
+  
+
+- Generate the custom widget using the CLI:
+  ```bash
+  $ cd packages
+  $ cwb gen-widget --propertiesFile widgets/my-input/myInput.json --webComponentBundle widgets/my-input/lib/my-input.es5.min.js  --outputDir widgets/my-input/uid-widget
+  ```
+  
+Your new custom widget is now ready to be imported in the UI Designer!
+
+---
+
+## ➤ Build a custom widget from a web component built from scratch
 
 ### Overview
 
 To generate a Custom Widget:
-1. Add JSDoc comments / tags to your web component if necessary
-2. Generate the properties file (json)
-3. Add UI Designer information to this properties file
-4. Generate the Custom Widget
+1. Create your new web component
+2. Add JSDoc comments / tags to your web component if necessary
+3. Generate the properties file (json)
+4. Add UI Designer information to this properties file
+5. Generate a web component bundle
+6. Generate the Custom Widget
 
-### Building the json properties file
+### Creating a new web component
 
-**1. Adding JSDoc comments to provide information (optional)**
+You may use any web component environment to build your web component.
+
+We suggest using [open-wc](https://open-wc.org) recommendations, which provides guides, tools and libraries 
+for developing web components.
+You can use the [open-wc generator](https://open-wc.org/guides/developing-components/getting-started/),
+which prompts you with questions to build your web component project.
+
+### Adding JSDoc comments to provide information (optional)
 
 The builder is using the [Web Component Analyzer tool](https://github.com/runem/web-component-analyzer). 
 Depending on how you wrote your web component, the library you used, etc... you may have to add JSDoc comments and tags
@@ -49,16 +125,16 @@ class BottomButton extends Polymer.Element {
   ...
 }
 ```
-<br>
 
-**2. Generating the properties file**
+
+### Generating the properties file
 
 Generate the properties file using the CLI (see below).
 If the generator cannot get any information to generate the properties file, please consider either adding information to 
 your components using JSDoc (see above), or generate a properties file from the web component name.
-<br><br>
 
-**3. Adding UI Designer specific information to the json properties file**
+
+### Adding UI Designer specific information to the json properties file
 
 Edit the <web component name>.json generated file, and add to properties objects the information required for the UI Designer.
 
@@ -162,34 +238,77 @@ Example:
 
 ```
 
-<br>
+### Generating a web component bundle
+
+The web component bundle includes the web component and all its dependencies in a single file.
+For example, you may use the [esbuild](https://esbuild.github.io) tool to generate the bundle, with a command such as:
+```bash
+$ npm install esbuild
+$ ./node_modules/.bin/esbuild dist/my-wc.js  --bundle --outfile=my-wc-bundle.js
+```
+
 
 ### Generating the Custom Widget
-Once the properties file is available, you can generate the Custom Widget,
-that will be ready to import in the UI Designer.
 
-### Using the CLI
+Once the properties file is available, you can generate the Custom Widget using the Custom Widget Builder (cwb) CLI,
+that will be ready to import in the UI Designer:
+```bash
+$ cwb gen-widget --propertiesFile myWc.json --webComponentBundle dist/my-wc-bundle.js --outputDir uid_widget
+```
+Your new custom widget is now ready to be imported in the UI Designer!
+
+---
+
+## ➤ Build a custom widget from a web component of the community
+
+You may want to get a web component that fit your needs from the community.
+In this case, follow these steps:
+- Get the web component file or bundle  
+For instance, you found a date picker component that you would like to use as a UI designer widget.
+  
+
+- Generate a json properties file template, providing only its name
+  ```bash
+  $ cwb gen-properties --webComponentName date-picker --outputDir date-picker
+  ```
+  
+- From the web component documentation, replace the template properties entries by the actual properties  
+  For details, see "Building the json properties file" section.
+  
+
+- Generate the custom widget 
+  ```bash
+  $ cwb gen-widget --propertiesFile date-picker/datePicker.json --webComponentBundle ../../node_modules/@vanillawc/wc-datepicker/dist/wc-datepicker-node.js --outputDir date-picker/uid_widget
+  ```
+
+Your new custom widget is now ready to be imported in the UI Designer!
+
+---
+
+## ➤ Using the CLI
 
 #### Generate properties file:
 ```shell
-cwb gen-properties --webComponentSource <web component source file> [--outputDir <directory>]
+$ cwb gen-properties --webComponentSource <web component source file> [--outputDir <directory>]
 ```
 or
 ```shell
-cwb gen-properties --webComponentName <web component name> [--outputDir <directory>]
+$ cwb gen-properties --webComponentName <web component name> [--outputDir <directory>]
 ```
 
-#### Generate Custom Widget:
+#### Generate a Custom Widget:
 ```shell
-cwb gen-widget --propertiesFile <json properties file> [--outputDir <directory>]
+$ cwb gen-widget --propertiesFile <json properties file> [--outputDir <directory>]
 ```
 
 #### Copy a web component to a new one:
 ```shell
-cwb copy-wc --srcDir <directory> --destDir <directory>
+$ cwb copy-wc --srcDir <directory> --destDir <directory>
 ```
 
-## Contribute
+---
+
+## ➤ Contribute
 ### Build
 ```
 npm install
@@ -200,3 +319,4 @@ npm run typescript-compile
 ```
 npm run test
 ```
+

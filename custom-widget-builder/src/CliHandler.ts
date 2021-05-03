@@ -70,7 +70,6 @@ export class CliHandler {
 
   public getDestDir(): string {
     let destDir = this.getParam(CliHandler.destDirParam);
-    CliHandler.checkDirExist(destDir);
     return destDir;
   }
 
@@ -96,6 +95,7 @@ export class CliHandler {
   public usage() {
     console.log("Usage:");
     console.log(`\tcwb ${CliHandler.genPropertiesCommand} --${CliHandler.webComponentSourceParam} <web component source file> [--${CliHandler.outputDirParam} <directory>]`);
+    console.log(`\tcwb ${CliHandler.genPropertiesCommand} --${CliHandler.webComponentNameParam} <web component name> [--${CliHandler.outputDirParam} <directory>]`);
     console.log(`\tcwb ${CliHandler.genWidgetCommand} --${CliHandler.propertiesFileParam} <json properties file> --${CliHandler.webComponentBundleParam} <web component bundle file> [--${CliHandler.outputDirParam} <directory>]`);
     console.log(`\tcwb ${CliHandler.copyWcCommand} --${CliHandler.sourceDirParam} <directory> --${CliHandler.destDirParam} <directory>`);
     process.exit(1);
