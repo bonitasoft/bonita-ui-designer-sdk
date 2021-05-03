@@ -264,9 +264,12 @@ Your new custom widget is now ready to be imported in the UI Designer!
 You may want to get a web component that fit your needs from the community.
 In this case, follow these steps:
 - Get the web component file or bundle  
-For instance, you found a date picker component that you would like to use as a UI designer widget.
+For instance, you found a [date picker](https://github.com/vanillawc/wc-datepicker) component 
+  that you would like to use as a UI designer widget.
+  ```bash
+  npm install @vanillawc/wc-datepicker
+  ```
   
-
 - Generate a json properties file template, providing only its name
   ```bash
   $ cwb gen-properties --webComponentName date-picker --outputDir date-picker
