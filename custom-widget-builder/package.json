@@ -4,6 +4,10 @@
   "description": "Bonitasoft UI Designer: Custom Widget Builder",
   "main": "build/src/starter.js",
   "license": "GPLv2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bonitasoft/bonita-ui-designer-sdk.git"
+  },
   "scripts": {
     "typescript-compile": "tsc --build tsconfig.json",
     "test": "jest 2>&1",

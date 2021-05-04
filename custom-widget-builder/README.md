@@ -8,7 +8,7 @@ Generates Bonita UI Designer custom widgets from web components, for the followi
 ## ➤ Installation
 
 ```bash
-$ npm install -g bonita-ui-designer-sdk
+$ npm install -g @bonitasoft/bonita-ui-designer-sdk
 ```
 
 This will install the custom widget builder (cwb) CLI.
@@ -42,13 +42,18 @@ Then, follow the following steps.
   $ cwb copy-wc --srcDir widgets/pb-input --destDir widgets/my-input
   ````
   
+- Install its dependencies:
+  ```bash
+  $ cd widgets/my-input
+  $ npm install
+  ```
+  
 - Open the repository in your favorite IDE, and modify your new web component as needed  
 For instance, you may want to add a new property to the component.
   
 
 - Build the component
   ```bash
-  $ cd components
   $ npm run bundle
   ```
 - Test your extended component updating its `index.html` file.
