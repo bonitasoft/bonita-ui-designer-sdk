@@ -8,7 +8,7 @@ Generates Bonita UI Designer custom widgets from web components, for the followi
 ## ➤ Installation
 
 ```bash
-$ npm install -g @bonitasoft/bonita-ui-designer-sdk
+$ npm install -g @bonitasoft/custom-widget-builder
 ```
 
 This will install the custom widget builder (cwb) CLI.
