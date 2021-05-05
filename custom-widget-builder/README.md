@@ -38,13 +38,13 @@ Then, follow the following steps.
 - Duplicate the web component you want to extend, using the cwb CLI.  
   For instance if you want to extend the `pb-input` web component and create `my-input`:
   ```bash
-  $ cd packages
-  $ cwb copy-wc --srcDir widgets/pb-input --destDir widgets/my-input
+  $ cd packages/widgets
+  $ cwb copy-wc --srcDir pb-input --destDir my-input
   ````
   
 - Install its dependencies:
   ```bash
-  $ cd widgets/my-input
+  $ cd my-input
   $ npm install
   ```
   
@@ -68,10 +68,11 @@ For details, see "Building the json properties file" section below.
 
 - Generate the custom widget using the CLI:
   ```bash
-  $ cd packages
-  $ cwb gen-widget --propertiesFile widgets/my-input/myInput.json --webComponentBundle widgets/my-input/lib/my-input.es5.min.js  --outputDir widgets/my-input/uid-widget
+  $ npm run gen-widget
   ```
-  
+  Note: this is an alias for the following CLI command:  
+  `cwb gen-widget --propertiesFile myInput.json --webComponentBundle lib/my-input.es5.min.js  --outputDir uid-widget`
+
 Your new custom widget is now ready to be imported in the UI Designer!
 
 ---
