@@ -20,7 +20,7 @@ This will install the custom widget builder (cwb) CLI.
 To extend an UI Designer widget, you will have to extend its corresponding web component.
 
 To do this, create a git repository
-from the [uid-web-components](https://github.com/jeromecambon/uid-web-components) template 
+from the [bonita-ui-designer-web-components](https://github.com/bonitasoft/bonita-ui-designer-web-components) template
 (click on the "Use this template" button).
 
 Then, follow the following steps.
