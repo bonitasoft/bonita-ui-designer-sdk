@@ -19,7 +19,7 @@
 import * as fs from "fs";
 import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
 import path from "path";
-import {CliHandler} from "./CliHandler";
+import {CliDefinition} from "./CliDefinition";
 
 export class WebComponentCopier {
 
@@ -136,7 +136,7 @@ export class WebComponentCopier {
 
     let wcNameCamelCase = CustomWidgetBuilder.toCamelCase(this.newWcName);
     let genWidgetCommand =
-      `"${CliHandler.genWidgetCommand}": "cwb ${CliHandler.genWidgetCommand} --${CliHandler.propertiesFileParam} ${wcNameCamelCase}.json --${CliHandler.webComponentBundleParam} lib/${this.newWcName}.es5.min.js --${CliHandler.outputDirParam} uid_widget"`;
+      `"${CliDefinition.genWidgetCommand}": "cwb ${CliDefinition.genWidgetCommand} --${CliDefinition.propertiesFileParam} ${wcNameCamelCase}.json --${CliDefinition.webComponentBundleParam} lib/${this.newWcName}.es5.min.js --${CliDefinition.outputDirParam} uid_widget"`;
 
     // Insert command after '"scripts": {'
     let scriptsObj = "\"scripts\": {";
