@@ -40,6 +40,9 @@ describe('CLI test', () => {
       "--webComponentBundle test/resources/pb-input/lib/pb-input.es5.min.js " +
       "--outputDir build/widget"
     exec(command, (error: ExecException | null, stdout: string, stderr: string) => {
+      if (error) {
+        console.log(error);
+      }
       expect(stdout.includes("Widget has been generated in build/widget")).toBeTruthy();
       done();
     });
