@@ -53,7 +53,7 @@ describe('CLI test', () => {
       "node build/src/starter.js gen-widget " +
       "--propertiesFile test/resources/pb-input/pbInput.json " +
       "--webComponentBundle test/resources/pb-input/lib/pb-input.es5.min.js " +
-      "--outputDir build/widget"
+      "--outputDir build/widget "
     exec(command, (error: ExecException | null, stdout: string, stderr: string) => {
       if (error) {
         console.log(error);
