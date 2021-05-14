@@ -28,7 +28,9 @@ try {
   let cli = new CliDefinition();
   let params = cli.getParams();
   let command = cli.getCommand();
-  createDirIfNeeded(<string>params.outputDir);
+  if (params.outputDir) {
+    createDirIfNeeded(<string>params.outputDir);
+  }
 
   switch (command) {
     case CliDefinition.genPropertiesCommand:
@@ -61,5 +63,5 @@ try {
   }
 
 } catch (error) {
-  console.log(error.message);
+  console.error(error.message);
 }

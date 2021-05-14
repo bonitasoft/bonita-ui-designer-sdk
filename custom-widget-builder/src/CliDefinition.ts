@@ -42,6 +42,7 @@ export class CliDefinition {
     .alias('h', 'help')
     .help('help')
     .alias('v', 'version')
+    .locale('en_US')
     .command([CliDefinition.genPropertiesCommand, CliDefinition.genPropertiesCommandAlias],
       'Generate json properties from web component source file', () => {
         return yargs
