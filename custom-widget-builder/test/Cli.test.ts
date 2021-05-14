@@ -35,25 +35,10 @@ describe('CLI test', () => {
 
   test('should handle correct parameters when generating a widget', async (done) => {
     let command =
-      "sudo build/src/starter.js gen-widget " +
-      "--propertiesFile build/test/pbInput.json " +
-      "--webComponentBundle test/resources/pb-input/lib/pb-input.es5.min.js " +
-      "--outputDir build/widget"
-    exec(command, (error: ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        console.log(error);
-      }
-      expect(stdout.includes("Widget has been generated in build/widget")).toBeTruthy();
-      done();
-    });
-  });
-
-  test('should handle correct parameters when generating a widget', async (done) => {
-    let command =
       "node build/src/starter.js gen-widget " +
       "--propertiesFile test/resources/pb-input/pbInput.json " +
       "--webComponentBundle test/resources/pb-input/lib/pb-input.es5.min.js " +
-      "--outputDir build/widget "
+      "--outputDir build/widget"
     exec(command, (error: ExecException | null, stdout: string, stderr: string) => {
       if (error) {
         console.log(error);
