@@ -35,7 +35,7 @@ describe('CLI test', () => {
 
   test('should handle correct parameters when generating a json properties file', async (done) => {
     let command =
-      "build/src/starter.js gen-widget " +
+      "sudo build/src/starter.js gen-widget " +
       "--propertiesFile build/test/pbInput.json " +
       "--webComponentBundle test/resources/pb-input/lib/pb-input.es5.min.js " +
       "--outputDir build/widget"
