@@ -278,7 +278,7 @@ For instance, you found a [date picker](https://github.com/vanillawc/wc-datepick
   
 - Generate a json properties file template, providing only its name
   ```bash
-  $ cwb gen-properties --webComponentName date-picker --outputDir date-picker
+  $ cwb gen-properties-template --webComponentName date-picker --outputDir date-picker
   ```
   
 - From the web component documentation, replace the template properties entries by the actual properties  
@@ -296,23 +296,80 @@ Your new custom widget is now ready to be imported in the UI Designer!
 
 ## ➤ Using the CLI
 
-#### Generate properties file:
+### Main Usage
+
 ```shell
-$ cwb gen-properties --webComponentSource <web component source file> [--outputDir <directory>]
-```
-or
-```shell
-$ cwb gen-properties --webComponentName <web component name> [--outputDir <directory>]
+$ cwb --help
+
+cwb <command>
+
+Commands:
+  cwb gen-properties           Generate json properties from web component source file  [aliases: genp]
+  cwb gen-properties-template  Generate json properties template from web component name  [aliases: genpt]
+  cwb gen-widget               Generate a widget  [aliases: genw]
+  cwb copy-wc                  Duplicate a web component  [aliases: cp]
+
+Options:
+  -h, --help     Show help  [boolean]
+  -v, --version  Show version number  [boolean]
+
 ```
 
-#### Generate a Custom Widget:
+### Generate properties file
 ```shell
-$ cwb gen-widget --propertiesFile <json properties file> [--outputDir <directory>]
+$ cwb gen-properties --help
+cwb gen-properties
+
+Generate json properties from web component source file
+
+Options:
+  --webComponentSource, -s  web component source file  [required]
+  --outputDir, -o           output directory  [default: "."]
+  -h, --help                Show help  [boolean]
+  -v, --version             Show version number  [boolean]
 ```
 
-#### Copy a web component to a new one:
+### Generate properties template file
 ```shell
-$ cwb copy-wc --srcDir <directory> --destDir <directory>
+$ cwb gen-properties-template --help
+cwb gen-properties-template
+
+Generate json properties template from web component name
+
+Options:
+  --webComponentName, -n  web component name  [required]
+  --outputDir, -o         output directory  [default: "."]
+  -h, --help              Show help  [boolean]
+  -v, --version           Show version number  [boolean]
+```
+
+### Generate a Custom Widget
+```shell
+$ cwb gen-widget --help
+cwb gen-widget
+
+Generate a widget
+
+Options:
+  --propertiesFile, -p      json properties file  [required]
+  --webComponentBundle, -b  web component bundle file  [required]
+  --outputDir, -o           output directory  [default: "."]
+  -h, --help                Show help  [boolean]
+  -v, --version             Show version number  [boolean]
+```
+
+### Copy a web component to a new one
+```shell
+$ cwb copy-wc --help
+cwb copy-wc
+
+Duplicate a web component
+
+Options:
+  --srcDir, -s   source directory  [required]
+  --destDir, -d  destination directory  [required]
+  -h, --help     Show help  [boolean]
+  -v, --version  Show version number  [boolean]
 ```
 
 ---

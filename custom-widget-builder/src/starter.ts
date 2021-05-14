@@ -21,31 +21,45 @@
 import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
 import {WebComponentCopier} from "./WebComponentCopier";
 import {CliDefinition} from "./CliDefinition";
+import fs from "fs";
+import path from "path";
 
 try {
   let cli = new CliDefinition();
   let params = cli.getParams();
   let command = cli.getCommand();
+  createDirIfNeeded(<string>params.outputDir);
+
   switch (command) {
     case CliDefinition.genPropertiesCommand:
     case CliDefinition.genPropertiesCommandAlias:
-        new CustomWidgetBuilder().generatePropertyFileFromWcFile(<string>params.webComponentSource, <string>params.outputDir);
+      new CustomWidgetBuilder().generatePropertyFileFromWcFile(<string>params.webComponentSource, <string>params.outputDir);
       break;
     case CliDefinition.genPropertiesTemplateCommand:
     case CliDefinition.genPropertiesTemplateCommandAlias:
-        new CustomWidgetBuilder().generatePropertyFileFromWcName(<string>params.webComponentName, <string>params.outputDir);
+      new CustomWidgetBuilder().generatePropertyFileFromWcName(<string>params.webComponentName, <string>params.outputDir);
       break;
     case CliDefinition.genWidgetCommand:
     case CliDefinition.genWidgetCommandAlias:
-        new CustomWidgetBuilder().generateWidget(<string>params.propertiesFile, <string>params.webComponentBundle, <string>params.outputDir);
+      new CustomWidgetBuilder().generateWidget(<string>params.propertiesFile, <string>params.webComponentBundle, <string>params.outputDir);
       break;
     case CliDefinition.copyWcCommand:
     case CliDefinition.copyWcCommandAlias:
-        new WebComponentCopier().copyWebComponent(<string>params.srcDir, <string>params.srcDir);
+      new WebComponentCopier().copyWebComponent(<string>params.srcDir, <string>params.destDir);
       break;
     default:
       console.error("Invalid command: " + command);
   }
+
+  function createDirIfNeeded(dir: string) {
+    if (!fs.existsSync(dir)) {
+      if (!fs.existsSync(path.dirname(dir))) {
+        throw new Error(`Directory does not exist: ${path.dirname(dir)}`);
+      }
+      fs.mkdirSync(dir);
+    }
+  }
+
 } catch (error) {
   console.log(error.message);
 }
