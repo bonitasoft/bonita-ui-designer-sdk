@@ -56,7 +56,9 @@ For instance, you may want to add a new property to the component.
   ```bash
   $ npm run bundle
   ```
-- Test your extended component updating its `index.html` file.
+- Test your extended component
+  - Open the `index.html` file in your favorite Browser
+  - Update the `index.html` file with different properties
 
 ### Build your new custom widget
 
