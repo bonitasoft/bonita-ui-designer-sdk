@@ -19,39 +19,49 @@
  */
 
 import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
-import {CliHandler} from "./CliHandler";
 import {WebComponentCopier} from "./WebComponentCopier";
+import {CliDefinition} from "./CliDefinition";
+import fs from "fs";
+import path from "path";
 
 try {
-  let cliHandler = new CliHandler(process.argv.slice(2));
-  let outputDir = cliHandler.getOutputDir();
-  switch (cliHandler.command) {
-    case CliHandler.genPropertiesCommand:
-      if (cliHandler.hasParam(CliHandler.webComponentSourceParam)) {
-        new CustomWidgetBuilder().generatePropertyFileFromWcFile(cliHandler.getWcSource(), outputDir);
-      } else if (cliHandler.hasParam(CliHandler.webComponentNameParam)) {
-        new CustomWidgetBuilder().generatePropertyFileFromWcName(cliHandler.getWcName(), outputDir);
-      } else {
-        cliHandler.usage();
-      }
+  let cli = new CliDefinition();
+  let params = cli.getParams();
+  let command = cli.getCommand();
+  if (params.outputDir) {
+    createDirIfNeeded(<string>params.outputDir);
+  }
+
+  switch (command) {
+    case CliDefinition.genPropertiesCommand:
+    case CliDefinition.genPropertiesCommandAlias:
+      new CustomWidgetBuilder().generatePropertyFileFromWcFile(<string>params.webComponentSource, <string>params.outputDir);
       break;
-    case CliHandler.genWidgetCommand:
-      if (cliHandler.hasParam(CliHandler.propertiesFileParam) && cliHandler.hasParam(CliHandler.webComponentBundleParam)) {
-        new CustomWidgetBuilder().generateWidget(cliHandler.getPropertiesFile(), cliHandler.getWcBundle(), outputDir);
-      } else {
-        cliHandler.usage();
-      }
+    case CliDefinition.genPropertiesTemplateCommand:
+    case CliDefinition.genPropertiesTemplateCommandAlias:
+      new CustomWidgetBuilder().generatePropertyFileFromWcName(<string>params.webComponentName, <string>params.outputDir);
       break;
-    case CliHandler.copyWcCommand:
-      if (cliHandler.hasParam(CliHandler.sourceDirParam) && cliHandler.hasParam(CliHandler.destDirParam)) {
-        new WebComponentCopier().copyWebComponent(cliHandler.getSourceDir(), cliHandler.getDestDir());
-      } else {
-        cliHandler.usage();
-      }
+    case CliDefinition.genWidgetCommand:
+    case CliDefinition.genWidgetCommandAlias:
+      new CustomWidgetBuilder().generateWidget(<string>params.propertiesFile, <string>params.webComponentBundle, <string>params.outputDir);
+      break;
+    case CliDefinition.copyWcCommand:
+    case CliDefinition.copyWcCommandAlias:
+      new WebComponentCopier().copyWebComponent(<string>params.srcDir, <string>params.destDir);
       break;
     default:
-      cliHandler.usage();
+      console.error("Invalid command: " + command);
   }
+
+  function createDirIfNeeded(dir: string) {
+    if (!fs.existsSync(dir)) {
+      if (!fs.existsSync(path.dirname(dir))) {
+        throw new Error(`Directory does not exist: ${path.dirname(dir)}`);
+      }
+      fs.mkdirSync(dir);
+    }
+  }
+
 } catch (error) {
-  console.log(error.message);
+  console.error(error.message);
 }
