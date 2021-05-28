@@ -18,6 +18,7 @@
 
 import {CustomWidgetBuilder} from "../src/CustomWidgetBuilder";
 import * as os from "os";
+import extract from "extract-zip";
 
 const fs = require('fs');
 
@@ -109,6 +110,26 @@ describe('CustomWidgetBuilder', () => {
     expect(jsonProperties.properties.length).toBe(2);
   });
 
+  test('should generate a widget zip file when a web component json properties file and bundle are given as input', async () => {
+    builder.generatePropertyFileFromWcFile("test/resources/my-input/src/my-input.ts", tempDir);
+    await builder.generateCustomWidget(`${tempDir}/myInput.json`, "test/resources/my-input/lib/my-input.es5.min.js", tempDir);
+    let zipFile = `${tempDir}/widget-myInput.zip`;
+    checkExistNotEmpty(zipFile);
+    try {
+      // Check zip content
+      let extractDir = `${tempDir}/widget-myInput`;
+      fs.mkdirSync(extractDir);
+      await extract(zipFile, {dir: extractDir})
+      checkExistNotEmpty(`${extractDir}/widgetWc.properties`);
+      checkExistNotEmpty(`${extractDir}/resources/myInput.tpl.html`);
+      checkExistNotEmpty(`${extractDir}/resources/widgetWc.json`);
+      checkExistNotEmpty(`${extractDir}/resources/assets/js/MyInput.js`);
+      checkExistNotEmpty(`${extractDir}/resources/assets/js/myInput.tpl.runtime.html`);
+    } catch (err) {
+      console.error("Error unzip: " + err);
+    }
+  });
+
   function handleSimpleWC(wcFilename: string) {
     let wcNameUppercase = wcFilename.substring(0, wcFilename.indexOf("."));
     let wcNameLowercase = wcNameUppercase.charAt(0).toLowerCase() + wcNameUppercase.slice(1);
@@ -140,6 +161,11 @@ describe('CustomWidgetBuilder', () => {
     let filePath = `${tempDir}/${fileName}`;
     expect(fs.existsSync(filePath)).toBeTruthy();
     return fs.readFileSync(filePath, 'utf8');
+  }
+
+  function checkExistNotEmpty(file: string) {
+    expect(fs.existsSync(file)).toBeTruthy();
+    expect(fs.statSync(file).size).toBeGreaterThan(0);
   }
 
 });

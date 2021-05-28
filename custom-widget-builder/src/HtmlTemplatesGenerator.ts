@@ -22,7 +22,7 @@ import fs from "fs";
 import {Bond} from "./Bond";
 import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
 
-enum FwkType {
+export enum FwkType {
   AngularJS,
   Angular
 }
@@ -30,7 +30,6 @@ enum FwkType {
 export class HtmlTemplatesGenerator {
 
   private readonly propertiesInfo: PropertiesInfo;
-  private readonly outputDir: string;
   private static specificProperties: Array<string> = ["readOnly", "required"];
   private static toIgnoreProperties: Array<string> = ["id"];
   public static ifDirectiveAngularJS = "ng-if";
@@ -38,12 +37,11 @@ export class HtmlTemplatesGenerator {
   public static AngularJsFileExtension = "tpl.html";
   public static AngularFileExtension = "tpl.runtime.html";
 
-  constructor(propertiesInfo: PropertiesInfo, outputDir: string) {
+  constructor(propertiesInfo: PropertiesInfo) {
     this.propertiesInfo = propertiesInfo;
-    this.outputDir = outputDir;
   }
 
-  public generate() {
+  public generate(outputDir: string, type?: FwkType) {
     // General syntax:
     // <HtmlTag [IfBoolean] [SpecificProperties] [Properties]></HtmlTag>
     //
@@ -67,8 +65,16 @@ export class HtmlTemplatesGenerator {
     //           value="{{properties.value}}">
     //           </pb-input>
 
-    this.writeFile(this.generateTemplate(FwkType.AngularJS), FwkType.AngularJS);
-    this.writeFile(this.generateTemplate(FwkType.Angular), FwkType.Angular);
+    if (type !== undefined) {
+      this.generateTemplateFile(type, outputDir);
+    } else {
+      this.generateTemplateFile(FwkType.AngularJS, outputDir);
+      this.generateTemplateFile(FwkType.Angular, outputDir);
+    }
+  }
+
+  private generateTemplateFile(type: FwkType, outputDir: string) {
+    this.writeFile(this.generateTemplate(type), type, outputDir);
   }
 
   private generateTemplate(type: FwkType): string {
@@ -216,14 +222,14 @@ export class HtmlTemplatesGenerator {
     return globalArray;
   }
 
-  private writeFile(template: string, type: FwkType) {
+  private writeFile(template: string, type: FwkType, outputDir: string) {
     let ext;
     if (type === FwkType.AngularJS) {
       ext = HtmlTemplatesGenerator.AngularJsFileExtension;
     } else if (type === FwkType.Angular) {
       ext = HtmlTemplatesGenerator.AngularFileExtension;
     }
-    let filePath = `${this.outputDir}/${this.propertiesInfo.id}.${ext}`;
+    let filePath = `${outputDir}/${this.propertiesInfo.id}.${ext}`;
     fs.writeFileSync(filePath, template);
   }
 

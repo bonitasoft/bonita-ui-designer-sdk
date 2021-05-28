@@ -22,7 +22,7 @@ import * as os from "os";
 
 const fs = require('fs');
 
-describe('CustomWidgetBuilder', () => {
+describe('HtmlTemplateGenerator', () => {
 
   let builder: CustomWidgetBuilder;
   let tempDir: string;
@@ -42,8 +42,8 @@ describe('CustomWidgetBuilder', () => {
   });
 
   test('should generate correct html templates when a complex web component is given as input', async () => {
-    builder.generatePropertyFileFromWcFile("test/resources/pb-input.ts", tempDir);
-    builder.generateWidget(`${tempDir}/pbInput.json`, wcBundle, tempDir);
+    let tmplGenerator = new HtmlTemplatesGenerator(builder.getPropertiesInfoFromWebComponent("test/resources/pb-input.ts"));
+    tmplGenerator.generate(tempDir);
 
     // AngularJS template
     let templateAngularJs = getFileContent(`pbInput.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
@@ -68,8 +68,8 @@ describe('CustomWidgetBuilder', () => {
 
   test('should generate correct html templates when a standard web component is given as input', async () => {
     // Standard web component (i.e. extending HTMLElement)
-    builder.generatePropertyFileFromWcFile("test/resources/app-drawer.js", tempDir);
-    builder.generateWidget(`${tempDir}/appDrawer.json`, wcBundle, tempDir);
+    let tmplGenerator = new HtmlTemplatesGenerator(builder.getPropertiesInfoFromWebComponent("test/resources/app-drawer.js"));
+    tmplGenerator.generate(tempDir);
 
     // AngularJS template
     let templateAngularJs = getFileContent(`appDrawer.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
@@ -83,15 +83,8 @@ describe('CustomWidgetBuilder', () => {
 
   function handleSimpleWC(wcFilename: string) {
     let wcNameLowercase = getWcFileLowercase(wcFilename);
-    builder.generatePropertyFileFromWcFile(`test/resources/${wcFilename}`, tempDir);
-
-    let jsonFile = getJsonFile(wcFilename);
-
-    //DEBUG
-    console.log(`Checking: ${tempDir}/${jsonFile}`);
-    expect(fs.existsSync(`${tempDir}/${jsonFile}`)).toBeTruthy();
-
-    builder.generateWidget(`${tempDir}/${jsonFile}`, wcBundle, tempDir);
+    let tmplGenerator = new HtmlTemplatesGenerator(builder.getPropertiesInfoFromWebComponent(`test/resources/${wcFilename}`));
+    tmplGenerator.generate(tempDir);
 
     // AngularJS template
     let templateAngularJs = getFileContent(`${wcNameLowercase}.${HtmlTemplatesGenerator.AngularJsFileExtension}`);

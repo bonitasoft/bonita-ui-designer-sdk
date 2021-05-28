@@ -16,31 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {PropertiesInfo} from "./PropertiesInfo";
-import * as fs from "fs";
-
-export class PropertiesJsonGenerator {
-
-  private readonly outputDir: string;
-  private readonly propertiesInfo: PropertiesInfo;
-
-  constructor(propertiesInfo: PropertiesInfo, outputDir: string) {
-    this.outputDir = outputDir;
-    this.propertiesInfo = propertiesInfo;
-  }
-
-  public generate(outputMessage: boolean, fileName?: string) {
-    if (!fileName) {
-      fileName = `${this.propertiesInfo.id}.json`;
-    }
-    let output = JSON.stringify(this.propertiesInfo, null, 2)
-    let filePath = `${this.outputDir}/${fileName}`;
-    fs.writeFileSync(filePath, output);
-    if (outputMessage) {
-      console.log(`${filePath} has been generated!`);
-    }
-  }
+export interface Asset {
+  id: string;
+  name: string;
+  type: string;
+  order?: number;
 }
-
-
-

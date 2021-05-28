@@ -1,0 +1,34 @@
+{
+  "name": "my-input",
+  "version": "0.1.1",
+  "description": "An input with label",
+  "homepage": "https://github.com/bonitasoft/web-components/components/packages/widgets/my-input#readme",
+  "license": "GPLv2",
+  "module": "lib/my-input.es5.min.js",
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "bootstrap": "^4.5.3",
+    "lit-element": "^2.4.0",
+    "lit-translate": "^1.2.1"
+  },
+  "devDependencies": {
+    "ts-loader": "^8.0.11",
+    "tslib": "^2.0.3",
+    "typescript": "^4.0.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bonitasoft/web-components.git"
+  },
+  "scripts": {
+    "gen-widget": "cwb gen-widget --propertiesFile myInput.json --webComponentBundle lib/my-input.es5.min.js --outputDir uid_widget",
+    "start": "npm install && rollup -c -w --environment devMode:true",
+    "lint": "prettier --write \"src/**/*.{js,ts,tsx}\"",
+    "bundle": "tsc && rollup -c",
+    "clean": "rm -rf build lib node_modules",
+    "pack": "npm pack",
+    "publish": "npm publish"
+  }
+}

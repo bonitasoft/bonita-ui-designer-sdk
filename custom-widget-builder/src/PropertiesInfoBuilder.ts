@@ -20,6 +20,7 @@ import {Property} from "./Property";
 import {PropertiesInfo} from "./PropertiesInfo";
 import * as jdenticon from "jdenticon/standalone";
 import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
+import {Asset} from "./Asset";
 
 
 export class PropertiesInfoBuilder {
@@ -34,8 +35,11 @@ export class PropertiesInfoBuilder {
       template: PropertiesInfoBuilder.getTemplate(id),
       description: undefined,
       order: "1",
+      custom: true,
+      legacy: false,
       icon: PropertiesInfoBuilder.generateIcon(),
-      properties: []
+      properties: [],
+      assets: []
     }
   }
 
@@ -51,6 +55,11 @@ export class PropertiesInfoBuilder {
 
   properties(properties: Array<Property>): PropertiesInfoBuilder {
     this.propertiesInfo.properties = properties;
+    return this;
+  }
+
+  assets(assets: Array<Asset>): PropertiesInfoBuilder {
+    this.propertiesInfo.assets = assets;
     return this;
   }
 

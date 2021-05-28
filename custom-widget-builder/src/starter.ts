@@ -43,7 +43,7 @@ try {
       break;
     case CliDefinition.genWidgetCommand:
     case CliDefinition.genWidgetCommandAlias:
-      new CustomWidgetBuilder().generateWidget(<string>params.propertiesFile, <string>params.webComponentBundle, <string>params.outputDir);
+      new CustomWidgetBuilder().generateCustomWidget(<string>params.propertiesFile, <string>params.webComponentBundle, <string>params.outputDir);
       break;
     case CliDefinition.copyWcCommand:
     case CliDefinition.copyWcCommandAlias:
