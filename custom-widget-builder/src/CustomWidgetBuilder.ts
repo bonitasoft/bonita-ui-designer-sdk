@@ -20,7 +20,7 @@ import {analyzeText, AnalyzeTextResult, transformAnalyzerResult} from "web-compo
 import {PropertiesInfo} from "./PropertiesInfo";
 import {Property} from "./Property";
 import * as fs from "fs";
-import path from "path";
+import path, {sep} from "path";
 import {PropertiesJsonGenerator} from "./PropertiesJsonGenerator";
 import {FwkType, HtmlTemplatesGenerator} from "./HtmlTemplatesGenerator";
 import {Bond} from "./Bond";
@@ -81,7 +81,7 @@ export class CustomWidgetBuilder {
     propInfo.assets = CustomWidgetBuilder.getAssets(propInfo.id, wcBundle);
 
     // Generate widget files in a temp directory
-    let tempDir = fs.mkdtempSync(os.tmpdir());
+    let tempDir = fs.mkdtempSync(`${os.tmpdir()}${sep}`);
 
     // root dir
     CustomWidgetBuilder.generateWidgetProperties(propInfo.name, tempDir);

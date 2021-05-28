@@ -23,4 +23,4 @@ jobs:
           cd custom-widget-builder
           npm install
           npm run typescript-compile
-          sudo npm run test
+          npm run test

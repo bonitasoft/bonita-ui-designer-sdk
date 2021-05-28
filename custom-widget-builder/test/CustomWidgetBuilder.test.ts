@@ -19,6 +19,7 @@
 import {CustomWidgetBuilder} from "../src/CustomWidgetBuilder";
 import * as os from "os";
 import extract from "extract-zip";
+import { sep } from 'path';
 
 const fs = require('fs');
 
@@ -29,7 +30,7 @@ describe('CustomWidgetBuilder', () => {
 
   beforeAll(() => {
     builder = new CustomWidgetBuilder();
-    tempDir = fs.mkdtempSync(os.tmpdir());
+    tempDir = fs.mkdtempSync(`${os.tmpdir()}${sep}`);
   });
 
   afterAll(() => {

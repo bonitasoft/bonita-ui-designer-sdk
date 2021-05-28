@@ -19,6 +19,7 @@
 import * as os from "os";
 import {ExecException} from "child_process";
 import DoneCallback = jest.DoneCallback;
+import {sep} from "path";
 
 const fs = require('fs');
 const {exec} = require('child_process');
@@ -28,7 +29,7 @@ describe('CLI test', () => {
   let tempDir: string;
 
   beforeAll(() => {
-    tempDir = fs.mkdtempSync(os.tmpdir());
+    tempDir = fs.mkdtempSync(`${os.tmpdir()}${sep}`);
   });
 
   afterAll(() => {

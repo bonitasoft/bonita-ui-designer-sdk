@@ -19,6 +19,7 @@
 import {CustomWidgetBuilder} from "../src/CustomWidgetBuilder";
 import {HtmlTemplatesGenerator} from "../src/HtmlTemplatesGenerator";
 import * as os from "os";
+import {sep} from "path";
 
 const fs = require('fs');
 
@@ -30,7 +31,7 @@ describe('HtmlTemplateGenerator', () => {
 
   beforeAll(() => {
     builder = new CustomWidgetBuilder();
-    tempDir = fs.mkdtempSync(os.tmpdir());
+    tempDir = fs.mkdtempSync(`${os.tmpdir()}${sep}`);
   });
 
   afterAll(() => {
