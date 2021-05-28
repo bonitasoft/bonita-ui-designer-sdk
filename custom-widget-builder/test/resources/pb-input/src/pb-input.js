@@ -100,7 +100,6 @@ var PbInput = /** @class */ (function (_super) {
         _this.label = "";
         /**
          * Position of the label
-         * @type {"left"|"top"}
          */
         _this.labelPosition = "top";
         _this.labelWidth = 4;
