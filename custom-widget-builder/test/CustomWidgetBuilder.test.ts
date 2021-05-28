@@ -113,21 +113,18 @@ describe('CustomWidgetBuilder', () => {
   test('should generate a widget zip file when a web component json properties file and bundle are given as input', async () => {
     builder.generatePropertyFileFromWcFile("test/resources/my-input/src/my-input.ts", tempDir);
     await builder.generateCustomWidget(`${tempDir}/myInput.json`, "test/resources/my-input/lib/my-input.es5.min.js", tempDir);
-    let zipFile = `${tempDir}/widget-myInput.zip`;
+    let zipFile = `${tempDir}/widget-MyInput.zip`;
     checkExistNotEmpty(zipFile);
-    try {
-      // Check zip content
-      let extractDir = `${tempDir}/widget-myInput`;
-      fs.mkdirSync(extractDir);
-      await extract(zipFile, {dir: extractDir})
-      checkExistNotEmpty(`${extractDir}/widgetWc.properties`);
-      checkExistNotEmpty(`${extractDir}/resources/myInput.tpl.html`);
-      checkExistNotEmpty(`${extractDir}/resources/widgetWc.json`);
-      checkExistNotEmpty(`${extractDir}/resources/assets/js/MyInput.js`);
-      checkExistNotEmpty(`${extractDir}/resources/assets/js/myInput.tpl.runtime.html`);
-    } catch (err) {
-      console.error("Error unzip: " + err);
-    }
+    // Check zip content
+    let extractDir = `${tempDir}/widget-myInput`;
+    fs.mkdirSync(extractDir);
+    await extract(zipFile, {dir: extractDir})
+    checkExistNotEmpty(`${extractDir}/widgetWc.properties`);
+    checkExistNotEmpty(`${extractDir}/resources/myInput.tpl.html`);
+    checkExistNotEmpty(`${extractDir}/resources/widgetWc.json`);
+    checkExistNotEmpty(`${extractDir}/resources/assets/js/my-input.es5.min.js`);
+    checkExistNotEmpty(`${extractDir}/resources/assets/js/myInput.tpl.runtime.html`);
+
   });
 
   function handleSimpleWC(wcFilename: string) {
