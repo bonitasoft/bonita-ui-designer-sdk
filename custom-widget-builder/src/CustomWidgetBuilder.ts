@@ -308,7 +308,8 @@ export class CustomWidgetBuilder {
         .pipe(stream)
       ;
 
-      archive.finalize().then(r => resolve(1));
+      stream.on('close', () => resolve(1));
+      archive.finalize();
     });
   }
 }
