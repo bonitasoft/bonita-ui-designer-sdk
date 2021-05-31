@@ -61,7 +61,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PbInput = void 0;
+exports.MyInput = void 0;
 var lit_element_1 = require("lit-element");
 // @ts-ignore
 var style_scss_1 = require("./style.scss");
@@ -73,18 +73,18 @@ var i18n_ja = require("./i18n/ja.json");
 var i18n_pt = require("./i18n/pt-BR.json");
 // Registers i18n loader
 lit_translate_1.registerTranslateConfig({
-    loader: function (lang) { return Promise.resolve(PbInput.getCatalog(lang)); }
+    loader: function (lang) { return Promise.resolve(MyInput.getCatalog(lang)); }
 });
 /**
  * Input field, optionally with a label, where the user can enter information
  */
-var PbInput = /** @class */ (function (_super) {
-    __extends(PbInput, _super);
-    function PbInput() {
+var MyInput = /** @class */ (function (_super) {
+    __extends(MyInput, _super);
+    function MyInput() {
         var _this = _super.call(this) || this;
-        _this.name = "pbInput";
+        _this.name = "myInput";
         _this.lang = "en";
-        // Common properties below are handled by the div above pb-input:
+        // Common properties below are handled by the div above my-input:
         // @property({ attribute: 'width', type: String, reflect: true })
         // private width: string = "12";
         //
@@ -96,6 +96,7 @@ var PbInput = /** @class */ (function (_super) {
         _this.id = "";
         _this.required = false;
         _this.readOnly = false;
+        _this.disabled = false;
         _this.labelHidden = false;
         _this.label = "";
         /**
@@ -114,7 +115,7 @@ var PbInput = /** @class */ (function (_super) {
         });
         return _this;
     }
-    PbInput.prototype.attributeChangedCallback = function (name, old, value) {
+    MyInput.prototype.attributeChangedCallback = function (name, old, value) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 _super.prototype.attributeChangedCallback.call(this, name, old, value);
@@ -125,7 +126,7 @@ var PbInput = /** @class */ (function (_super) {
             });
         });
     };
-    PbInput.getCatalog = function (lang) {
+    MyInput.getCatalog = function (lang) {
         switch (lang) {
             case "es":
             case "es-ES":
@@ -141,85 +142,88 @@ var PbInput = /** @class */ (function (_super) {
                 return i18n_en;
         }
     };
-    Object.defineProperty(PbInput, "styles", {
+    Object.defineProperty(MyInput, "styles", {
         get: function () {
             return lit_element_1.css(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n      :host {\n        display: block;\n        font-family: sans-serif;\n        text-align: left;\n      }\n\n      .input-elem {\n        font-size: 14px;\n        height: 20px;\n      }\n      \n      .label-elem {\n        font-size: 14px;\n        font-weight: 700;\n        padding-left: 0\n      }\n      \n      /* Add a red star after required inputs */\n      .label-required:after {\n        content: \" *\";\n        color: #C00;\n      }\n      \n      .text-right {\n        text-align: right; \n      }\n\n    "], ["\n      :host {\n        display: block;\n        font-family: sans-serif;\n        text-align: left;\n      }\n\n      .input-elem {\n        font-size: 14px;\n        height: 20px;\n      }\n      \n      .label-elem {\n        font-size: 14px;\n        font-weight: 700;\n        padding-left: 0\n      }\n      \n      /* Add a red star after required inputs */\n      .label-required:after {\n        content: \" *\";\n        color: #C00;\n      }\n      \n      .text-right {\n        text-align: right; \n      }\n\n    "])));
         },
         enumerable: false,
         configurable: true
     });
-    PbInput.prototype.render = function () {
+    MyInput.prototype.render = function () {
         var _this = this;
-        return lit_element_1.html(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n      <style>", "</style>\n      <div id=\"", "\" class=\"container\">\n        <div class=\"row\">\n          ", "\n          <input \n            class=\"", "\"\n            id=\"input\"\n            name=\"", "\"\n            type=\"", "\"\n            min=\"", "\"\n            max=\"", "\"\n            step=\"", "\"\n            value=\"", "\"\n            @input=", " \n            placeholder=\"", "\"\n            minlength=\"", "\"\n            maxlength=\"", "\"\n            ?readonly=\"", "\"\n          />\n        </div>\n      </div>\n    "], ["\n      <style>", "</style>\n      <div id=\"", "\" class=\"container\">\n        <div class=\"row\">\n          ", "\n          <input \n            class=\"", "\"\n            id=\"input\"\n            name=\"", "\"\n            type=\"", "\"\n            min=\"", "\"\n            max=\"", "\"\n            step=\"", "\"\n            value=\"", "\"\n            @input=", " \n            placeholder=\"", "\"\n            minlength=\"", "\"\n            maxlength=\"", "\"\n            ?readonly=\"", "\"\n          />\n        </div>\n      </div>\n    "])), style_scss_1.default, this.id, this.getLabel(), this.getInputCssClass(), this.name, this.type, this.min, this.max, this.step, this.value, function (e) { return _this.valueChanged(e.target.value); }, this.placeholder, this.minLength, this.maxLength, this.readOnly);
+        return lit_element_1.html(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n      <style>", "</style>\n      <div id=\"", "\" class=\"container\">\n        <div class=\"row\">\n          ", "\n          <input \n            class=\"", "\"\n            id=\"input\"\n            name=\"", "\"\n            type=\"", "\"\n            min=\"", "\"\n            max=\"", "\"\n            step=\"", "\"\n            value=\"", "\"\n            @input=", " \n            placeholder=\"", "\"\n            minlength=\"", "\"\n            maxlength=\"", "\"\n            ?readonly=\"", "\"\n            ?disabled=\"", "\"\n          />\n        </div>\n      </div>\n    "], ["\n      <style>", "</style>\n      <div id=\"", "\" class=\"container\">\n        <div class=\"row\">\n          ", "\n          <input \n            class=\"", "\"\n            id=\"input\"\n            name=\"", "\"\n            type=\"", "\"\n            min=\"", "\"\n            max=\"", "\"\n            step=\"", "\"\n            value=\"", "\"\n            @input=", " \n            placeholder=\"", "\"\n            minlength=\"", "\"\n            maxlength=\"", "\"\n            ?readonly=\"", "\"\n            ?disabled=\"", "\"\n          />\n        </div>\n      </div>\n    "])), style_scss_1.default, this.id, this.getLabel(), this.getInputCssClass(), this.name, this.type, this.min, this.max, this.step, this.value, function (e) { return _this.valueChanged(e.target.value); }, this.placeholder, this.minLength, this.maxLength, this.readOnly, this.disabled);
     };
-    PbInput.prototype.getLabel = function () {
+    MyInput.prototype.getLabel = function () {
         if (this.labelHidden) {
             return lit_element_1.html(templateObject_3 || (templateObject_3 = __makeTemplateObject([""], [""])));
         }
         return lit_element_1.html(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n        <label\n          class=\"", "\"\n          for=\"input\"\n        >", "</label>\n        "], ["\n        <label\n          class=\"", "\"\n          for=\"input\"\n        >", "</label>\n        "])), this.getLabelCssClass(), this.label);
     };
-    PbInput.prototype.getLabelCssClass = function () {
+    MyInput.prototype.getLabelCssClass = function () {
         return (this.required ? "label-required " : "") + "label-elem form-horizontal col-form-label " +
             (!this.labelHidden && this.labelPosition === 'left' ? "col-" + this.labelWidth + " text-right" : "col-12");
     };
-    PbInput.prototype.getInputCssClass = function () {
+    MyInput.prototype.getInputCssClass = function () {
         return "form-control input-elem col";
     };
-    PbInput.prototype.valueChanged = function (value) {
+    MyInput.prototype.valueChanged = function (value) {
         this.dispatchEvent(new CustomEvent('valueChange', { detail: value }));
     };
     __decorate([
         lit_element_1.property({ attribute: 'lang', type: String, reflect: true })
-    ], PbInput.prototype, "lang", void 0);
+    ], MyInput.prototype, "lang", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'id', type: String, reflect: true })
-    ], PbInput.prototype, "id", void 0);
+    ], MyInput.prototype, "id", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'required', type: Boolean, reflect: true })
-    ], PbInput.prototype, "required", void 0);
+    ], MyInput.prototype, "required", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'min-length', type: Number, reflect: true })
-    ], PbInput.prototype, "minLength", void 0);
+    ], MyInput.prototype, "minLength", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'max-length', type: Number, reflect: true })
-    ], PbInput.prototype, "maxLength", void 0);
+    ], MyInput.prototype, "maxLength", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'readonly', type: Boolean, reflect: true })
-    ], PbInput.prototype, "readOnly", void 0);
+    ], MyInput.prototype, "readOnly", void 0);
+    __decorate([
+        lit_element_1.property({ attribute: 'disabled', type: Boolean, reflect: true })
+    ], MyInput.prototype, "disabled", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'label-hidden', type: Boolean, reflect: true })
-    ], PbInput.prototype, "labelHidden", void 0);
+    ], MyInput.prototype, "labelHidden", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'label', type: String, reflect: true })
-    ], PbInput.prototype, "label", void 0);
+    ], MyInput.prototype, "label", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'label-position', type: String, reflect: true })
-    ], PbInput.prototype, "labelPosition", void 0);
+    ], MyInput.prototype, "labelPosition", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'label-width', type: Number, reflect: true })
-    ], PbInput.prototype, "labelWidth", void 0);
+    ], MyInput.prototype, "labelWidth", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'placeholder', type: String, reflect: true })
-    ], PbInput.prototype, "placeholder", void 0);
+    ], MyInput.prototype, "placeholder", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'value', type: String, reflect: true })
-    ], PbInput.prototype, "value", void 0);
+    ], MyInput.prototype, "value", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'type', type: String, reflect: true })
-    ], PbInput.prototype, "type", void 0);
+    ], MyInput.prototype, "type", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'min', type: Number, reflect: true })
-    ], PbInput.prototype, "min", void 0);
+    ], MyInput.prototype, "min", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'max', type: Number, reflect: true })
-    ], PbInput.prototype, "max", void 0);
+    ], MyInput.prototype, "max", void 0);
     __decorate([
         lit_element_1.property({ attribute: 'step', type: Number, reflect: true })
-    ], PbInput.prototype, "step", void 0);
-    PbInput = __decorate([
-        lit_element_1.customElement('pb-input')
-    ], PbInput);
-    return PbInput;
+    ], MyInput.prototype, "step", void 0);
+    MyInput = __decorate([
+        lit_element_1.customElement('my-input')
+    ], MyInput);
+    return MyInput;
 }(lit_element_1.LitElement));
-exports.PbInput = PbInput;
+exports.MyInput = MyInput;
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4;

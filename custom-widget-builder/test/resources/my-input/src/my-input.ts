@@ -10,21 +10,21 @@ import * as i18n_pt from "./i18n/pt-BR.json";
 
 // Registers i18n loader
 registerTranslateConfig({
-  loader: (lang) => Promise.resolve(PbInput.getCatalog(lang))
+  loader: (lang) => Promise.resolve(MyInput.getCatalog(lang))
 });
 
 /**
  * Input field, optionally with a label, where the user can enter information
  */
-@customElement('pb-input')
-export class PbInput extends LitElement {
+@customElement('my-input')
+export class MyInput extends LitElement {
 
-  private name = "pbInput";
+  private name = "myInput";
 
   @property({ attribute: 'lang', type: String, reflect: true })
   lang: string = "en";
 
-  // Common properties below are handled by the div above pb-input:
+  // Common properties below are handled by the div above my-input:
 
   // @property({ attribute: 'width', type: String, reflect: true })
   // private width: string = "12";
@@ -49,6 +49,9 @@ export class PbInput extends LitElement {
 
   @property({ attribute: 'readonly', type: Boolean, reflect: true })
   readOnly: boolean = false;
+
+  @property({ attribute: 'disabled', type: Boolean, reflect: true })
+  disabled: boolean = false;
 
   @property({ attribute: 'label-hidden', type: Boolean, reflect: true })
   labelHidden: boolean = false;
@@ -169,6 +172,7 @@ export class PbInput extends LitElement {
             minlength="${this.minLength}"
             maxlength="${this.maxLength}"
             ?readonly="${this.readOnly}"
+            ?disabled="${this.disabled}"
           />
         </div>
       </div>

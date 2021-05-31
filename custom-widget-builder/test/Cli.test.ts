@@ -19,6 +19,7 @@
 import * as os from "os";
 import {ExecException} from "child_process";
 import DoneCallback = jest.DoneCallback;
+import {sep} from "path";
 
 const fs = require('fs');
 const {exec} = require('child_process');
@@ -28,7 +29,7 @@ describe('CLI test', () => {
   let tempDir: string;
 
   beforeAll(() => {
-    tempDir = fs.mkdtempSync(os.tmpdir());
+    tempDir = fs.mkdtempSync(`${os.tmpdir()}${sep}`);
   });
 
   afterAll(() => {
@@ -74,7 +75,7 @@ describe('CLI test', () => {
       "--propertiesFile test/resources/pb-input/pbInput.json " +
       "--webComponentBundle test/resources/pb-input/lib/pb-input.es5.min.js " +
       `--outputDir ${tempDir}/widget`;
-    execCommand(command, `Widget has been generated in ${tempDir}/widget`, done);
+    execCommand(command, `Widget has been generated in ${tempDir}/widget/widget-Input.zip`, done);
   });
 
   test('should handle correct parameters when copying a widget', async (done) => {

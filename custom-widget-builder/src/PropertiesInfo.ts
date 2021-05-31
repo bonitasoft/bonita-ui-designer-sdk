@@ -17,6 +17,7 @@
  */
 
 import {Property} from "./Property";
+import {Asset} from "./Asset";
 
 export interface PropertiesInfo {
   id: string;
@@ -25,9 +26,10 @@ export interface PropertiesInfo {
   template: string;
   description: string | undefined;
   order: string;
+  custom: boolean;
+  legacy: boolean;
   icon: string;
   properties: Array<Property>;
-
-
+  assets: Array<Asset>;
 }
 

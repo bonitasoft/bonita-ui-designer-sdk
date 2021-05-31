@@ -18,6 +18,7 @@
 
 import * as os from "os";
 import {WebComponentCopier} from "../src/WebComponentCopier";
+import {sep} from "path";
 
 const fs = require('fs');
 
@@ -26,7 +27,7 @@ describe('WebComponentCopier', () => {
   let tempDir: string;
 
   beforeAll(() => {
-    tempDir = fs.mkdtempSync(os.tmpdir());
+    tempDir = fs.mkdtempSync(`${os.tmpdir()}${sep}`);
   });
 
   afterAll(() => {
