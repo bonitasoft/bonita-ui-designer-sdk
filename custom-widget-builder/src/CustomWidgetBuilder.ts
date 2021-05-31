@@ -283,21 +283,6 @@ export class CustomWidgetBuilder {
   }
 
   private static generateZip(dir: string, zipFile: string): Promise<any> {
-    // let output = fs.createWriteStream(zipFile);
-    // let archive = archiver.create('zip');
-    // output.on('close', function () {
-    //   console.log(`Widget has been generated in ${zipFile}`);
-    //   fs.rmdirSync(dir, {recursive: true});
-    // });
-    // archive.on('error', function(err){
-    //   throw err;
-    // });
-    // archive.pipe(output);
-    // // append files from a sub-directory, putting its contents at the root of archive
-    // archive.directory(dir, false);
-    // archive.finalize();
-
-
     const archive = archiver.create('zip');
     const stream = fs.createWriteStream(zipFile);
 
