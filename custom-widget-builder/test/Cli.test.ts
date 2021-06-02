@@ -78,9 +78,9 @@ describe('CLI test', () => {
     execCommand(command, `Widget has been generated in ${tempDir}/widget/widget-Input.zip`, done);
   });
 
-  test('should handle correct parameters when copying a widget', async (done) => {
+  test('should handle correct parameters when duplicating a widget', async (done) => {
     let command =
-      `node build/src/starter.js copy-wc --srcDir test/resources/pb-input --destDir ${tempDir}/my-input`;
+      `node build/src/starter.js duplicate-widget --srcDir test/resources/pb-input --destDir ${tempDir}/my-input`;
     execCommand(command, `${tempDir}/my-input has been created!`, done);
   });
 

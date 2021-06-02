@@ -42,11 +42,11 @@ Then, follow the following steps.
     $ npm run init
   ```
   
-- Duplicate the web component you want to extend, using the cwb CLI.  
+- Duplicate the standard widget you want to extend, using the cwb CLI.  
   For instance if you want to extend the `pb-input` web component and create `my-input`:
   ```bash
   $ cd packages/widgets
-  $ cwb copy-wc --srcDir pb-input --destDir my-input
+  $ cwb duplicate-widget --srcDir pb-input --destDir my-input
   ````
   
 - Install its dependencies:
@@ -328,7 +328,7 @@ Commands:
   cwb gen-properties           Generate json properties from web component source file  [aliases: genp]
   cwb gen-properties-template  Generate json properties template from web component name  [aliases: genpt]
   cwb gen-widget               Generate a widget  [aliases: genw]
-  cwb copy-wc                  Duplicate a web component  [aliases: cp]
+  cwb duplicate-widget         Duplicate an UI Designer standard widget  [aliases: dupw]
 
 Options:
   -h, --help     Show help  [boolean]
@@ -379,12 +379,12 @@ Options:
   -v, --version             Show version number  [boolean]
 ```
 
-### Copy a web component to a new one
+### Duplicate an UI Designer standard widget
 ```shell
-$ cwb copy-wc --help
-cwb copy-wc
+$ cwb dupw --help
+cwb duplicate-widget
 
-Duplicate a web component
+Duplicate an UI Designer standard widget
 
 Options:
   --srcDir, -s   source directory  [required]

@@ -45,8 +45,8 @@ try {
     case CliDefinition.genWidgetCommandAlias:
       new CustomWidgetBuilder().generateCustomWidget(<string>params.propertiesFile, <string>params.webComponentBundle, <string>params.outputDir);
       break;
-    case CliDefinition.copyWcCommand:
-    case CliDefinition.copyWcCommandAlias:
+    case CliDefinition.duplicateWidgetCommand:
+    case CliDefinition.duplicateWidgetCommandAlias:
       new WebComponentCopier().copyWebComponent(<string>params.srcDir, <string>params.destDir);
       break;
     default:
