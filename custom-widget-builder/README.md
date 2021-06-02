@@ -1,5 +1,8 @@
 # Custom Widget Builder
 
+| :warning:  **This tool is dedicated to the next public version of UI Designer**  |
+|------------------------------------------------------------------------------|
+
 Generates Bonita UI Designer custom widgets from web components, for the following use cases:
 - Extend a standard UI Designer widget
 - Build a custom widget from a web component built from scratch
@@ -12,6 +15,10 @@ $ npm install -g @bonitasoft/custom-widget-builder
 ```
 
 This will install the custom widget builder (cwb) CLI.
+
+### Requirements
+
+Node version 14 (or above) is required to use the CLI.
 
 ---
 
@@ -57,7 +64,17 @@ For instance, you may want to add a new property to the component.
   $ npm run bundle
   ```
 - Test your extended component
-  - Open the `index.html` file in your favorite Browser
+  - If you are not opening the web page from your IDE, you will have to launch a local HTTP server.  
+    Here is a simple way to do this:  
+    From a terminal, go to your widget directory, check python is installed (`python -V`) and launch either:
+    ```bash
+    $ python3 -m http.server
+    or
+    $ python -m SimpleHTTPServer
+    ```
+    For any issue, see [How do you set up a local testing server?](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server)
+    <br><br>
+  - Open the `index.html` file in your favorite Browser, either from your IDE, or from `http://localhost:8000` if you installed a local HTTP server.
   - Update the `index.html` file with different properties
 
 ### Build your new custom widget
@@ -65,7 +82,7 @@ For instance, you may want to add a new property to the component.
 From your extended web component, you can now build an UI Designer custom widget:
 
 - Update the properties json file. For instance, add a json object for the new property in `myInput.json`.  
-For details, see "Building the json properties file" section below.
+For details, see "Generating the properties file" section below.
   
 
 - Generate the custom widget using the CLI:
@@ -136,6 +153,8 @@ class BottomButton extends Polymer.Element {
 
 
 ### Generating the properties file
+
+Note: The properties files is an UI Designer specific json file, which defines all the information required to handle the web component in the UI Designer editor (properties, templates, icon, ...).  
 
 Generate the properties file using the CLI (see below).
 If the generator cannot get any information to generate the properties file, please consider either adding information to 
@@ -284,7 +303,7 @@ For instance, you found a [date picker](https://github.com/vanillawc/wc-datepick
   ```
   
 - From the web component documentation, replace the template properties entries by the actual properties  
-  For details, see "Building the json properties file" section.
+  For details, see "Generating the properties file" section.
   
 
 - Generate the custom widget 
