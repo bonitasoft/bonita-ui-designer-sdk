@@ -33,7 +33,7 @@ from the [bonita-ui-designer-web-components](https://github.com/bonitasoft/bonit
 Then, follow the following steps.
 
 ### Create your extended web component
-- Clone the created repository on your local machine, and follow its README to install its dependencies
+- Clone the created repository on your local machine, and follow its `components/README` to install its dependencies
   
 
 - Initialize the repository:
