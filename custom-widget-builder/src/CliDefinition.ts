@@ -26,8 +26,8 @@ export class CliDefinition {
   public static genPropertiesTemplateCommandAlias = "genpt";
   public static genWidgetCommand = "gen-widget";
   public static genWidgetCommandAlias = "genw";
-  public static copyWcCommand = "copy-wc";
-  public static copyWcCommandAlias = "cp";
+  public static duplicateWidgetCommand = "duplicate-widget";
+  public static duplicateWidgetCommandAlias = "dupw";
 
   public static webComponentSourceParam = "webComponentSource";
   public static webComponentNameParam = "webComponentName";
@@ -85,8 +85,8 @@ export class CliDefinition {
           .option(
             CliDefinition.outputDirParam, CliDefinition.getOutputDirDef())
       })
-    .command([CliDefinition.copyWcCommand, CliDefinition.copyWcCommandAlias],
-      'Duplicate a web component', () => {
+    .command([CliDefinition.duplicateWidgetCommand, CliDefinition.duplicateWidgetCommandAlias],
+      'Duplicate an UI Designer standard widget', () => {
         return yargs
           .option(
             CliDefinition.sourceDirParam, {
