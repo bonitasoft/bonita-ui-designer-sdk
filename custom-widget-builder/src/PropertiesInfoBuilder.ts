@@ -70,14 +70,14 @@ export class PropertiesInfoBuilder {
   /**
    * Get the display name of a web component, or a property
    * e.g.:
-   *  pb-input -> Input
+   *  uid-input -> Input
    *  wc-example -> WcExample
    *  required -> Required
    *  labelWidth -> Label width
    *  allowHTML -> Allow html
    */
   public static getDisplayName(wcName: string): string {
-    let name = wcName.replace(/^(pb-)/, "");
+    let name = wcName.replace(/^(uid-)/, "");
     // camel case to words
     name = CustomWidgetBuilder.fromCamelCase(name);
     // dash notation to camel case
@@ -87,7 +87,7 @@ export class PropertiesInfoBuilder {
   }
 
   private static getTemplate(id: string): string {
-    // e.g. pbInput -> @pbInput.tpl.html
+    // e.g. uidInput -> @uidInput.tpl.html
     return `@${id}.tpl.html`;
   }
 

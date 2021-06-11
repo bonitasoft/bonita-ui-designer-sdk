@@ -100,27 +100,27 @@ export class WebComponentCopier {
   }
 
   private getReplaceRules() {
-    // pb-input -> pbInput
+    // uid-input -> uidInput
     let oldCamelCase = CustomWidgetBuilder.toCamelCase(this.oldWcName);
     let newCamelCase = CustomWidgetBuilder.toCamelCase(this.newWcName);
-    // pbInput -> Input
-    let oldDisplayName = oldCamelCase.substring(2);
+    // uidInput -> Input
+    let oldDisplayName = oldCamelCase.substring(3);
     let newDisplayName = CustomWidgetBuilder.firstLetterUppercase(newCamelCase);
-    // pbInput -> PbInput
+    // uidInput -> UidInput
     let oldCamelCaseUpper = CustomWidgetBuilder.firstLetterUppercase(oldCamelCase);
     let newCamelCaseUpper = CustomWidgetBuilder.firstLetterUppercase(newCamelCase);
 
     let rules = [];
-    // Rule: replace @bonitasoft/pb-input -> pb-input
+    // Rule: replace @bonitasoft/uid-input -> uid-input
     rules.push([`@bonitasoft/${this.oldWcName}`, this.oldWcName]);
 
-    // Rule: replace pb-input -> my-input
+    // Rule: replace uid-input -> my-input
     rules.push([this.oldWcName, this.newWcName]);
 
-    // Rule: replace PbInput -> MyInput
+    // Rule: replace UidInput -> MyInput
     rules.push([oldCamelCaseUpper, newCamelCaseUpper]);
 
-    // Rule: replace pbInput -> myInput
+    // Rule: replace uidInput -> myInput
     rules.push([oldCamelCase, newCamelCase]);
 
     // Rule: replace "Input" -> "MyInput"

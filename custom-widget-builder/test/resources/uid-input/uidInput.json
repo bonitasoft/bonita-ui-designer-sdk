@@ -1,0 +1,101 @@
+{
+  "id": "uidInput",
+  "name": "Input",
+  "type": "widget",
+  "template": "@uidInput.tpl.html",
+  "description": "Input field, optionally with a label, where the user can enter information",
+  "order": "1",
+  "custom": true,
+  "legacy": false,
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"30\" height=\"30\" viewBox=\"0 0 30 30\"><path fill=\"#5b5b5b\" d=\"M9 9L9 3L12 3ZM15 3L21 3L21 6ZM21 21L21 27L18 27ZM15 27L9 27L9 24ZM3 15L3 9L6 9ZM21 9L27 9L27 12ZM27 15L27 21L24 21ZM9 21L3 21L3 18Z\"/><path fill=\"#c1c6ea\" d=\"M4 6a2,2 0 1,1 4,0a2,2 0 1,1 -4,0M22 6a2,2 0 1,1 4,0a2,2 0 1,1 -4,0M22 24a2,2 0 1,1 4,0a2,2 0 1,1 -4,0M4 24a2,2 0 1,1 4,0a2,2 0 1,1 -4,0\"/><path fill=\"#848dd6\" d=\"M9 9L15 9L15 10L12.5 15L9 15ZM21 9L21 15L20 15L15 12.5L15 9ZM21 21L15 21L15 20L17.5 15L21 15ZM9 21L9 15L10 15L15 17.5L15 21Z\"/></svg>",
+  "properties": [
+    {
+      "name": "id",
+      "type": "text",
+      "label": "Id",
+      "defaultValue": ""
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "label": "Required",
+      "defaultValue": false
+    },
+    {
+      "name": "minLength",
+      "type": "integer",
+      "label": "Min length"
+    },
+    {
+      "name": "maxLength",
+      "type": "integer",
+      "label": "Max length"
+    },
+    {
+      "name": "readOnly",
+      "type": "boolean",
+      "label": "Read only",
+      "defaultValue": false
+    },
+    {
+      "name": "labelHidden",
+      "type": "boolean",
+      "label": "Label hidden",
+      "defaultValue": false
+    },
+    {
+      "name": "label",
+      "type": "text",
+      "label": "Label",
+      "defaultValue": ""
+    },
+    {
+      "name": "labelPosition",
+      "type": "text",
+      "label": "Label position",
+      "help": "Position of the label",
+      "defaultValue": "top"
+    },
+    {
+      "name": "labelWidth",
+      "type": "integer",
+      "label": "Label width",
+      "defaultValue": 4
+    },
+    {
+      "name": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "defaultValue": ""
+    },
+    {
+      "name": "value",
+      "type": "text",
+      "label": "Value",
+      "defaultValue": ""
+    },
+    {
+      "name": "type",
+      "type": "text",
+      "label": "Type",
+      "defaultValue": "text"
+    },
+    {
+      "name": "min",
+      "type": "integer",
+      "label": "Min"
+    },
+    {
+      "name": "max",
+      "type": "integer",
+      "label": "Max"
+    },
+    {
+      "name": "step",
+      "type": "integer",
+      "label": "Step",
+      "defaultValue": 1
+    }
+  ],
+  "assets": []
+}

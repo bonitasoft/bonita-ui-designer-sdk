@@ -134,7 +134,7 @@ export class CustomWidgetBuilder {
   }
 
   public static toCamelCase(str: string): string {
-    // e.g. pb-input -> pbInput
+    // e.g. uid-input -> uidInput
     return str.replace(/-([a-z])/g, (g) => {
       return g[1].toUpperCase()
     });

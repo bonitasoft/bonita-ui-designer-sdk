@@ -57,9 +57,9 @@ describe('CLI test', () => {
 
   test('should handle correct parameters when generating a json properties file', async (done) => {
     let command = "node build/src/starter.js gen-properties " +
-      "--webComponentSource test/resources/pb-input.ts " +
+      "--webComponentSource test/resources/uid-input.ts " +
       `--outputDir ${tempDir}`;
-    execCommand(command, `${tempDir}/pbInput.json has been generated!`, done);
+    execCommand(command, `${tempDir}/uidInput.json has been generated!`, done);
   });
 
   test('should handle correct parameters when generating a json properties template file', async (done) => {
@@ -72,15 +72,15 @@ describe('CLI test', () => {
   test('should handle correct parameters when generating a widget', async (done) => {
     let command =
       "node build/src/starter.js gen-widget " +
-      "--propertiesFile test/resources/pb-input/pbInput.json " +
-      "--webComponentBundle test/resources/pb-input/lib/pb-input.es5.min.js " +
+      "--propertiesFile test/resources/uid-input/uidInput.json " +
+      "--webComponentBundle test/resources/uid-input/lib/uid-input.es5.min.js " +
       `--outputDir ${tempDir}/widget`;
     execCommand(command, `Widget has been generated in ${tempDir}/widget/widget-Input.zip`, done);
   });
 
   test('should handle correct parameters when duplicating a widget', async (done) => {
     let command =
-      `node build/src/starter.js duplicate-widget --srcDir test/resources/pb-input --destDir ${tempDir}/my-input`;
+      `node build/src/starter.js duplicate-widget --srcDir test/resources/uid-input --destDir ${tempDir}/my-input`;
     execCommand(command, `${tempDir}/my-input has been created!`, done);
   });
 
@@ -91,7 +91,7 @@ describe('CLI test', () => {
 
   test('should return usage when invalid command parameter', async (done) => {
     let command =
-      `node build/src/starter.js copy-wc --srcDir test/resources/pb-input --destDir ${tempDir}/my-input --outputDir ${tempDir}`;
+      `node build/src/starter.js copy-wc --srcDir test/resources/uid-input --destDir ${tempDir}/my-input --outputDir ${tempDir}`;
     checkUsage(command, done);
   });
 

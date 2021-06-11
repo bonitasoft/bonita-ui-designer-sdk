@@ -47,7 +47,7 @@ export class HtmlTemplatesGenerator {
     //
     // Example:
     // -- For UID editor (AngularJS) --                     -- Angular --
-    // <pb-input ng-if="properties.labelHidden"             <pb-input *ngIf="properties.labelHidden"
+    // <uid-input ng-if="properties.labelHidden"             <uid-input *ngIf="properties.labelHidden"
     //           label-hidden                                         label-hidden
     //           ng-readonly="properties.readOnly"                    [readonly]="properties.readOnly"
     //           ng-required="properties.required"                    [required]="properties.required"
@@ -55,15 +55,15 @@ export class HtmlTemplatesGenerator {
     //           type="{{properties.type}}"                           ...
     //            ...                                                 ...
     //           value="{{properties.value}}">                        [(ngModel)]="properties.value"
-    //           </pb-input>                                          </pb-input>
-    // <pb-input ng-if="!properties.labelHidden"            ...
+    //           </uid-input>                                          </uid-input>
+    // <uid-input ng-if="!properties.labelHidden"            ...
     //           ng-readonly="properties.readOnly"
     //           ng-required="properties.required"
     //           label="{{properties.label}}"
     //           type="{{properties.type}}"
     //            ...
     //           value="{{properties.value}}">
-    //           </pb-input>
+    //           </uid-input>
 
     if (type !== undefined) {
       this.generateTemplateFile(type, outputDir);

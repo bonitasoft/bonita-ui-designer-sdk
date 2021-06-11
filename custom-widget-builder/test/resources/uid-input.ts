@@ -10,21 +10,21 @@ import * as i18n_pt from "./i18n/pt-BR.json";
 
 // Registers i18n loader
 registerTranslateConfig({
-  loader: (lang) => Promise.resolve(PbInput.getCatalog(lang))
+  loader: (lang) => Promise.resolve(UidInput.getCatalog(lang))
 });
 
 /**
  * Input field, optionally with a label, where the user can enter information
  */
-@customElement('pb-input')
-export class PbInput extends LitElement {
+@customElement('uid-input')
+export class UidInput extends LitElement {
 
-  private name = "pbInput";
+  private name = "uidInput";
 
   @property({ attribute: 'lang', type: String, reflect: true })
   lang: string = "en";
 
-  // Common properties below are handled by the div above pb-input:
+  // Common properties below are handled by the div above uid-input:
 
   // @property({ attribute: 'width', type: String, reflect: true })
   // private width: string = "12";

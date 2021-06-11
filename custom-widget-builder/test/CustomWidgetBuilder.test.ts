@@ -42,11 +42,11 @@ describe('CustomWidgetBuilder', () => {
   });
 
   test('should generate a correct json file when a complex web component is given as input', async () => {
-    builder.generatePropertyFileFromWcFile("test/resources/pb-input.ts", tempDir);
+    builder.generatePropertyFileFromWcFile("test/resources/uid-input.ts", tempDir);
 
-    let jsonProperties = JSON.parse(getFileContent("pbInput.json"));
+    let jsonProperties = JSON.parse(getFileContent("uidInput.json"));
     // General info
-    expect(jsonProperties.id).toBe("pbInput");
+    expect(jsonProperties.id).toBe("uidInput");
     expect(jsonProperties.name).toBe("Input");
     expect(jsonProperties.properties.length).toBe(15);
 

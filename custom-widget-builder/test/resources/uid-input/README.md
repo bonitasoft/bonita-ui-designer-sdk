@@ -1,6 +1,6 @@
-# `pb-input`
+# `uid-input`
 
-![npmVersion](https://img.shields.io/npm/v/@bonitasoft/pb-input?color=blue&style=plastic)
+![npmVersion](https://img.shields.io/npm/v/uid-input?color=blue&style=plastic)
 
 Simple input web component
 
@@ -36,8 +36,8 @@ Simple input web component
 
 Run:
 
-    npm install @bonitasoft/pb-input
+    npm install uid-input
 
-Then import `node_modules/@bonitasoft/pb-input/lib/pb-input.es5.min.js`
+Then import `node_modules/uid-input/lib/uid-input.es5.min.js`
 
-And you can use new html tag `<pb-input placeholder="Type a value"></pb-input>`
+And you can use new html tag `<uid-input placeholder="Type a value"></uid-input>`

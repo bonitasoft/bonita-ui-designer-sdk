@@ -27,7 +27,7 @@ describe('HtmlTemplateGenerator', () => {
 
   let builder: CustomWidgetBuilder;
   let tempDir: string;
-  const wcBundle = "test/resources/pb-input/lib/pb-input.es5.min.js";
+  const wcBundle = "test/resources/uid-input/lib/uid-input.es5.min.js";
 
   beforeAll(() => {
     builder = new CustomWidgetBuilder();
@@ -43,20 +43,20 @@ describe('HtmlTemplateGenerator', () => {
   });
 
   test('should generate correct html templates when a complex web component is given as input', async () => {
-    let tmplGenerator = new HtmlTemplatesGenerator(builder.getPropertiesInfoFromWebComponent("test/resources/pb-input.ts"));
+    let tmplGenerator = new HtmlTemplatesGenerator(builder.getPropertiesInfoFromWebComponent("test/resources/uid-input.ts"));
     tmplGenerator.generate(tempDir);
 
     // AngularJS template
-    let templateAngularJs = getFileContent(`pbInput.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
-    expect(getStringOccurrences(templateAngularJs, "<pb-input")).toBe(2);
-    expect(getStringOccurrences(templateAngularJs, "<\/pb-input>")).toBe(2);
+    let templateAngularJs = getFileContent(`uidInput.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
+    expect(getStringOccurrences(templateAngularJs, "<uid-input")).toBe(2);
+    expect(getStringOccurrences(templateAngularJs, "<\/uid-input>")).toBe(2);
     expect(getStringOccurrences(templateAngularJs, "ng-if")).toBe(2);
     let expectedPropsAngularJs = ["ng-required=\"properties.required\"", "ng-readonly=\"properties.readOnly\"",
     "ng-if=\"properties.labelHidden\"\n\tlabelHidden", "ng-if=\"!properties.labelHidden\"\n\tng-required"];
     checkStringContains(templateAngularJs, expectedPropsAngularJs);
 
     // Angular template
-    let templateAngular = getFileContent(`pbInput.${HtmlTemplatesGenerator.AngularFileExtension}`);
+    let templateAngular = getFileContent(`uidInput.${HtmlTemplatesGenerator.AngularFileExtension}`);
     expect(getStringOccurrences(templateAngular, "\\*ngIf")).toBe(2);
     let expectedPropsAngular = ["[required]=\"properties.required\"", "[readonly]=\"properties.readOnly\"",
       "*ngIf=\"properties.labelHidden\"\n\tlabelHidden", "*ngIf=\"!properties.labelHidden\"\n\t[required]"];

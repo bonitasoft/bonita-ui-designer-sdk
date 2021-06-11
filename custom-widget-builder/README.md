@@ -43,10 +43,10 @@ Then, follow the following steps.
   ```
   
 - Duplicate the standard widget you want to extend, using the cwb CLI.  
-  For instance if you want to extend the `pb-input` web component and create `my-input`:
+  For instance if you want to extend the `uid-input` web component and create `my-input`:
   ```bash
   $ cd packages/widgets
-  $ cwb duplicate-widget --srcDir pb-input --destDir my-input
+  $ cwb duplicate-widget --srcDir uid-input --destDir my-input
   ````
   
 - Install its dependencies:
@@ -220,10 +220,10 @@ Edit the <web component name>.json generated file, and add to properties objects
 Example:
 ```json
   {
-    "id": "pbInput",
+    "id": "uidInput",
     "name": "Input",
     "type": "widget",
-    "template": "@pbInput.tpl.html",
+    "template": "@uidInput.tpl.html",
     "description": "Field where the user can enter information",
     "order": "1",
     "icon": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 20'><g><path fill='#fff' d='M1,19V1h48v18H1z M0,0v20h50V0H0z M6,18v-1H5v1H6z M8,17H7v1h1V17z M7,2v1h1V2H7z M5,3h1V2H5V3z M6,3v14h1 V3H6z '/></g></svg>",

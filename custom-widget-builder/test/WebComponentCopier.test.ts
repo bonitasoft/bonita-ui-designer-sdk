@@ -36,7 +36,7 @@ describe('WebComponentCopier', () => {
 
   test('should copy a web component when a web component directory is given as input', async () => {
     let destDir = `${tempDir}/smart-input`;
-    new WebComponentCopier().copyWebComponent("test/resources/pb-input", destDir);
+    new WebComponentCopier().copyWebComponent("test/resources/uid-input", destDir);
 
     expect(fs.existsSync(tempDir)).toBeTruthy();
 
@@ -45,7 +45,7 @@ describe('WebComponentCopier', () => {
 
   test('should apply replace rules when a web component directory is copied', async () => {
     let destDir = `${tempDir}/smart-input`;
-    new WebComponentCopier().copyWebComponent("test/resources/pb-input", destDir);
+    new WebComponentCopier().copyWebComponent("test/resources/uid-input", destDir);
 
     let wcSourceFile = "smart-input/src/smart-input.ts";
     let wcSourceFileContent = getFileContent(wcSourceFile);

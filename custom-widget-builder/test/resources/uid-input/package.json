@@ -1,10 +1,10 @@
 {
-  "name": "@bonitasoft/pb-input",
-  "version": "0.1.1",
+  "name": "@bonitasoft/uid-input",
+  "version": "0.1.2",
   "description": "An input with label",
-  "homepage": "https://github.com/bonitasoft/web-components/components/packages/widgets/pb-input#readme",
+  "homepage": "https://github.com/bonitasoft/web-components/components/packages/widgets/uid-input#readme",
   "license": "GPLv2",
-  "module": "lib/pb-input.es5.min.js",
+  "module": "lib/uid-input.es5.min.js",
   "files": [
     "lib"
   ],
@@ -23,6 +23,7 @@
     "url": "git+https://github.com/bonitasoft/web-components.git"
   },
   "scripts": {
+    "gen-widget": "cwb gen-widget --propertiesFile uidInput.json --webComponentBundle lib/uid-input.es5.min.js --outputDir uid_widget",
     "start": "npm install && rollup -c -w --environment devMode:true",
     "lint": "prettier --write \"src/**/*.{js,ts,tsx}\"",
     "bundle": "tsc && rollup -c",
