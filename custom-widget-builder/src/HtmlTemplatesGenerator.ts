@@ -155,7 +155,9 @@ export class HtmlTemplatesGenerator {
         let combination = combinations[combIndex];
         let booleanVal = combination[valIndex];
         if (booleanVal) {
-          ifElem.push(`${booleanProps[valIndex].name}\n\t`);
+          let propName = booleanProps[valIndex].name;
+          let kebabPropName = CustomWidgetBuilder.camelToKebabCase(propName);
+          ifElem.push(`${kebabPropName}\n\t`);
         }
       }
       ifArray.push(ifElem.join(''))
@@ -186,10 +188,11 @@ export class HtmlTemplatesGenerator {
         HtmlTemplatesGenerator.isBoolean(prop)) {
         continue;
       }
+      let attributeName = CustomWidgetBuilder.camelToKebabCase(prop.name);
       if (type === FwkType.Angular && prop.bond === Bond.Variable) {
         props += `[(ngModel)]="properties.${prop.name}"\n\t`;
       } else {
-        props += `${prop.name}="{{properties.${prop.name}}}"\n\t`;
+        props += `${attributeName}="{{properties.${prop.name}}}"\n\t`;
       }
     }
     return props;

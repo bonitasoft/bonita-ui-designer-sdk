@@ -151,6 +151,22 @@ export class CustomWidgetBuilder {
       .toLowerCase();
   }
 
+  public static camelToKebabCase(str: string): string {
+    // e.g. uidInput -> uid-input
+    let kebabStr = "";
+    for (let ii: number = 0; ii < str.length; ii++) {
+      let char = str.charAt(ii);
+      if ((ii != 0) && (char === char.toUpperCase())) {
+        // Found an uppercase char
+        kebabStr += '-';
+        kebabStr += char.toLowerCase();
+      } else {
+        kebabStr += char;
+      }
+    }
+    return kebabStr;
+  }
+
   public static firstLetterUppercase(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }

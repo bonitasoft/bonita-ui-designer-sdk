@@ -52,14 +52,16 @@ describe('HtmlTemplateGenerator', () => {
     expect(getStringOccurrences(templateAngularJs, "<\/uid-input>")).toBe(2);
     expect(getStringOccurrences(templateAngularJs, "ng-if")).toBe(2);
     let expectedPropsAngularJs = ["ng-required=\"properties.required\"", "ng-readonly=\"properties.readOnly\"",
-    "ng-if=\"properties.labelHidden\"\n\tlabelHidden", "ng-if=\"!properties.labelHidden\"\n\tng-required"];
+    "ng-if=\"properties.labelHidden\"\n\tlabel-hidden", "ng-if=\"!properties.labelHidden\"\n\tng-required",
+    "label-position=\"{{properties.labelPosition}}\""];
     checkStringContains(templateAngularJs, expectedPropsAngularJs);
 
     // Angular template
     let templateAngular = getFileContent(`uidInput.${HtmlTemplatesGenerator.AngularFileExtension}`);
     expect(getStringOccurrences(templateAngular, "\\*ngIf")).toBe(2);
     let expectedPropsAngular = ["[required]=\"properties.required\"", "[readonly]=\"properties.readOnly\"",
-      "*ngIf=\"properties.labelHidden\"\n\tlabelHidden", "*ngIf=\"!properties.labelHidden\"\n\t[required]"];
+      "*ngIf=\"properties.labelHidden\"\n\tlabel-hidden", "*ngIf=\"!properties.labelHidden\"\n\t[required]",
+      "label-position=\"{{properties.labelPosition}}\""];
     checkStringContains(templateAngular, expectedPropsAngular);
   });
 
