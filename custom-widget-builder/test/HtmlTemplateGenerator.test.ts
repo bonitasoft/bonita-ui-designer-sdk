@@ -43,25 +43,26 @@ describe('HtmlTemplateGenerator', () => {
   });
 
   test('should generate correct html templates when a complex web component is given as input', async () => {
-    let tmplGenerator = new HtmlTemplatesGenerator(builder.getPropertiesInfoFromWebComponent("test/resources/uid-input.ts"));
+    let jsonProperties = JSON.parse(fs.readFileSync("test/resources/my-input/myInput.json"));
+    let tmplGenerator = new HtmlTemplatesGenerator(jsonProperties);
     tmplGenerator.generate(tempDir);
 
     // AngularJS template
-    let templateAngularJs = getFileContent(`uidInput.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
-    expect(getStringOccurrences(templateAngularJs, "<uid-input")).toBe(2);
-    expect(getStringOccurrences(templateAngularJs, "<\/uid-input>")).toBe(2);
-    expect(getStringOccurrences(templateAngularJs, "ng-if")).toBe(2);
+    let templateAngularJs = getFileContent(`myInput.${HtmlTemplatesGenerator.AngularJsFileExtension}`);
+    expect(getStringOccurrences(templateAngularJs, "<my-input")).toBe(4);
+    expect(getStringOccurrences(templateAngularJs, "<\/my-input>")).toBe(4);
+    expect(getStringOccurrences(templateAngularJs, "ng-if")).toBe(4);
     let expectedPropsAngularJs = ["ng-required=\"properties.required\"", "ng-readonly=\"properties.readOnly\"",
-    "ng-if=\"properties.labelHidden\"\n\tlabel-hidden", "ng-if=\"!properties.labelHidden\"\n\tng-required",
+    "ng-if=\"!properties.disabled && properties.labelHidden\"\n\tlabel-hidden", "ng-if=\"!properties.disabled && !properties.labelHidden\"\n\tng-required",
     "label-position=\"{{properties.labelPosition}}\""];
     checkStringContains(templateAngularJs, expectedPropsAngularJs);
 
     // Angular template
-    let templateAngular = getFileContent(`uidInput.${HtmlTemplatesGenerator.AngularFileExtension}`);
-    expect(getStringOccurrences(templateAngular, "\\*ngIf")).toBe(2);
+    let templateAngular = getFileContent(`myInput.${HtmlTemplatesGenerator.AngularFileExtension}`);
+    expect(getStringOccurrences(templateAngular, "\\*ngIf")).toBe(4);
     let expectedPropsAngular = ["[required]=\"properties.required\"", "[readonly]=\"properties.readOnly\"",
-      "*ngIf=\"properties.labelHidden\"\n\tlabel-hidden", "*ngIf=\"!properties.labelHidden\"\n\t[required]",
-      "label-position=\"{{properties.labelPosition}}\""];
+      "*ngIf=\"!properties.disabled && properties.labelHidden\"\n\tlabel-hidden", "*ngIf=\"!properties.disabled && !properties.labelHidden\"\n\t[required]",
+      "label-position=\"{{properties.labelPosition}}\"", "[(value)]=\"properties.value\""];
     checkStringContains(templateAngular, expectedPropsAngular);
   });
 
@@ -80,7 +81,7 @@ describe('HtmlTemplateGenerator', () => {
     checkStringContains(templateAngularJs, expectedPropsAngularJs);
     // Angular template
     let templateAngular = getFileContent(`appDrawer.${HtmlTemplatesGenerator.AngularFileExtension}`);
-    let expectedPropsAngular = ["open=\"{{properties.open}}\"", "disabled=\"{{properties.disabled}}\""];
+    let expectedPropsAngular = ["[open]=\"properties.open\"", "[disabled]=\"properties.disabled\""];
     checkStringContains(templateAngular, expectedPropsAngular);
   });
 
@@ -98,7 +99,7 @@ describe('HtmlTemplateGenerator', () => {
     // Angular template
     let templateAngular = getFileContent(`${wcNameLowercase}.${HtmlTemplatesGenerator.AngularFileExtension}`);
     expect(templateAngular.includes(HtmlTemplatesGenerator.ifDirectiveAngular)).toBeFalsy();
-    let expectedPropsAngular = ["title=\"{{properties.title}}\"", "counter=\"{{properties.counter}}\""];
+    let expectedPropsAngular = ["[title]=\"properties.title\"", "[counter]=\"properties.counter\""];
     checkStringContains(templateAngular, expectedPropsAngular);
   }
 
