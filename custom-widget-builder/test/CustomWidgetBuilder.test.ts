@@ -129,8 +129,8 @@ describe('CustomWidgetBuilder', () => {
 
     //Check properties file updated with bundles
     let propertiesFile = JSON.parse(fs.readFileSync(`${extractDir}/resources/myInput.json`));
-    expect(propertiesFile.jsBundle).toBe("resources/assets/js/my-input.es5.min.js");
-    expect(propertiesFile.htmlBundle).toBe("resources/assets/js/myInput.tpl.runtime.html");
+    expect(propertiesFile.jsBundle).toBe("assets/js/my-input.es5.min.js");
+    expect(propertiesFile.htmlBundle).toBe("assets/js/myInput.tpl.runtime.html");
   });
 
   function handleSimpleWC(wcFilename: string) {

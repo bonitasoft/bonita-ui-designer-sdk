@@ -77,8 +77,8 @@ export class CustomWidgetBuilder {
 
     let propInfo = CustomWidgetBuilder.getPropertiesFromFile(propertiesFile);
     // Add bundles to the json properties file
-    propInfo.jsBundle =  `resources/assets/js/${path.basename(wcBundle)}`;
-    propInfo.htmlBundle = `resources/assets/js/${propInfo.id}.${HtmlTemplatesGenerator.AngularFileExtension}`;
+    propInfo.jsBundle =  `assets/js/${path.basename(wcBundle)}`;
+    propInfo.htmlBundle = `assets/js/${propInfo.id}.${HtmlTemplatesGenerator.AngularFileExtension}`;
 
     // Generate widget files in a temp directory
     let tempDir = fs.mkdtempSync(`${os.tmpdir()}${sep}`);
