@@ -116,16 +116,21 @@ describe('CustomWidgetBuilder', () => {
     await builder.generateCustomWidget(`${tempDir}/myInput.json`, "test/resources/my-input/lib/my-input.es5.min.js", tempDir);
     let zipFile = `${tempDir}/widget-MyInput.zip`;
     checkExistNotEmpty(zipFile);
+
     // Check zip content
     let extractDir = `${tempDir}/widget-myInput`;
     fs.mkdirSync(extractDir);
     await extract(zipFile, {dir: extractDir})
     checkExistNotEmpty(`${extractDir}/widgetWc.properties`);
     checkExistNotEmpty(`${extractDir}/resources/myInput.tpl.html`);
-    checkExistNotEmpty(`${extractDir}/resources/widgetWc.json`);
+    checkExistNotEmpty(`${extractDir}/resources/myInput.json`);
     checkExistNotEmpty(`${extractDir}/resources/assets/js/my-input.es5.min.js`);
     checkExistNotEmpty(`${extractDir}/resources/assets/js/myInput.tpl.runtime.html`);
 
+    //Check properties file updated with bundles
+    let propertiesFile = JSON.parse(fs.readFileSync(`${extractDir}/resources/myInput.json`));
+    expect(propertiesFile.jsBundle).toBe("assets/js/my-input.es5.min.js");
+    expect(propertiesFile.htmlBundle).toBe("assets/js/myInput.tpl.runtime.html");
   });
 
   function handleSimpleWC(wcFilename: string) {
@@ -140,6 +145,8 @@ describe('CustomWidgetBuilder', () => {
     expect(jsonProperties.template).toBe(`@${wcNameLowercase}.tpl.html`);
     expect(jsonProperties.description.length).toBeGreaterThan(0);
     expect(jsonProperties.order).toBe("1");
+    expect(jsonProperties.custom).toBe(true);
+    expect(jsonProperties.modelVersion).toBe("3.0");
     expect(jsonProperties.icon.length).toBeGreaterThan(0);
     expect(jsonProperties.properties.length).toBe(2);
     // Properties

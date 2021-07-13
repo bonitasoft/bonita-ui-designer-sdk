@@ -17,7 +17,6 @@
  */
 
 import {Property} from "./Property";
-import {Asset} from "./Asset";
 
 export interface PropertiesInfo {
   id: string;
@@ -27,9 +26,10 @@ export interface PropertiesInfo {
   description: string | undefined;
   order: string;
   custom: boolean;
-  legacy: boolean;
+  modelVersion: string;
+  jsBundle: string | undefined;
+  htmlBundle: string | undefined;
   icon: string;
   properties: Array<Property>;
-  assets: Array<Asset>;
 }
 

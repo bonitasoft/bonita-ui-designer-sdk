@@ -51,10 +51,10 @@ export class HtmlTemplatesGenerator {
     //           label-hidden                                         label-hidden
     //           ng-readonly="properties.readOnly"                    [readonly]="properties.readOnly"
     //           ng-required="properties.required"                    [required]="properties.required"
-    //           label="{{properties.label}}"                         ...
+    //           label="{{properties.label}}"                         label-position="{{properties.labelPosition}}"
     //           type="{{properties.type}}"                           ...
     //            ...                                                 ...
-    //           value="{{properties.value}}">                        [(ngModel)]="properties.value"
+    //           value="{{properties.value}}">                        [(value)]="properties.value"
     //           </uid-input>                                          </uid-input>
     // <uid-input ng-if="!properties.labelHidden"            ...
     //           ng-readonly="properties.readOnly"
@@ -190,7 +190,9 @@ export class HtmlTemplatesGenerator {
       }
       let attributeName = CustomWidgetBuilder.camelToKebabCase(prop.name);
       if (type === FwkType.Angular && prop.bond === Bond.Variable) {
-        props += `[(ngModel)]="properties.${prop.name}"\n\t`;
+        props += `[(${prop.name})]="properties.${prop.name}"\n\t`;
+      } else if (type === FwkType.Angular && prop.bond != Bond.Constant) {
+        props += `[${prop.name}]="properties.${prop.name}"\n\t`;
       } else {
         props += `${attributeName}="{{properties.${prop.name}}}"\n\t`;
       }
