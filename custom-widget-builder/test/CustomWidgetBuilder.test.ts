@@ -121,14 +121,14 @@ describe('CustomWidgetBuilder', () => {
     let extractDir = `${tempDir}/widget-myInput`;
     fs.mkdirSync(extractDir);
     await extract(zipFile, {dir: extractDir})
-    checkExistNotEmpty(`${extractDir}/widgetWc.properties`);
+    checkExistNotEmpty(`${extractDir}/widget.properties`);
     checkExistNotEmpty(`${extractDir}/resources/myInput.tpl.html`);
-    checkExistNotEmpty(`${extractDir}/resources/myInput.json`);
+    checkExistNotEmpty(`${extractDir}/resources/widget.json`);
     checkExistNotEmpty(`${extractDir}/resources/assets/js/my-input.es5.min.js`);
     checkExistNotEmpty(`${extractDir}/resources/assets/js/myInput.tpl.runtime.html`);
 
     //Check properties file updated with bundles
-    let propertiesFile = JSON.parse(fs.readFileSync(`${extractDir}/resources/myInput.json`));
+    let propertiesFile = JSON.parse(fs.readFileSync(`${extractDir}/resources/widget.json`));
     expect(propertiesFile.jsBundle).toBe("assets/js/my-input.es5.min.js");
     expect(propertiesFile.htmlBundle).toBe("assets/js/myInput.tpl.runtime.html");
   });

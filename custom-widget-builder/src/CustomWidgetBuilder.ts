@@ -73,7 +73,7 @@ export class CustomWidgetBuilder {
     //     │       ├── MyInput.js
     //     │       └── myInput.tpl.runtime.html
     //     ├── myInput.tpl.html
-    //     └── myInput.json
+    //     └── widget.json
 
     let propInfo = CustomWidgetBuilder.getPropertiesFromFile(propertiesFile);
     // Add bundles to the json properties file
@@ -90,11 +90,10 @@ export class CustomWidgetBuilder {
     let resourcesDir = `${tempDir}/resources`;
     fs.mkdirSync(resourcesDir);
     new HtmlTemplatesGenerator(propInfo).generate(resourcesDir, FwkType.AngularJS);
-    // Specific id for custom widgets
-    let id = propInfo.id;
-    propInfo.id = `custom${CustomWidgetBuilder.firstLetterUppercase(propInfo.id)}`;
-    new PropertiesJsonGenerator(propInfo, resourcesDir).generate(false, `${id}.json`);
-    propInfo.id = id;
+    // Embed template content in the json properties file
+    let templatePath = `${resourcesDir}/${propInfo.id}.${HtmlTemplatesGenerator.AngularJsFileExtension}`;
+    propInfo.template = fs.readFileSync(templatePath).toString();
+    new PropertiesJsonGenerator(propInfo, resourcesDir).generate(false, `widget.json`);
 
     // assets/js dir
     let jsDir = `${resourcesDir}/assets/js`;
@@ -212,7 +211,7 @@ export class CustomWidgetBuilder {
     buff.push(`designerSdkVersion=${pjson.version}`);
     buff.push('contentType=wc-widget');
     let content = buff.join('\n');
-    let filePath = `${outputDir}/widgetWc.properties`;
+    let filePath = `${outputDir}/widget.properties`;
     fs.writeFileSync(filePath, content);
   }
 
