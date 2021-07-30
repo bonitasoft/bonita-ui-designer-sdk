@@ -78,6 +78,15 @@ describe('CLI test', () => {
     execCommand(command, `Widget has been generated in ${tempDir}/widget/widget-Input.zip`, done);
   });
 
+  test('should handle correct parameters when generating a standard widget', async (done) => {
+    let command =
+      "node build/src/starter.js gen-std-widget " +
+      "--propertiesFile test/resources/uid-input/uidInput.json " +
+      "--webComponentBundle test/resources/uid-input/lib/uid-input.es5.min.js " +
+      `--outputDir ${tempDir}/widget`;
+    execCommand(command, `Standard Widget has been generated in ${tempDir}/widget/widget-Input.zip`, done);
+  });
+
   test('should handle correct parameters when duplicating a widget', async (done) => {
     let command =
       `node build/src/starter.js duplicate-widget --srcDir test/resources/uid-input --destDir ${tempDir}/my-input`;

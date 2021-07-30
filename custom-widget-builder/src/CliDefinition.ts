@@ -97,6 +97,12 @@ export class CliDefinition {
               description: 'json properties file'
             })
           .option(
+            CliDefinition.webComponentBundleParam, {
+              alias: 'b',
+              demandOption: true,
+              description: 'web component bundle file'
+            })
+          .option(
             CliDefinition.outputDirParam, CliDefinition.getOutputDirDef())
       })
     .command([CliDefinition.duplicateWidgetCommand, CliDefinition.duplicateWidgetCommandAlias],

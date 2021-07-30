@@ -43,11 +43,11 @@ try {
       break;
     case CliDefinition.genWidgetCommand:
     case CliDefinition.genWidgetCommandAlias:
-      new CustomWidgetBuilder().generateCustomWidget(<string>params.propertiesFile, <string>params.webComponentBundle, <string>params.outputDir);
+      new CustomWidgetBuilder().generateWidget(<string>params.propertiesFile, <string>params.webComponentBundle, <string>params.outputDir, true);
       break;
     case CliDefinition.genStandardWidgetCommand:
     case CliDefinition.genStandardWidgetCommandAlias:
-      new CustomWidgetBuilder().generateStandardWidget(<string>params.propertiesFile, <string>params.outputDir);
+      new CustomWidgetBuilder().generateWidget(<string>params.propertiesFile, <string>params.webComponentBundle, <string>params.outputDir, false);
       break;
     case CliDefinition.duplicateWidgetCommand:
     case CliDefinition.duplicateWidgetCommandAlias:

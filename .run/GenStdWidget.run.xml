@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="GenStdWidget" type="NodeJSConfigurationType" node-parameters="build/src/starter.js gen-std-widget --propertiesFile test/resources/uid-input/uidInput.json --outputDir build/std" working-dir="$PROJECT_DIR$/custom-widget-builder">
+  <configuration default="false" name="GenStdWidget" type="NodeJSConfigurationType" node-parameters="build/src/starter.js gen-std-widget --propertiesFile test/resources/uid-input/uidInput.json --webComponentBundle test/resources/uid-input/lib/uid-input.es5.min.js --outputDir build/std" working-dir="$PROJECT_DIR$/custom-widget-builder">
     <method v="2" />
   </configuration>
 </component>
