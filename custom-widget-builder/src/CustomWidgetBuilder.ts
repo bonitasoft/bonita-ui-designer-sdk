@@ -77,6 +77,8 @@ export class CustomWidgetBuilder {
     //     └── widget.json
 
     let propInfo = CustomWidgetBuilder.getPropertiesFromFile(propertiesFile);
+    // Add assets to the json properties file
+    propInfo.assets = CustomWidgetBuilder.getAssets(propInfo.id, wcBundle);
     if (!custom) {
       propInfo.custom = false;
     }
@@ -108,7 +110,7 @@ export class CustomWidgetBuilder {
 
     let zipFile = `${outputDir}/widget-${propInfo.name}.zip`;
     await CustomWidgetBuilder.generateZip(tempDir, zipFile);
-    console.log(`Widget has been generated in ${zipFile}`);
+    console.log(`${custom ? '' : 'Standard '}Widget has been generated in ${zipFile}`);
     fs.rmdirSync(tempDir, {recursive: true});
 
   }

@@ -139,6 +139,7 @@ describe('CustomWidgetBuilder', () => {
     expect(templateAsset.name).toBe("myInput.tpl.runtime.html");
     expect(templateAsset.type).toBe("js");
     //Check properties file updated with bundles
+    expect(propertiesFile.custom).toBeTruthy();
     expect(propertiesFile.jsBundle).toBe("assets/js/my-input.es5.min.js");
     expect(propertiesFile.htmlBundle).toBe("assets/js/myInput.tpl.runtime.html");
   });
