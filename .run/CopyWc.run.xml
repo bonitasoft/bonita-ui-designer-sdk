@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="CopyWc" type="NodeJSConfigurationType" node-parameters="build/src/starter.js duplicate-widget --srcDir test/resources/uid-input --destDir build/my-input" working-dir="$PROJECT_DIR$/custom-widget-builder">
+    <method v="2" />
+  </configuration>
+</component>
