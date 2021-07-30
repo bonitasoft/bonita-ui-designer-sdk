@@ -133,6 +133,22 @@ describe('CustomWidgetBuilder', () => {
     expect(propertiesFile.htmlBundle).toBe("assets/js/myInput.tpl.runtime.html");
   });
 
+  test('should generate standard widget files when a web component json properties file is given as input', async () => {
+    builder.generatePropertyFileFromWcFile("test/resources/uid-input/src/uid-input.ts", tempDir);
+    let outputDir = `${tempDir}/stdWidget`;
+    fs.mkdirSync(outputDir);
+    await builder.generateStandardWidget(`${tempDir}/uidInput.json`, outputDir);
+
+    // Check content
+    checkExistNotEmpty(`${outputDir}/uidInput.json`);
+    checkExistNotEmpty(`${outputDir}/uidInput.tpl.html`);
+    checkExistNotEmpty(`${outputDir}/uidInput.tpl.runtime.html`);
+
+    // Check not custom in json properties file
+    let propertiesFile = JSON.parse(fs.readFileSync(`${outputDir}/uidInput.json`));
+    expect(propertiesFile.custom).toBeFalsy();
+  });
+
   function handleSimpleWC(wcFilename: string) {
     let wcNameUppercase = wcFilename.substring(0, wcFilename.indexOf("."));
     let wcNameLowercase = wcNameUppercase.charAt(0).toLowerCase() + wcNameUppercase.slice(1);
