@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GenWidget" type="NodeJSConfigurationType" node-parameters="build/src/starter.js gen-widget --propertiesFile test/resources/my-input/myInput.json --webComponentBundle test/resources/my-input/lib/my-input.es5.min.js --outputDir build" working-dir="$PROJECT_DIR$/custom-widget-builder">
+    <method v="2" />
+  </configuration>
+</component>

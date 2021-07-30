@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GenProperties" type="NodeJSConfigurationType" node-parameters="build/src/starter.js gen-properties --webComponentSource test/resources/WcExample.ts --outputDir build/test" working-dir="$PROJECT_DIR$/custom-widget-builder">
+    <method v="2" />
+  </configuration>
+</component>
