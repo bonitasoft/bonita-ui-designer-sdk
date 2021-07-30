@@ -48,6 +48,11 @@ export class PropertiesInfoBuilder {
     return this;
   }
 
+  custom(custom: boolean): PropertiesInfoBuilder {
+    this.propertiesInfo.custom = custom;
+    return this;
+  }
+
   icon(icon: string): PropertiesInfoBuilder {
     this.propertiesInfo.icon = icon;
     return this;

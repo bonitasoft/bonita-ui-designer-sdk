@@ -45,6 +45,10 @@ try {
     case CliDefinition.genWidgetCommandAlias:
       new CustomWidgetBuilder().generateCustomWidget(<string>params.propertiesFile, <string>params.webComponentBundle, <string>params.outputDir);
       break;
+    case CliDefinition.genStandardWidgetCommand:
+    case CliDefinition.genStandardWidgetCommandAlias:
+      new CustomWidgetBuilder().generateStandardWidget(<string>params.propertiesFile, <string>params.outputDir);
+      break;
     case CliDefinition.duplicateWidgetCommand:
     case CliDefinition.duplicateWidgetCommandAlias:
       new WebComponentCopier().copyWebComponent(<string>params.srcDir, <string>params.destDir);

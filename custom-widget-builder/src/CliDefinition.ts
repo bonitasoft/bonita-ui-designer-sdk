@@ -26,6 +26,8 @@ export class CliDefinition {
   public static genPropertiesTemplateCommandAlias = "genpt";
   public static genWidgetCommand = "gen-widget";
   public static genWidgetCommandAlias = "genw";
+  public static genStandardWidgetCommand = "gen-std-widget";
+  public static genStandardWidgetCommandAlias = "genstdw";
   public static duplicateWidgetCommand = "duplicate-widget";
   public static duplicateWidgetCommandAlias = "dupw";
 
@@ -81,6 +83,18 @@ export class CliDefinition {
               alias: 'b',
               demandOption: true,
               description: 'web component bundle file'
+            })
+          .option(
+            CliDefinition.outputDirParam, CliDefinition.getOutputDirDef())
+      })
+    .command([CliDefinition.genStandardWidgetCommand, CliDefinition.genStandardWidgetCommandAlias],
+      false, () => {
+        return yargs
+          .option(
+            CliDefinition.propertiesFileParam, {
+              alias: 'p',
+              demandOption: true,
+              description: 'json properties file'
             })
           .option(
             CliDefinition.outputDirParam, CliDefinition.getOutputDirDef())

@@ -109,7 +109,13 @@ export class CustomWidgetBuilder {
   }
 
   public generateStandardWidget(propertiesFile: string, outputDir: string) {
-    // TODO: for our own widgets: only json properties file and templates are required
+    // For the standard widgets: only json properties file and templates are required
+    let propInfo = CustomWidgetBuilder.getPropertiesFromFile(propertiesFile);
+    propInfo.custom = false;
+    new PropertiesJsonGenerator(propInfo, outputDir).generate(false, `${propInfo.id}.json`);
+    new HtmlTemplatesGenerator(propInfo).generate(outputDir, FwkType.AngularJS);
+    new HtmlTemplatesGenerator(propInfo).generate(outputDir, FwkType.Angular);
+    console.log(`Widget has been generated in ${outputDir}`);
   }
 
   public getPropertiesInfoFromWebComponent(wcFile: string): PropertiesInfo {
