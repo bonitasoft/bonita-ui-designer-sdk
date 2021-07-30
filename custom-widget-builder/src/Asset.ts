@@ -16,22 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Property} from "./Property";
-import {Asset} from "./Asset";
-
-export interface PropertiesInfo {
+export interface Asset {
   id: string;
   name: string;
   type: string;
-  template: string;
-  description: string | undefined;
-  order: string;
-  custom: boolean;
-  modelVersion: string;
-  jsBundle: string | undefined;
-  htmlBundle: string | undefined;
-  icon: string;
-  properties: Array<Property>;
-  assets: Array<Asset>;
+  order?: number;
 }
-

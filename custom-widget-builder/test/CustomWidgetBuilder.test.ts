@@ -127,8 +127,18 @@ describe('CustomWidgetBuilder', () => {
     checkExistNotEmpty(`${extractDir}/resources/assets/js/my-input.es5.min.js`);
     checkExistNotEmpty(`${extractDir}/resources/assets/js/myInput.tpl.runtime.html`);
 
-    //Check properties file updated with bundles
     let propertiesFile = JSON.parse(fs.readFileSync(`${extractDir}/resources/widget.json`));
+    //Check properties file updated with assets
+    expect(propertiesFile.assets.length).toBe(2);
+    let bundleAsset = propertiesFile.assets[0];
+    expect(bundleAsset.id).not.toBeUndefined();
+    expect(bundleAsset.name).toBe("my-input.es5.min.js");
+    expect(bundleAsset.type).toBe("js");
+    let templateAsset = propertiesFile.assets[1];
+    expect(templateAsset.id).not.toBeUndefined();
+    expect(templateAsset.name).toBe("myInput.tpl.runtime.html");
+    expect(templateAsset.type).toBe("js");
+    //Check properties file updated with bundles
     expect(propertiesFile.jsBundle).toBe("assets/js/my-input.es5.min.js");
     expect(propertiesFile.htmlBundle).toBe("assets/js/myInput.tpl.runtime.html");
   });
