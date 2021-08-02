@@ -113,7 +113,7 @@ describe('CustomWidgetBuilder', () => {
 
   test('should generate a widget zip file when a web component json properties file and bundle are given as input', async () => {
     builder.generatePropertyFileFromWcFile("test/resources/my-input/src/my-input.ts", tempDir);
-    await builder.generateCustomWidget(`${tempDir}/myInput.json`, "test/resources/my-input/lib/my-input.es5.min.js", tempDir);
+    await builder.generateWidget(`${tempDir}/myInput.json`, "test/resources/my-input/lib/my-input.es5.min.js", tempDir, true);
     let zipFile = `${tempDir}/widget-MyInput.zip`;
     checkExistNotEmpty(zipFile);
 
@@ -139,24 +139,32 @@ describe('CustomWidgetBuilder', () => {
     expect(templateAsset.name).toBe("myInput.tpl.runtime.html");
     expect(templateAsset.type).toBe("js");
     //Check properties file updated with bundles
+    expect(propertiesFile.custom).toBeTruthy();
     expect(propertiesFile.jsBundle).toBe("assets/js/my-input.es5.min.js");
     expect(propertiesFile.htmlBundle).toBe("assets/js/myInput.tpl.runtime.html");
   });
 
-  test('should generate standard widget files when a web component json properties file is given as input', async () => {
+  test('should generate a standard widget zip file when the custom parameter is false', async () => {
     builder.generatePropertyFileFromWcFile("test/resources/uid-input/src/uid-input.ts", tempDir);
-    let outputDir = `${tempDir}/stdWidget`;
-    fs.mkdirSync(outputDir);
-    await builder.generateStandardWidget(`${tempDir}/uidInput.json`, outputDir);
+    await builder.generateWidget(`${tempDir}/uidInput.json`, "test/resources/uid-input/lib/uid-input.es5.min.js", tempDir, false);
+    let zipFile = `${tempDir}/widget-Input.zip`;
+    checkExistNotEmpty(zipFile);
 
-    // Check content
-    checkExistNotEmpty(`${outputDir}/uidInput.json`);
-    checkExistNotEmpty(`${outputDir}/uidInput.tpl.html`);
-    checkExistNotEmpty(`${outputDir}/uidInput.tpl.runtime.html`);
+    // Check zip content
+    let extractDir = `${tempDir}/widget-uidInput`;
+    fs.mkdirSync(extractDir);
+    await extract(zipFile, {dir: extractDir})
+    checkExistNotEmpty(`${extractDir}/widget.properties`);
+    checkExistNotEmpty(`${extractDir}/resources/uidInput.tpl.html`);
+    checkExistNotEmpty(`${extractDir}/resources/widget.json`);
+    checkExistNotEmpty(`${extractDir}/resources/assets/js/uid-input.es5.min.js`);
+    checkExistNotEmpty(`${extractDir}/resources/assets/js/uidInput.tpl.runtime.html`);
 
-    // Check not custom in json properties file
-    let propertiesFile = JSON.parse(fs.readFileSync(`${outputDir}/uidInput.json`));
+    //Check properties file updated with bundles
+    let propertiesFile = JSON.parse(fs.readFileSync(`${extractDir}/resources/widget.json`));
     expect(propertiesFile.custom).toBeFalsy();
+    expect(propertiesFile.jsBundle).toBe("assets/js/uid-input.es5.min.js");
+    expect(propertiesFile.htmlBundle).toBe("assets/js/uidInput.tpl.runtime.html");
   });
 
   function handleSimpleWC(wcFilename: string) {

@@ -65,7 +65,7 @@ export class CustomWidgetBuilder {
     new PropertiesJsonGenerator(propInfo, outputDir).generate(true);
   }
 
-  public async generateCustomWidget(propertiesFile: string, wcBundle: string, outputDir: string) {
+  public async generateWidget(propertiesFile: string, wcBundle: string, outputDir: string, custom: boolean) {
     // Generate a directory tree such as:
     // widgetWc.properties
     // └── resources
@@ -79,6 +79,10 @@ export class CustomWidgetBuilder {
     let propInfo = CustomWidgetBuilder.getPropertiesFromFile(propertiesFile);
     // Add assets to the json properties file
     propInfo.assets = CustomWidgetBuilder.getAssets(propInfo.id, wcBundle);
+    if (!custom) {
+      propInfo.custom = false;
+    }
+
     // Add bundles to the json properties file
     propInfo.jsBundle =  `assets/js/${path.basename(wcBundle)}`;
     propInfo.htmlBundle = `assets/js/${propInfo.id}.${HtmlTemplatesGenerator.AngularFileExtension}`;
@@ -106,19 +110,9 @@ export class CustomWidgetBuilder {
 
     let zipFile = `${outputDir}/widget-${propInfo.name}.zip`;
     await CustomWidgetBuilder.generateZip(tempDir, zipFile);
-    console.log(`Widget has been generated in ${zipFile}`);
+    console.log(`${custom ? '' : 'Standard '}Widget has been generated in ${zipFile}`);
     fs.rmdirSync(tempDir, {recursive: true});
 
-  }
-
-  public generateStandardWidget(propertiesFile: string, outputDir: string) {
-    // For the standard widgets: only json properties file and templates are required
-    let propInfo = CustomWidgetBuilder.getPropertiesFromFile(propertiesFile);
-    propInfo.custom = false;
-    new PropertiesJsonGenerator(propInfo, outputDir).generate(false, `${propInfo.id}.json`);
-    new HtmlTemplatesGenerator(propInfo).generate(outputDir, FwkType.AngularJS);
-    new HtmlTemplatesGenerator(propInfo).generate(outputDir, FwkType.Angular);
-    console.log(`Standard widget files have been generated in ${outputDir}`);
   }
 
   public getPropertiesInfoFromWebComponent(wcFile: string): PropertiesInfo {

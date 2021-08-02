@@ -26,7 +26,7 @@ export interface PropertiesInfo {
   template: string;
   description: string | undefined;
   order: string;
-  custom: boolean;
+  custom: boolean | undefined;
   modelVersion: string;
   jsBundle: string | undefined;
   htmlBundle: string | undefined;
