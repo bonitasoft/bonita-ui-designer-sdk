@@ -1,0 +1,41 @@
+name: Publish npm and github release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish-release:
+    name: Tagged Release
+    runs-on:  ubuntu-20.04    
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2        
+      
+      - name: Install Node      
+        uses: actions/setup-node@v1 
+        with:
+          node-version: '14'
+          registry-url: https://registry.npmjs.org/
+
+      - name: build and test
+        run: | 
+          cd custom-widget-builder
+          npm ci
+          npm run typescript-compile
+          npm run test
+      - name: Prepare package
+        run: npm pack         
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GH_PERSONNAL_ACCES_TOKEN }}
+          prerelease: false
+          files: |
+            LICENSE
+            *.tgz
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTOMATION_TOKEN}}
