@@ -1,4 +1,4 @@
-name: Build
+name: Build windows
 
 # Controls when the action will run.
 on:
@@ -21,6 +21,6 @@ jobs:
       - name: Run a multi-line script
         run: |
           cd custom-widget-builder
-          npm install
+          npm ci
           npm run typescript-compile
           npm run test

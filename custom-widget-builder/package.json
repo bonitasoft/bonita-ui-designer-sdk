@@ -3,6 +3,7 @@
   "version": "0.0.6",
   "description": "Bonitasoft UI Designer: Custom Widget Builder",
   "main": "build/src/starter.js",
+  "files": ["build"],
   "license": "GPLv2",
   "repository": {
     "type": "git",

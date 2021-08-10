@@ -27,8 +27,9 @@ jobs:
           npm run typescript-compile
           npm run test
       - name: Prepare package
-        run: npm pack         
-
+        run: |
+          cd custom-widget-builder
+          npm pack
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.GH_PERSONNAL_ACCES_TOKEN }}
@@ -36,6 +37,9 @@ jobs:
           files: |
             LICENSE
             *.tgz
-      - run: npm publish --access public
+      - name: npm publish
+        run: |
+          cd custom-widget-builder 
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTOMATION_TOKEN}}
