@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
    inputs:
       version:
-        description: <newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease [--preid=<prerelease-id>
+        description: <newversion> | major | minor | patch 
         default: patch
         required: true
 
@@ -28,7 +28,4 @@ jobs:
           node-version: '14'          
 
       - name: Create github tag        
-        run: |
-          cd custom-widget-builder
-          NEWRELEASETAG=$(npm version ${{github.event.inputs.version}} -m "Release %s") 
-          git push --atomic origin main $NEWRELEASETAG
+        run: ./custom-widget-builder/infrastructure/custom-widget-builder-release.sh ${{github.event.inputs.version}}
