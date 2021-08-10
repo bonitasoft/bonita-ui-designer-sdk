@@ -3,16 +3,14 @@
   "version": "0.0.8",
   "description": "Bonitasoft UI Designer: Custom Widget Builder",
   "main": "build/src/starter.js",
-  "files": [
-    "build"
-  ],
+  "prepublish": "tsc",
   "license": "GPLv2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bonitasoft/bonita-ui-designer-sdk.git"
   },
   "scripts": {
-    "typescript-compile": "tsc --build tsconfig.json",
+    "build": "tsc",
     "test": "jest 2>&1",
     "test:dev": "jest --watch"
   },

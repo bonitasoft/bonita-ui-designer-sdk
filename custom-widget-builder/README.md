@@ -399,7 +399,7 @@ Options:
 ### Build
 ```
 npm install
-npm run typescript-compile
+npm run build
 ```
 
 ### Test

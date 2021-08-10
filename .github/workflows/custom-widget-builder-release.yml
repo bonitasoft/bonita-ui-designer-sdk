@@ -20,6 +20,7 @@ jobs:
           token: ${{secrets.GH_PERSONNAL_ACCES_TOKEN}}
 
       - run: git config --global user.email "bonita-ci@bonitasoft.com"
+      
       - run: git config --global user.name "bonita-ci"
 
       - name: Install Node

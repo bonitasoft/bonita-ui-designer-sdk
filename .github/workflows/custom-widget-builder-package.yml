@@ -1,9 +1,15 @@
-name: Publish npm and github release
+name: Test npm package
 
+# Controls when the action will run.
 on:
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    tags:
-      - "v*"
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   publish-release:
@@ -30,16 +36,3 @@ jobs:
         working-directory: ./custom-widget-builder
         run: npm pack
           
-      - uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: ${{ secrets.GH_PERSONNAL_ACCES_TOKEN }}
-          prerelease: false
-          files: |
-            LICENSE
-            custom-widget-builder/*.tgz
-            
-      - name: npm publish
-        working-directory: ./custom-widget-builder
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTOMATION_TOKEN}}
