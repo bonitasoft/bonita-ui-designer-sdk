@@ -65,27 +65,28 @@ export class CustomWidgetBuilder {
     new PropertiesJsonGenerator(propInfo, outputDir).generate(true);
   }
 
-  public async generateWidget(propertiesFile: string, wcBundle: string, outputDir: string, custom: boolean) {
+  public async generateWidgetAssets(propertiesFile: string, wcBundle: string, outputDir: string) {
+    // This is typically used for standard widgets
+    let propInfo = CustomWidgetBuilder.getPropertiesFromFile(propertiesFile);
+    new HtmlTemplatesGenerator(propInfo).generate(outputDir, FwkType.AngularJS);
+    CustomWidgetBuilder.updatePropertiesFile(propInfo, wcBundle, outputDir);
+    new PropertiesJsonGenerator(propInfo, outputDir).generate(false);
+    new HtmlTemplatesGenerator(propInfo).generate(outputDir, FwkType.Angular);
+    console.log(`Widget assets have been generated in ${outputDir}`);
+  }
+
+  public async generateWidget(propertiesFile: string, wcBundle: string, outputDir: string) {
     // Generate a directory tree such as:
     // widgetWc.properties
     // └── resources
     //     ├── assets
     //     │   └── js
-    //     │       ├── MyInput.js
+    //     │       ├── my-input.es5.min.js
     //     │       └── myInput.tpl.runtime.html
     //     ├── myInput.tpl.html
     //     └── widget.json
 
     let propInfo = CustomWidgetBuilder.getPropertiesFromFile(propertiesFile);
-    // Add assets to the json properties file
-    propInfo.assets = CustomWidgetBuilder.getAssets(propInfo.id, wcBundle);
-    if (!custom) {
-      propInfo.custom = false;
-    }
-
-    // Add bundles to the json properties file
-    propInfo.jsBundle =  `assets/js/${path.basename(wcBundle)}`;
-    propInfo.htmlBundle = `assets/js/${propInfo.id}.${HtmlTemplatesGenerator.AngularFileExtension}`;
 
     // Generate widget files in a temp directory
     let tempDir = fs.mkdtempSync(`${os.tmpdir()}${sep}`);
@@ -97,9 +98,7 @@ export class CustomWidgetBuilder {
     let resourcesDir = `${tempDir}/resources`;
     fs.mkdirSync(resourcesDir);
     new HtmlTemplatesGenerator(propInfo).generate(resourcesDir, FwkType.AngularJS);
-    // Embed template content in the json properties file
-    let templatePath = `${resourcesDir}/${propInfo.id}.${HtmlTemplatesGenerator.AngularJsFileExtension}`;
-    propInfo.template = fs.readFileSync(templatePath).toString();
+    CustomWidgetBuilder.updatePropertiesFile(propInfo, wcBundle, resourcesDir);
     new PropertiesJsonGenerator(propInfo, resourcesDir).generate(false, `widget.json`);
 
     // assets/js dir
@@ -110,7 +109,7 @@ export class CustomWidgetBuilder {
 
     let zipFile = `${outputDir}/widget-${propInfo.name}.zip`;
     await CustomWidgetBuilder.generateZip(tempDir, zipFile);
-    console.log(`${custom ? '' : 'Standard '}Widget has been generated in ${zipFile}`);
+    console.log(`Widget has been generated in ${zipFile}`);
     fs.rmdirSync(tempDir, {recursive: true});
 
   }
@@ -312,6 +311,21 @@ export class CustomWidgetBuilder {
 
       archive.finalize().then(() => resolve(1));
     });
+  }
+
+  private static updatePropertiesFile(propInfo: PropertiesInfo, wcBundle: string, templatePath: string) {
+    // Add assets to the json properties file
+    propInfo.assets = CustomWidgetBuilder.getAssets(propInfo.id, wcBundle);
+
+    propInfo.custom = !propInfo.id.startsWith("uid");
+
+    // Add bundles to the json properties file
+    propInfo.jsBundle =  `assets/js/${path.basename(wcBundle)}`;
+    propInfo.htmlBundle = `assets/js/${propInfo.id}.${HtmlTemplatesGenerator.AngularFileExtension}`;
+
+    // Embed template content in the json properties file
+    let angularJSTemplatePath = `${templatePath}/${propInfo.id}.${HtmlTemplatesGenerator.AngularJsFileExtension}`;
+    propInfo.template = fs.readFileSync(angularJSTemplatePath).toString();
   }
 }
 

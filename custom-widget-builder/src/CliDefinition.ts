@@ -26,8 +26,8 @@ export class CliDefinition {
   public static genPropertiesTemplateCommandAlias = "genpt";
   public static genWidgetCommand = "gen-widget";
   public static genWidgetCommandAlias = "genw";
-  public static genStandardWidgetCommand = "gen-std-widget";
-  public static genStandardWidgetCommandAlias = "genstdw";
+  public static genWidgetAssetsCommand = "gen-widget-assets";
+  public static genWidgetAssetsCommandAlias = "genwa";
   public static duplicateWidgetCommand = "duplicate-widget";
   public static duplicateWidgetCommandAlias = "dupw";
 
@@ -87,7 +87,7 @@ export class CliDefinition {
           .option(
             CliDefinition.outputDirParam, CliDefinition.getOutputDirDef())
       })
-    .command([CliDefinition.genStandardWidgetCommand, CliDefinition.genStandardWidgetCommandAlias],
+    .command([CliDefinition.genWidgetAssetsCommand, CliDefinition.genWidgetAssetsCommandAlias],
       false, () => {
         return yargs
           .option(

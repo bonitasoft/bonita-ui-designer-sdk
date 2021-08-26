@@ -113,7 +113,7 @@ describe('CustomWidgetBuilder', () => {
 
   test('should generate a widget zip file when a web component json properties file and bundle are given as input', async () => {
     builder.generatePropertyFileFromWcFile("test/resources/my-input/src/my-input.ts", tempDir);
-    await builder.generateWidget(`${tempDir}/myInput.json`, "test/resources/my-input/lib/my-input.es5.min.js", tempDir, true);
+    await builder.generateWidget(`${tempDir}/myInput.json`, "test/resources/my-input/lib/my-input.es5.min.js", tempDir);
     let zipFile = `${tempDir}/widget-MyInput.zip`;
     checkExistNotEmpty(zipFile);
 
@@ -128,6 +128,9 @@ describe('CustomWidgetBuilder', () => {
     checkExistNotEmpty(`${extractDir}/resources/assets/js/myInput.tpl.runtime.html`);
 
     let propertiesFile = JSON.parse(fs.readFileSync(`${extractDir}/resources/widget.json`));
+    expect(propertiesFile.custom).toBeTruthy();
+    //Check properties file updated with template
+    expect(propertiesFile.template.length).toBeGreaterThan(0);
     //Check properties file updated with assets
     expect(propertiesFile.assets.length).toBe(2);
     let bundleAsset = propertiesFile.assets[0];
@@ -144,25 +147,20 @@ describe('CustomWidgetBuilder', () => {
     expect(propertiesFile.htmlBundle).toBe("assets/js/myInput.tpl.runtime.html");
   });
 
-  test('should generate a standard widget zip file when the custom parameter is false', async () => {
-    builder.generatePropertyFileFromWcFile("test/resources/uid-input/src/uid-input.ts", tempDir);
-    await builder.generateWidget(`${tempDir}/uidInput.json`, "test/resources/uid-input/lib/uid-input.es5.min.js", tempDir, false);
-    let zipFile = `${tempDir}/widget-Input.zip`;
-    checkExistNotEmpty(zipFile);
+  test('should generate widget assets', async () => {
+    let genDir = `${tempDir}/widget-assets`;
+    fs.mkdirSync(genDir);
+    builder.generatePropertyFileFromWcFile("test/resources/uid-input/src/uid-input.ts", genDir);
+    await builder.generateWidgetAssets(`${genDir}/uidInput.json`, "test/resources/uid-input/lib/uid-input.es5.min.js", genDir);
 
-    // Check zip content
-    let extractDir = `${tempDir}/widget-uidInput`;
-    fs.mkdirSync(extractDir);
-    await extract(zipFile, {dir: extractDir})
-    checkExistNotEmpty(`${extractDir}/widget.properties`);
-    checkExistNotEmpty(`${extractDir}/resources/uidInput.tpl.html`);
-    checkExistNotEmpty(`${extractDir}/resources/widget.json`);
-    checkExistNotEmpty(`${extractDir}/resources/assets/js/uid-input.es5.min.js`);
-    checkExistNotEmpty(`${extractDir}/resources/assets/js/uidInput.tpl.runtime.html`);
+    checkExistNotEmpty(`${genDir}/uidInput.json`);
+    checkExistNotEmpty(`${genDir}/uidInput.tpl.html`);
+    checkExistNotEmpty(`${genDir}/uidInput.tpl.runtime.html`);
 
-    //Check properties file updated with bundles
-    let propertiesFile = JSON.parse(fs.readFileSync(`${extractDir}/resources/widget.json`));
+    //Check properties file updated correctly
+    let propertiesFile = JSON.parse(fs.readFileSync(`${genDir}/uidInput.json`));
     expect(propertiesFile.custom).toBeFalsy();
+    expect(propertiesFile.template.length).toBeGreaterThan(0);
     expect(propertiesFile.jsBundle).toBe("assets/js/uid-input.es5.min.js");
     expect(propertiesFile.htmlBundle).toBe("assets/js/uidInput.tpl.runtime.html");
   });
