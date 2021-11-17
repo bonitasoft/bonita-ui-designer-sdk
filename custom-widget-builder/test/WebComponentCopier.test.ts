@@ -31,7 +31,7 @@ describe('WebComponentCopier', () => {
   });
 
   afterAll(() => {
-    fs.rmdirSync(tempDir, {recursive: true});
+    fs.rmSync(tempDir, {recursive: true});
   });
 
   test('should copy a web component when a web component directory is given as input', async () => {
@@ -40,7 +40,7 @@ describe('WebComponentCopier', () => {
 
     expect(fs.existsSync(tempDir)).toBeTruthy();
 
-    fs.rmdirSync(destDir, {recursive: true});
+    fs.rmSync(destDir, {recursive: true});
   });
 
   test('should apply replace rules when a web component directory is copied', async () => {
@@ -61,7 +61,7 @@ describe('WebComponentCopier', () => {
     let packageJson = JSON.parse(getFileContent(packageJsonFile));
     expect(packageJson.name).toBe("smart-input");
 
-    fs.rmdirSync(destDir, {recursive: true});
+    fs.rmSync(destDir, {recursive: true});
   });
 
   function getFileContent(fileName: string): string {

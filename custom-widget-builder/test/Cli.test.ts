@@ -33,7 +33,7 @@ describe('CLI test', () => {
   });
 
   afterAll(() => {
-    fs.rmdirSync(tempDir, {recursive: true});
+    fs.rmSync(tempDir, {recursive: true});
   });
 
   test('should return usage when help parameter', async (done) => {

@@ -110,8 +110,7 @@ export class CustomWidgetBuilder {
     let zipFile = `${outputDir}/widget-${propInfo.name}.zip`;
     await CustomWidgetBuilder.generateZip(tempDir, zipFile);
     console.log(`Widget has been generated in ${zipFile}`);
-    fs.rmdirSync(tempDir, {recursive: true});
-
+    fs.rmSync(tempDir, {recursive: true});
   }
 
   public getPropertiesInfoFromWebComponent(wcFile: string): PropertiesInfo {

@@ -34,7 +34,7 @@ describe('CustomWidgetBuilder', () => {
   });
 
   afterAll(() => {
-    fs.rmdirSync(tempDir, {recursive: true});
+    fs.rmSync(tempDir, {recursive: true});
   });
 
   test('should generate correct json file when a simple web component is given as input', async () => {
