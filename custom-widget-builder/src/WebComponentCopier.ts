@@ -19,7 +19,6 @@
 import * as fs from "fs";
 import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
 import path from "path";
-import {CliDefinition} from "./CliDefinition";
 
 export class WebComponentCopier {
 
