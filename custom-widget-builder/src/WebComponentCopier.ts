@@ -19,7 +19,6 @@
 import * as fs from "fs";
 import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
 import path from "path";
-import {CliDefinition} from "./CliDefinition";
 
 export class WebComponentCopier {
 
@@ -86,9 +85,6 @@ export class WebComponentCopier {
     }
     let sourceBuff = fs.readFileSync(source).toString();
     let replacedBuff = this.replaceAll(sourceBuff);
-    if (path.basename(targetFile) === "package.json") {
-      replacedBuff = this.updatePackageJsonScripts(replacedBuff);
-    }
     fs.writeFileSync(targetFile, replacedBuff);
   }
 
@@ -127,22 +123,6 @@ export class WebComponentCopier {
     rules.push([`"${oldDisplayName}"`, `"${newDisplayName}"`]);
 
     return rules;
-  }
-
-  private updatePackageJsonScripts(buff: string) {
-    // Add 'cwb gen-widget' in package.json scripts
-    // e.g. :
-    // "gen-widget": "cwb gen-widget --propertiesFile myInput.json --webComponentBundle lib/my-input.es5.min.js --outputDir uid_widget"
-
-    let wcNameCamelCase = CustomWidgetBuilder.toCamelCase(this.newWcName);
-    let genWidgetCommand =
-      `"${CliDefinition.genWidgetCommand}": "cwb ${CliDefinition.genWidgetCommand} --${CliDefinition.propertiesFileParam} ${wcNameCamelCase}.json --${CliDefinition.webComponentBundleParam} lib/${this.newWcName}.es5.min.js --${CliDefinition.outputDirParam} uid_widget"`;
-
-    // Insert command after '"scripts": {'
-    let scriptsObj = "\"scripts\": {";
-    let afterScriptsIndex = buff.indexOf(scriptsObj) + scriptsObj.length;
-
-    return buff.slice(0, afterScriptsIndex) + "\n\t" + genWidgetCommand + "," + buff.slice(afterScriptsIndex);
   }
 
 }

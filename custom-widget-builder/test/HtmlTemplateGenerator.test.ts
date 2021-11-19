@@ -35,7 +35,7 @@ describe('HtmlTemplateGenerator', () => {
   });
 
   afterAll(() => {
-    fs.rmdirSync(tempDir, {recursive: true});
+    fs.rmSync(tempDir, {recursive: true});
   });
 
   test('should generate correct html templates when a simple web component is given as input', async () => {

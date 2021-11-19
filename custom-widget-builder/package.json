@@ -11,8 +11,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "jest 2>&1",
-    "test:dev": "jest --watch"
+    "test": "tsc && jest 2>&1",
+    "test:dev": "tsc && jest --watch"
   },
   "dependencies": {
     "@types/node": "^14.14.35",
