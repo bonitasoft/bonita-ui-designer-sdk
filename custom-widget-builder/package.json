@@ -1,6 +1,6 @@
 {
   "name": "@bonitasoft/custom-widget-builder",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Bonitasoft UI Designer: Custom Widget Builder",
   "main": "build/src/starter.js",
   "prepublish": "tsc",
