@@ -20,7 +20,8 @@ import {PropertiesInfo} from "./PropertiesInfo";
 import {Property} from "./Property";
 import fs from "fs";
 import {Bond} from "./Bond";
-import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
+import kebabCase from 'lodash.kebabcase';
+
 
 export enum FwkType {
   AngularJS,
@@ -156,7 +157,7 @@ export class HtmlTemplatesGenerator {
         let booleanVal = combination[valIndex];
         if (booleanVal) {
           let propName = booleanProps[valIndex].name;
-          let kebabPropName = CustomWidgetBuilder.camelToKebabCase(propName);
+          let kebabPropName = kebabCase(propName);
           ifElem.push(`${kebabPropName}\n\t`);
         }
       }
@@ -180,7 +181,7 @@ export class HtmlTemplatesGenerator {
     return specificProps;
   }
 
-  private generateProperties(type: FwkType): string {
+  protected generateProperties(type: FwkType): string {
     let props = "";
     for (let prop of this.propertiesInfo.properties) {
       if (HtmlTemplatesGenerator.isToIgnore(prop) ||
@@ -188,13 +189,17 @@ export class HtmlTemplatesGenerator {
         HtmlTemplatesGenerator.isBoolean(prop)) {
         continue;
       }
-      let attributeName = CustomWidgetBuilder.camelToKebabCase(prop.name);
-      if (type === FwkType.Angular && prop.bond === Bond.Variable) {
-        props += `[(${prop.name})]="properties.${prop.name}"\n\t`;
-      } else if (type === FwkType.Angular && prop.bond != Bond.Constant) {
-        props += `[${prop.name}]="properties.${prop.name}"\n\t`;
-      } else {
-        props += `${attributeName}="{{properties.${prop.name}}}"\n\t`;
+
+      if(type === FwkType.Angular){
+        if (prop.bond === Bond.Variable) {
+          props += `[(${prop.name})]="properties.${prop.name}"\n\t`;
+        } else if (prop.bond != Bond.Constant) {
+          props += `[${prop.name}]="properties.${prop.name}"\n\t`;
+        } else {
+          props += `${prop.name}="{{properties.${prop.name}}}"\n\t`;
+        }
+      } else{
+        props += `${kebabCase(prop.name)}="{{properties.${prop.name}}}"\n\t`;
       }
     }
     return props;
@@ -239,7 +244,7 @@ export class HtmlTemplatesGenerator {
   }
 
   private getHtmlTag() {
-    return CustomWidgetBuilder.fromCamelCase(this.propertiesInfo.id, '-').toLowerCase();
+    return kebabCase(this.propertiesInfo.id).toLowerCase();
   }
 
 }

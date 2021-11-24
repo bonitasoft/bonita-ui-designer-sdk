@@ -62,7 +62,7 @@ describe('HtmlTemplateGenerator', () => {
     expect(getStringOccurrences(templateAngular, "\\*ngIf")).toBe(4);
     let expectedPropsAngular = ["[required]=\"properties.required\"", "[readonly]=\"properties.readOnly\"",
       "*ngIf=\"!properties.disabled && properties.labelHidden\"\n\tlabel-hidden", "*ngIf=\"!properties.disabled && !properties.labelHidden\"\n\t[required]",
-      "label-position=\"{{properties.labelPosition}}\"", "[(value)]=\"properties.value\""];
+      "labelPosition=\"{{properties.labelPosition}}\"", "[(value)]=\"properties.value\""];
     checkStringContains(templateAngular, expectedPropsAngular);
   });
 

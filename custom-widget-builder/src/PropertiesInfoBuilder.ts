@@ -19,18 +19,20 @@
 import {Property} from "./Property";
 import {PropertiesInfo} from "./PropertiesInfo";
 import * as jdenticon from "jdenticon/standalone";
-import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
 import {Asset} from "./Asset";
+import camelCase from 'lodash.camelcase';
+import upperFirst from "lodash.upperfirst";
+import startCase from "lodash.startcase";
 
 
 export class PropertiesInfoBuilder {
   private readonly propertiesInfo: PropertiesInfo;
 
   constructor(name: string) {
-    let id = CustomWidgetBuilder.toCamelCase(name);
+    let id = camelCase(name);
     this.propertiesInfo = {
       id: id,
-      name: PropertiesInfoBuilder.getDisplayName(name),
+      name: PropertiesInfoBuilder.componentDisplayName(name),
       type: "widget",
       template: PropertiesInfoBuilder.getTemplate(id),
       description: undefined,
@@ -75,7 +77,7 @@ export class PropertiesInfoBuilder {
   }
 
   /**
-   * Get the display name of a web component, or a property
+   * Get the display name of a property
    * e.g.:
    *  uid-input -> Input
    *  wc-example -> WcExample
@@ -83,14 +85,14 @@ export class PropertiesInfoBuilder {
    *  labelWidth -> Label width
    *  allowHTML -> Allow html
    */
-  public static getDisplayName(wcName: string): string {
-    let name = wcName.replace(/^(uid-)/, "");
-    // camel case to words
-    name = CustomWidgetBuilder.fromCamelCase(name);
-    // dash notation to camel case
-    name = CustomWidgetBuilder.toCamelCase(name);
-    // First letter uppercase
-    return CustomWidgetBuilder.firstLetterUppercase(name);
+  public static propertyDisplayName(value: string): string {
+    let name = value.replace(/^(uid-)/, "");
+    return upperFirst(startCase(name).toLowerCase());
+  }
+
+  public static componentDisplayName(value: string): string {
+    let name = value.replace(/^(uid-)/, "");
+    return upperFirst(camelCase(name));
   }
 
   private static getTemplate(id: string): string {
