@@ -22,14 +22,14 @@ import {PropertyType} from "./PropertyType";
 
 export interface Property {
   name: string;
-  type: PropertyType | undefined;
-  label: string | undefined;
-  help?: string | undefined;
-  defaultValue: string | number | boolean | undefined;
-  constraints?: PropertyConstraint | undefined;
-  showFor?: string | undefined;
-  bond: Bond | undefined;
-  choiceValues?: Array<string> | undefined;
-  caption?: string | undefined;
+  type?: PropertyType;
+  label?: string;
+  help?: string;
+  defaultValue?: string | number | boolean;
+  constraints?: PropertyConstraint;
+  showFor?: string;
+  bond?: Bond;
+  choiceValues?: Array<string>;
+  caption?: string;
 }
 
