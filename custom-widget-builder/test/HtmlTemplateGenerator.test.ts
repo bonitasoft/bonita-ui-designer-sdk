@@ -17,9 +17,12 @@
  */
 
 import {CustomWidgetBuilder} from "../src/CustomWidgetBuilder";
-import {HtmlTemplatesGenerator} from "../src/HtmlTemplatesGenerator";
+import {FwkType, HtmlTemplatesGenerator} from "../src/HtmlTemplatesGenerator";
 import * as os from "os";
 import {sep} from "path";
+import {PropertiesInfo} from "../src/PropertiesInfo";
+import {PropertyType} from "../src/PropertyType";
+import {Bond} from "../src/Bond";
 
 const fs = require('fs');
 
@@ -62,7 +65,7 @@ describe('HtmlTemplateGenerator', () => {
     expect(getStringOccurrences(templateAngular, "\\*ngIf")).toBe(4);
     let expectedPropsAngular = ["[required]=\"properties.required\"", "[readonly]=\"properties.readOnly\"",
       "*ngIf=\"!properties.disabled && properties.labelHidden\"\n\tlabel-hidden", "*ngIf=\"!properties.disabled && !properties.labelHidden\"\n\t[required]",
-      "label-position=\"{{properties.labelPosition}}\"", "[(value)]=\"properties.value\""];
+      "labelPosition=\"{{properties.labelPosition}}\"", "[(value)]=\"properties.value\""];
     checkStringContains(templateAngular, expectedPropsAngular);
   });
 
@@ -102,6 +105,55 @@ describe('HtmlTemplateGenerator', () => {
     let expectedPropsAngular = ["[title]=\"properties.title\"", "[counter]=\"properties.counter\""];
     checkStringContains(templateAngular, expectedPropsAngular);
   }
+
+  test('should generate html attributes name in camelCase', function (){
+    let propertiesInfos: PropertiesInfo = {
+      "id": "myInput",
+      "name": "MyInput",
+      "type": "widget",
+      "template": "@myInput.tpl.html",
+      "description": "Field where the user can enter information",
+      "order": "1",
+      "custom": true,
+      "modelVersion": "3.0",
+      "icon": "",
+      "jsBundle":"",
+      "htmlBundle":"",
+      "properties": [
+        {
+          "label" : "Interpret HTML",
+          "name" : "allowHTML",
+          "help" : "If you choose 'no', HTML code will be escaped instead of being interpreted",
+          "type" : PropertyType.Boolean,
+          "defaultValue" : false,
+          "bond": Bond.Constant
+        },
+        {
+          "label": "Label position",
+          "name": "labelPosition",
+          "type": PropertyType.Choice,
+          "choiceValues": [
+            "left",
+            "top"
+          ],
+          "defaultValue": "top",
+          "bond": Bond.Constant,
+          "showFor": "properties.labelHidden.value === false"
+        }
+      ],
+      "assets":[]
+    };
+
+    let html = new HtmlTemplatesGenerator(propertiesInfos);
+
+    expect(html['generateProperties'](FwkType.Angular)).toContain("labelPosition=\"{{properties.labelPosition}}\"");
+
+    let booleanProperties = html['generateIfBoolean'](FwkType.Angular);
+    expect(booleanProperties.length).toEqual(2);
+    expect(booleanProperties[1]).toBe('*ngIf="properties.allowHTML"\n' +
+        '\tallow-html\n' +
+        '\t');
+  });
 
   function checkStringContains(str: string, items: Array<string>) {
     for (let item of items) {

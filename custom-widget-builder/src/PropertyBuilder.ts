@@ -30,7 +30,7 @@ export class PropertyBuilder {
     this.property = {
       name: name,
       type: undefined,
-      label: PropertiesInfoBuilder.getDisplayName(name),
+      label: PropertiesInfoBuilder.propertyDisplayName(name),
       help: undefined,
       defaultValue: undefined,
       constraints: undefined,

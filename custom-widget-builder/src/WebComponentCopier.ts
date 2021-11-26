@@ -17,8 +17,9 @@
  */
 
 import * as fs from "fs";
-import {CustomWidgetBuilder} from "./CustomWidgetBuilder";
 import path from "path";
+import camelCase from "lodash.camelcase";
+import upperFirst from "lodash.upperfirst";
 
 export class WebComponentCopier {
 
@@ -97,14 +98,14 @@ export class WebComponentCopier {
 
   private getReplaceRules() {
     // uid-input -> uidInput
-    let oldCamelCase = CustomWidgetBuilder.toCamelCase(this.oldWcName);
-    let newCamelCase = CustomWidgetBuilder.toCamelCase(this.newWcName);
+    let oldCamelCase = camelCase(this.oldWcName);
+    let newCamelCase = camelCase(this.newWcName);
     // uidInput -> Input
     let oldDisplayName = oldCamelCase.substring(3);
-    let newDisplayName = CustomWidgetBuilder.firstLetterUppercase(newCamelCase);
+    let newDisplayName = upperFirst(newCamelCase);
     // uidInput -> UidInput
-    let oldCamelCaseUpper = CustomWidgetBuilder.firstLetterUppercase(oldCamelCase);
-    let newCamelCaseUpper = CustomWidgetBuilder.firstLetterUppercase(newCamelCase);
+    let oldCamelCaseUpper = upperFirst(oldCamelCase);
+    let newCamelCaseUpper = upperFirst(newCamelCase);
 
     let rules = [];
     // Rule: replace @bonitasoft/uid-input -> uid-input
